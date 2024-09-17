@@ -27,17 +27,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('core.index')}}">Introduction</a>
                 </li>
+                <li>
+                    <hr class="divider">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('data_pages_controls.load_general_page')}}">Data Overview</a>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Data
+                    Data Sources
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{url_for('data_pages_controls.load_general_page')}}">General</a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{url_for('data_pages_controls.load_ski_resorts_page')}}">Ski Resorts</a>
                         </li>
@@ -54,6 +54,34 @@
                             <a class="nav-link" href="{{url_for('data_pages_controls.load_google_page')}}">Google</a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Data Cleaning
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('data_pages_controls.ski_resorts_cleaning_page')}}">Ski Resorts</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('data_pages_controls.weather_cleaning_page')}}">Weather</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('data_pages_controls.google_cleaning_page')}}">Google</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('data_pages_controls.load_data_exploration')}}">Data Exploration</a>
+                </li>
+                <li>
+                    <hr class="divider">
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -100,6 +128,9 @@
                             <a class="nav-link" href="{{url_for('model_pages_controls.load_regression_page')}}">Regression</a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <hr class="divider">
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('core.conclusion')}}">Conclusion</a>

@@ -1,0 +1,311 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Ski Resorts Cleaning</h1>
+    </div>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            This page describes the cleaning and aggregation process for the main Ski Resorts dataset.
+            <br><br>
+            The cleaning and aggregation module Python script can be found <a href='https://github.com/clickityKlein/snowbound'>here (Cleaning - Ski Resorts)</a>.
+        </p>
+    </div>
+    
+    <br>
+    
+    <!-- introduce main ski resort data -->
+    <div class="container">
+        <h3>Main Ski Resort Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Initial Main Ski Resort Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ main_resort_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Initial Main Ski Resort Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ main_resort_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- step 1: get coordinates via google api -->
+    <div class="container">
+        <br>
+        <h5>Google Geolocation API</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Using a function created in <a href='https://github.com/clickityKlein/snowbound'>Source - Google Functions</a>, the first step 
+            was to use the scraped address in conjunction with the Google Geolocation API to find coordinates for each ski resort.
+        </p>
+    </div>
+    <br>
+    
+    <!-- introduce epic and ikon ski resort data -->
+    <div class="container">
+        <h3>Epic and Ikon Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Epic Pass Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ epic_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Epic Pass Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ epic_null | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Ikon Pass Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ ikon_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Ikon Pass Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ ikon_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- step 2: cleaning and matching the epic and ikon resorts -->
+    <div class="container">
+        <br>
+        <h5>Matching Resort Names</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            A stated requirement within the sources section was to find consistent naming within our resort datasets. 
+            This played a driving role in the creation of the function <code>match_resorts()</code>. Due to inconsistancies 
+            within the resort names across the three sources, after an initial merge, not all resorts were a match. This function 
+            returns a list of the closest responses and lets a user decide which resort is the actual match. After this was ran for 
+            both Epic and Ikon, and then the three sources were merged together resulting in a final dataset with the Pass type for each resort.
+        </p>
+    </div>
+    <br>
+    
+    <!-- step 3: proper addresses -->
+    <div class="container">
+        <br>
+        <h5>Proper Address Components</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            When the main ski resort data was initially scraped, there was an attempt to extract columns of general location, such as 
+            region, state, and city. This proved to be inconsistent and overall unsuccessful. To account for this, address components such as 
+            state (United States) and province/territory (Canada), as well as city were extracted via a backwards application of the Google Geolocation API. 
+            This actually included a step into using the Google Places API as well. When state/province/territory and city were not available during the 
+            first iteration of obtaining proper address components, nearby business locations were iterated through until the required components were found.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippets and null values for the proper address and address unpacking are found below.
+        </p>
+    </div>
+    <br>
+    
+    <!-- resort proper and address unpacked -->
+    <div class="container">
+        <h3>Resort Proper and Address Unpacked</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Resort Proper
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resort_proper_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Resort Proper
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resort_proper_null | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Address Unpacked
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ address_unpacked_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Address Unpacked
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ address_unpacked_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- explain address unpacked -->
+    <div class="container">
+        <br>
+        <h5>Address Unpacked Explanation</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            By referencing the results above, "long_name" and "locality_type_0" were results of interest. Values of interest contained in 
+            "locality_type_0" are "administrative_area_level_1" and "locality", which are equivalent to "state/province/territory" and "city", respectively.
+        </p>
+        <br>
+    </div>
+    <br>
+    
+    <!-- name cleaning-->
+    <div class="container">
+        <br>
+        <h5>Cleaning Resort Name</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Again back to the consistent resort naming, the function <code>clean_text_v1()</code> was created to aid in this endeavor. 
+            The main drivers which prompted this were non-uniform alphabetical characters, mainly due to French areas in Canada. Additionally, 
+            some resorts had unnecessary details in parentheses and extra spaces. Text was normalized.
+        </p>
+        <br>
+    </div>
+    <br>
+    
+    <!-- dropping columns -->
+    <div class="container">
+        <br>
+        <h5>Dropping Columns and Rows</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            In an effort to retain as much information as possible, columns and rows were dropped intelligently. Rows containig an "indoor resort" indicator 
+            were removed, as the scope of this project is mountainous outdoor resorts. Some columns with an unrecoverable amount of missing data or were unnecessary were removed as well:
+            <ul>
+                <li>Region: only has North America</li>
+                <li>Country: lowercase country has longname</li>
+                <li>Locale 1: administrative_area_level_1 & locality better contain a better summary</li>
+                <li>Locale 2: administrative_area_level_1 & locality better contain a better summary</li>
+                <li>Link: only required for scraping purposes</li>
+                <li>Address: messy and administrative_area_level_1 & locality better contain a better summary</li>
+                <li>Snow reliability: over 84% missing values</li>
+                <li>Slope preparation: over 84% missing values</li>
+                <li>Access, on-site parking: over 84% missing values</li>
+                <li>Snow reliability: over 84% missing values</li>
+                <li>Orientation (trail map, information boards, sign-postings)</li>
+                <li>Cleanliness and hygiene: over 84% missing values</li>
+                <li>Environmentally friendly ski operation: over 84% missing values</li>
+                <li>Friendliness of staff: over 84% missing values</li>
+                <li>Mountain restaurants, ski huts, gastronomy: over 84% missing values</li>
+                <li>Après-ski: over 84% missing values</li>
+                <li>Accommodation offering directly at the slopes and lifts: over 84% missing values</li>
+                <li>Families and children: over 84% missing values</li>
+                <li>Beginners: over 84% missing values</li>
+                <li>Advanced skiers, freeriders: over 84% missing values</li>
+                <li>Snow parks: over 84% missing values</li>
+                <li>Cross-country skiing and trails: over 84% missing values</li>
+                <li>Epic Area: administrative_area_level_1 & locality better contain a better summary</li>
+                <li>Ikon Area: administrative_area_level_1 & locality better contain a better summary</li>
+            </ul>
+        </p>
+        <br>
+    </div>
+    <br>
+    
+    <!-- fixing null values -->
+    <div class="container">
+        <br>
+        <h5>Filling Null Values</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Columns still containig null values were:
+            <ul>
+                <li>Price: 8.7% missing</li>
+                <li>Pass: 82.1% missing</li>
+            </ul>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Solutions for these missing values were found:
+            <ul>
+                <li>Price: since resort rating had no null values, the average price of resorts with a nearby rating (tolerance of 0.1) was used.</li>
+                <li>Pass: although 82.1% of missing data is usually an indicator to drop a column, this simply meant the resort wasn't 
+                    under Epic or Ikon, and was given the value of "Other".
+                </li>
+            </ul>
+        </p>
+        <br>
+    </div>
+    <br>
+    
+    <!-- us and canada regions -->
+    <div class="container">
+        <h3>Resort Proper and Address Unpacked</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            One of the final steps was to add another general location indicator, region. The United States and Canada each have 
+            major regions which seperate mainly geographical features and may be decent paritions for analysis.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippets of the raw scraped data and null values follow:
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of US Regions
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ region_us_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of US Regions
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ region_us_null | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Canada Regions
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ region_canada_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Canada Regions
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ region_canada_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- final dataset -->
+    <div class="container">
+        <h3>The Final Resort Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            After applying cleaning, adjustments, and merging of the components from major regions, the final cleaned resort 
+            dataset was formed. Additionally, more concise column naming was applied.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Final Resort Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Final Resort Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_null | safe }}
+        </div>
+        <br>
+    </div>
+    <br>
+{% endblock %}

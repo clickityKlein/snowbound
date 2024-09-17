@@ -5,10 +5,54 @@
     </div>
     <br>
     <div class="container">
-        <h3>Main Data - Initial</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            There are hundreds of ski resorts across North America with dozens of reputable websites offering information 
+            on at least a subset of these ski resorts. The challenge is finding a nearly complete dataset with the variables 
+            important to resort goers. Many sources offer "Top 10" or "Top 20" type results, and APIs are scarce in this realm. 
+            Some of the variables of interest can be summarized by:
+        
+            <ul>
+                <li>Consistent Resort Naming</li>
+                <li>Exact Coordinates and General Locations</li>
+                <li>Ratings Across Multiple Facets</li>
+                <li>Pricing</li>
+                <li>Seasonal Openings and Closings</li>
+                <li>Pass Options</li>
+            </ul>
+        
+        </p>
+        
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            To accomplish this, and due to the lack of API infrastructure in this realm, data was scraped and aggregated across multiple sources. 
+            
+            <ul>
+                <li>Main Ski Resort Data: <a href='https://www.skiresort.info/'>[Skiresort.info]</a></li>
+                <li>Epic Pass Resorts: <a href='https://www.epicpass.com/'>[Epic]</a></li>
+                <li>Ikon Pass Resorts: <a href='https://www.ikonpass.com/'>[Ikon]</a></li>
+                <li>Major Geographical Regions within the United States: <a href='https://www.mappr.co/political-maps/us-regions-map/#:~:text=The%20United%20States%20of%20America%20is%20a%20country%20made%20up#:~:text=The%20United%20States%20of%20America%20is%20a%20country%20made%20up'>[US Major Regions]</a></li>
+                <li>Major Geographical Regions within Canada: <a href='https://www.worldatlas.com/articles/the-regions-of-canada.html#:~:text=Canada%20is%20made%20up%20of%20five%20geographic%20regions,%20the%20Atlantic#:~:text=Canada%20is%20made%20up%20of%20five%20geographic%20regions,%20the%20Atlantic'>[Canada Major Regions]</a></li>
+                <li>Seasonal Openings and Closing: <a href='https://www.kaggle.com/datasets/ulrikthygepedersen/ski-resorts?select=resorts.csv'>[Kaggle Seasonal]</a></li>
+            </ul>
+        </p>
+        
+        <br>
+    </div>
+    
+    <div class="container">
+        <h3>Aquiring the Data</h3>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Aside from the Kaggle dataset, all other sources required webscraping.
+            
+            See <a href='https://github.com/clickityKlein/snowbound'>[Source - Ski Resorts]</a> for the Python code used during this process.
+        </p>
     </div>
     <br>
+    <!--
     <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
         {{ resort_main_initial | safe }}
     </div>
+    -->
 {% endblock %}

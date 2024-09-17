@@ -9,7 +9,9 @@
             The mountains are calling, and people are responding. 
             
             During the cooler months at higher elevations, 
-            Downhill Snowsport participation has risen over the years. 
+            Downhill Snowsport participation has risen over the years.
+            
+            Downhill Snowsports refers to downhill skiing and snowboarding, and will be used interchangeably.
             
             According to the National Ski Area Association (NSAA), the estimated domestic 
             participants in the United States has grown from just shy of 9 million annual 
@@ -125,9 +127,26 @@
             
             Considering entire communities and a booming industry are built around an 
             expectation that enough snow will fall in certain areas during the winter, 
-            this is an eerie reminder just how real climate change is.
+            this is an eerie reminder just how real climate change is. 
+            
+            Research surrounding this topic has been done in depth, including a recent publication by 
+            Daniel Scott and Rober Steiger in "How climate change is damaging the US ski industry" 
+            <a href='https://www.tandfonline.com/doi/full/10.1080/13683500.2024.2314700?scroll=top&needAccess=true'>[12]</a>.
        </p>
     </div>
+    
+    <br>
+    
+    <div class="container">
+        <figure>
+            <img src="{{ url_for('static', filename='eda/average_temps_over_years.png') }}" width="100%" alt="Average Temperatures Over Years">
+                <figcaption style="text-align: center;">
+                    "Average temperatures aggregated over the past several years across hundreds of ski resorts in North America."
+                </figcaption>
+        </figure>
+    </div>
+    
+    <br>
     
     <div class="container">
         <h3>Questions</h3>
@@ -137,12 +156,14 @@
             <li>Do the Epic and Ikon passes have distinct qualities across their associated resorts?</li>
             <li>Given a timeframe, ideal weather conditions, and a maximum travel distance from an origin, can a resort or sequence of resorts be recommended?</li>
             <li>Across North America, considering boundaries like localities and regions, where are resorts concentrated?</li>
-            <li>Do clusters of resorts share similar weather and resource and business offerings?</li>
+            <li>Do clusters of resorts share similar weather and business offerings?</li>
             <li>Are rising temperatures and declining snowfall present across resorts in North America?</li>
-            <li>Do resorts with higher ratings have better nearby resource and business offerings?</li>
-            <li>Are resort ratings and nearby resource and business offerings affected by elevation?</li>
-            <li>Considering weather, resource and business offerings, and ratings are there significant differences between resorts in the United States and Canada?</li>
+            <li>Do resorts with higher ratings have better nearby business offerings?</li>
+            <li>Are resort ratings and nearby business offerings affected by elevation?</li>
+            <li>Considering weather, business offerings, and ratings are there significant differences between resorts in the United States and Canada?</li>
             <li>Which resorts receive the most snowfall?</li>
         </ol>
     </div>
+    
+    <br>
 {% endblock %}

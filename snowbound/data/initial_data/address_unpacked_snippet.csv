@@ -1,0 +1,11 @@
+long_name,short_name,Resort,locality_type_0,locality_type_1,locality_type_2,locality_type_3,locality_type_4,Proper Address
+620,620,Vail,street_number,,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+Vail Valley Drive,Vail Valley Dr,Vail,route,,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+Vail,Vail,Vail,locality,political,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+Eagle County,Eagle County,Vail,administrative_area_level_2,political,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+Colorado,CO,Vail,administrative_area_level_1,political,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+United States,US,Vail,country,political,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+81657,81657,Vail,postal_code,,,,,"620 Vail Valley Dr, Vail, CO 81657, USA"
+Unit C-7,Unit C-7,Telluride,subpremise,,,,,"300 Mahoney Dr Unit C-7, Telluride, CO 81435, USA"
+300,300,Telluride,street_number,,,,,"300 Mahoney Dr Unit C-7, Telluride, CO 81435, USA"
+Mahoney Drive,Mahoney Dr,Telluride,route,,,,,"300 Mahoney Dr Unit C-7, Telluride, CO 81435, USA"

@@ -1,0 +1,11 @@
+ID,Resort,Latitude,Longitude,Country,Continent,Price,Season,Highest point,Lowest point,Beginner slopes,Intermediate slopes,Difficult slopes,Total slopes,Longest run,Snow cannons,Surface lifts,Chair lifts,Gondola lifts,Total lifts,Lift capacity,Child friendly,Snowparks,Nightskiing,Summer skiing
+1,Hemsedal,60.9282437,8.38348693,Norway,Europe,46,November - May,1450,620,29,10,4,43,6,325,15,6,0,21,22921,Yes,Yes,Yes,No
+2,Geilosiden Geilo,60.5345261,8.2063719,Norway,Europe,44,November - April,1178,800,18,12,4,34,2,100,18,6,0,24,14225,Yes,Yes,Yes,No
+3,Golm,47.05781,9.8281668,Austria,Europe,48,December - April,2110,650,13,12,1,26,9,123,4,4,3,11,16240,Yes,No,No,No
+4,Red Mountain Resort-Rossland,49.1055201,-117.8462801,Canada,North America,60,December - April,2075,1185,20,50,50,120,7,0,2,5,1,8,9200,Yes,Yes,Yes,No
+5,Hafjell,61.2303686,10.52901357,Norway,Europe,45,November - April,1030,195,33,7,4,44,6,150,14,3,1,18,21060,Yes,Yes,Yes,No
+6,Voss,60.6837065,6.407904807,Norway,Europe,43,November - May,960,284,25,4,11,40,0,40,7,4,0,11,11900,Yes,Yes,No,No
+7,Porter,-39.67098835,176.8766681,New Zealand,Oceania,61,June - September,1980,1300,5,0,5,10,0,0,5,1,0,6,5600,No,No,No,Yes
+8,Nevados de Chilla?n,-36.613844,-72.0718055,Chile,South America,57,June - October,2700,1600,10,15,10,35,13,0,4,6,1,11,11080,Yes,Yes,No,Yes
+9,Hochschwarzeck,47.6283728,12.9205276,Germany,Europe,22,December - April,1385,1030,4,0,0,4,0,0,3,1,0,4,2880,Yes,No,No,No
+10,Rossfeld - Berchtesgaden - Oberau,47.6513062,13.0589774,Germany,Europe,20,December - April,1554,1300,7,1,0,8,6,0,4,0,0,4,3229,Yes,Yes,Yes,No

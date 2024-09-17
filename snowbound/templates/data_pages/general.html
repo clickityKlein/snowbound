@@ -1,15 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>General</h1>
+        <h1>Data Overview</h1>
     </div>
-    
+    <br>
     <div class="container">
-        <h3 class="mt-5">Mapping the Data</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            The data gathered is comprised of three main sources:
+            <ul>
+                <li>Ski Resorts Data: location and general information.</li>
+                <li>Google Places Data: information about businesses surrounding ski resorts, broken into seven main categorical API call parameters.</li>
+                    <ul>
+                        <li>Restaurants</li>
+                        <li>Bars</li>
+                        <li>Spas</li>
+                        <li>Shopping</li>
+                        <li>Medical</li>
+                        <li>Grocery</li>
+                        <li>Loding</li>
+                    </ul>
+                <li>Weather Data: over five years of weather data important to optimal conditions for Downhill Snowsports (skiing and snowboarding), 
+                aggregated from thousands of weather stations in order to centralize data around the ski resorts.
+                </li>
+            </ul>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The below map shows almost 400 ski resorts situated around North America, and includes:
+            <ul>
+                <li>Stations: weather stations used to populate the most recent day of weather data for each ski resort.</li>
+                <li>Station Radius: the radius of the furthest station used to populate weather for a given ski resort.</li>
+                <li>Google Places by Category: the top five highest rated business establishments for a given ski resort for each Google Places category.</li>
+            </ul>
+            <br>
+            <i>The map is interactive and the layers described above have toggle options.</i>
+        </p>
+    </div>
+    <div class="container">
+        <h3 class="mt-5">Ski Resorts and Surrounding Resources</h3>
         <div class="mt-3">
             <iframe src="{{ url_for('static', filename='resort_map.html') }}" width="100%" height="500px"></iframe>
-            <!-- {{ resort_map_html|safe }} -->
         </div>
     </div>
-    
+    <br>
 {% endblock %}

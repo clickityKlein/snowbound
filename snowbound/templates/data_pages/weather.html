@@ -1,6 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Weather API Data</h1>
+        <h1>Weather Data</h1>
     </div>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Opening Days, Powder Days, Bluebird Days, Groomer Days, and Closing Days are all vocabularly conditioned into skier's and snowboarder's 
+            minds. These words describe the starting, closing, and type of day one would expect given time of year and conditions on a mountain. 
+            Needless to say, these are synonymous with the weather on a given day or sequence of days. Although resort goers are most 
+            interested in new snow and total snow depth, variables like wind speed, visibility, and UV Index are important considerations when
+            planning a trip. Additionally, factors like temperature, humidity, and pressure are important for the presence of snow. 
+            In summary, the following variables were considered when finding a dataset:
+        
+            <ul>
+                <li>Temperature</li>
+                <li>Precipitation</li>
+                <li>Snowfall</li>
+                <li>Snowdepth</li>
+                <li>Humidity</li>
+                <li>Pressure</li>
+                <li>Wind Speed</li>
+                <li>Solar Relevance</li>
+            </ul>
+        
+            Ideally, a source providing this information on a daily basis across the majority of a given list of resorts would satisfy requirements.
+        
+        </p>
+        
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Fortunately, <a href='https://www.visualcrossing.com/'>[visualcrossing]</a> offers API access to decades of weather data, 
+            and is robust enough to provide daily records at practically any coordinate location.
+            
+            <br><br>
+            
+            The API aggregates information across thousands of weather stations to provide these records. Subsequently, not only weather 
+            data can be returned, but also information about the stations.
+        </p>
+        
+        <br>
+    
+    </div>
+    
+    <div class="container">
+        <h3>Aquiring the Data</h3>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            See <a href='https://github.com/clickityKlein/snowbound'>[Source - Weather]</a> for the Python code used to access the API.
+        </p>
+    </div>
+    <br>
 {% endblock %}

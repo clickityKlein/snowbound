@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Data Exploration</h1>
+    </div>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            This page explores patterns and justifies directions for modeling within the cleaned data. The following Python scripts were used to create the visualizations:
+            <br>
+            <ul>
+                <li>Folium Mapping: <a href='https://github.com/clickityKlein/snowbound'>(EDA - Folium)</a></li>
+                <li>Ski Resorts: <a href='https://github.com/clickityKlein/snowbound'>(EDA - Ski Resorts)</a></li>
+                <li>Weather: <a href='https://github.com/clickityKlein/snowbound'>(EDA - Weather)</a></li>
+                <li>Google Places: <a href='https://github.com/clickityKlein/snowbound'>(EDA - Google Places)</a></li>
+            </ul>
+        </p>
+    </div>
+    <br>
+    <br>
+    
+    <!-- annual weather variable ranges at resorts -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Given over 5 years of recent weather data observations from mountainous areas near ski resorts, this boxplot can 
+            reveal the spread of different numeric weather variables. <i>Even though these variables are not in the same units</i>, it does present 
+            patterns and raise questions. Ulimately, this helps guide the analysis into finding relationships between variables.
+        </p>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/weather_numeric_spread.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Summary of over 5 years of weather data in mountainous areas.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- average annual snow by pass -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Averaging across all resorts and over five years, this indicates that the major ski resort pass companies could potentially favor resorts which receive more snow. 
+            This is especially telling since the majority of the resorts in this analysis are not Epic nor Ikon.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/average_snow_by_pass.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Average annual snow by pass type.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- average annual snow by region -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The western United States up into central Canada receive, on average, more snow than other major geographical regions in North America. 
+            These regions include mountain ranges such as Sierra Nevada, the Cascades, and the Rockies.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/average_snow_by_region.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Average annual snow by major North American region.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- humidity and snowfall by region -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The The National Snow and Ice Data Center (NSIDC) stated that low temperatures and moisture in the air (humidity) are required for snow to form. Is that effect apparent in 
+            the data? Does vary across the major North American regions? It appears there is a correlation!
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/temperature_vs_snowfall_by_humidity_and_region_and_country.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Effect of Humidity and Temperature on Snow by Major North American regions.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- resort ratings by country -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The United States boasts the highest number of ski resort visitors of any single country. Given the United States' proximity 
+            to Canada, do ski resorts still hold a higher ratings than Canada? Overall, the Untied States' interquartile range dwarfs much of 
+            Canada's resort ratings. Canada does have a few outliers with higher ratings, however, they are still within the normal range of data for 
+            the United States' ratings.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/resort_ratings_by_country.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Spread of overall resort ratings by country.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- resort ratings by pass -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The average snowfall on Epic and Ikon pass resorts were undeniably higher than for resorts with other passes. 
+            The spread of resort ratings for Epic and Ikon passes are higher than the resorts with other passes. Interestingly, the 
+            spread of Ikon is much smaller than that of Epic but with a concentration towards higher ratings. It might be a decent angle to examine 
+            if snowfall is correlated with higher resort ratings.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/resort_ratings_by_pass.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Resort ratings by pass type.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- resort ratings by region -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Following from the previous line of inquiry about snow amount to resort rating, it does appear that the West and West Coast regions, which were also
+            the top per country in the amount of snowfall do contain the higher ratings as well. This is further evidence that snowfall may be correlated with resort rating.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/resort_ratings_by_region.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Resort ratings by major North American region.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- ratings vs price -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Given there is some evidence that more snowfall could increase a resort's rating, do resorts with a higher rating charge more for 
+            skiers and snowboards to use their mountains? There is a linear trend present that resorts with higher ratings do charge more, with the United States seemingly charging more 
+            for similarly rated resorts.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/rating_vs_price_by_country.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Does rating affect price?
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- Business Ratings by Region -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Given the spread of snowfall and resort ratings across the major regions within North America, will ratings for businesses near ski resorts
+            follow suit? Aside from the medical category ratings, it does appear that the United States might have higher rated businesses across most categories. Whether or not that is 
+            statistically significant is difficult to gather across most the images in this chart. However, it does appear that the North region in Canada is an outlier on the lower end throughout these 
+            ratings.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/business_ratings_by_region.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Categorical ratings of businesses near ski resorts by major North American region.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- resort rating heatmap -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            What actually contributes heavily towards a resort's rating? The resort dataset itself features a few variables which are 
+            rating specific. Those being individual ratings on Lifts Quality, Run Variety, Resort Size, and Overall Rating. It appears that Run Variety, Resort Size, and Overall Rating have the greatest 
+            effects on each other.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/resort_rating_heatmap.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Correlations Between Resort Ratings
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- resort numeric heatmap -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Expanding out the correlation matrix to account for all of the numerical variables with the dataset, different patterns start to 
+            emerge. There aren't too many surprises from this visual, but it can help to confirm where correlations are strongest and weakest.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/resort_numerical_heatmap.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Correlations Between Resort Numerical Variables
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <!-- total numeric heatmap -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Finally, by taking all numerical variables from all three of the main datasets (Resorts, Weather, and Google Places), a roadmap between new associations can be 
+            illuminated. This could have applications in feature reduction and model efficiency. See below the image for a table version of the results.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='eda/total_heatmap.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Total Numeric Correlation Heatmap
+                </figcaption>
+        </figure>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ total_corr | safe }}
+        </div>
+    </div>
+    <br>
+{% endblock %}

@@ -1,6 +1,57 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Google API Data</h1>
+        <h1>Google Data</h1>
     </div>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            A day on the mountain, or especially an extended trip at a resort, requires resouces. Knowing where to find food, entertainment, supplies, and 
+            even medical attention is an important part of the planning process. The following categories for nearby business establishments were considered:
+        
+            <ul>
+                <li>Restaurants</li>
+                <li>Bars</li>
+                <li>Spas</li>
+                <li>Shopping</li>
+                <li>Medical</li>
+                <li>Grocery</li>
+                <li>Lodging</li>
+            </ul>
+            
+            The most important datapoints for each category were location and name. However, other datapoints such as rating and pricing would be 
+            ideal as well.
+        
+        </p>
+        
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            The <a href='https://console.cloud.google.com/'>[Google Cloud Platform]</a> offers API access to a whole host of endpoints and services.
+            <br><br>
+            To gather information on businesses, the <a href='https://developers.google.com/maps/documentation/places/web-service'>[Google Places API]</a> was 
+            used.
+            <br><br>
+            An additional API service was used as well. There also exists a service which can provide coordinates and proper address information given a slightly less 
+            detailed name or address of an establishment. This is the <a href=https://developers.google.com/maps/documentation/geocoding>[Google Geocoding API]</a>.
+        </p>
+        
+        <br>
+    
+    </div>
+    
+    <div class="container">
+        <h3>Aquiring the Data</h3>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            There were two separate source scripts used in this process, and for a process which brought additional information 
+            to the ski resorts dataset.
+        
+            <ul>
+                <li>See <a href='https://github.com/clickityKlein/snowbound'>[Source - Google Places]</a> for the Python code used to access the Places API.</li>
+                <li>See <a href='https://github.com/clickityKlein/snowbound'>[Source - Google Functions]</a> for the Python code used to create functions for the Places and Geocoding APIs.</li>
+            </ul>
+        </p>
+    </div>
+    <br>
 {% endblock %}

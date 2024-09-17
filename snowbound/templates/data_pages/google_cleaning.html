@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Google Places Cleaning</h1>
+    </div>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            This page describes the cleaning process for the data derived from the Google Places API.
+            <br><br>
+            The cleaning module Python script can be found <a href='https://github.com/clickityKlein/snowbound'>here (Cleaning - Google Places)</a>.
+        </p>
+    </div>
+    <br>
+    
+    <!-- introduce main google places data -->
+    <div class="container">
+        <h3>Main Google Places Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Initial Google Places Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_places_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Initial Google Places Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_places_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- methodology of api calling -->
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The function which made the API calls used a radius of 5 miles from each resort to populate across multiple categories. Aside from 
+            dropping columns which aren't applicable for the scope of this project, some of the following steps were required:
+            <ul>
+                <li>Cleaning Business Names</li>
+                <li>Unpacking Geometry (coordinates)</li>
+                <li>Unpacking Types (business types)</li>
+            </ul>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Intelligently taking values from lists and dictionaries which were values in the initial dataframe themselves required 
+            functions within the script that have the nomenclature <code>unpack</code> within them. The initial unpack returned the following columns:
+            <ul>
+                <li>latitude</li>
+                <li>longitude</li>
+                <li>name</li>
+                <li>rating</li>
+                <li>types</li>
+                <li>total_ratings</li>
+                <li>vicinity</li>
+                <li>resort</li>
+                <li>call_category</li>
+                <li>price_level</li>
+            </ul>
+        </p>
+    </div>
+    
+    <!-- explain types unpacking -->
+    <div class="container">
+        <h3>Unpacking Types</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            When unpacking types, an interesting pattern was revealed. Every business had at least an initial, secondary, and tertiary type, so that 
+            was used in the final cleaned dataset. However, the dataset containing null values under other unpacked categorical columns was saved 
+            for potential apriori type methods and models. Below is a snippet of the types information.
+        </p>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Initial Google Types Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_types_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Initial Google Types Null
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_types_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- dropping columns -->
+    <div class="container">
+        <br>
+        <h5>Dropping Columns</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            In an effort to retain as much information as possible, columns were dropped intelligently and null values were filled otherwise.
+            <ul>
+                <li>vicinity: dropped due to latitude and longitude precision</li>
+                <li>price_level: 79.6% missing values, drop due to unrecoverable status</li>
+                <li>types: after extracting enough information (initial, secondary, and tertiary responses), this column containing list-type data was dropped</li>
+                <li>rating & total_ratings: only null due to lack of ratings, filled with 0s</li>
+            </ul>
+        </p>
+        <br>
+    </div>
+    <br>
+    
+    <!-- cleaning names-->
+    <div class="container">
+        <h3>Cleaning Business Names</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            One of the final steps was to clean names. Many names were of a non-english alphabet type, some contained emojis, and some had foreign accents as well. 
+            The cleaning required did leave some names completely blank, and the rows with blank names were unfortunately dropped. A few rows with "problematic" entries are 
+            shown below:
+        </p>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Problematic Google Places Names
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_problem | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- final dataset -->
+    <div class="container">
+        <h3>The Final Google Places Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            After the steps throughout the script were taken, an acceptable Google Places dataset was formed.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Final Google Places Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_final | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Final Google Places Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_final_null | safe }}
+        </div>
+        <br>
+    </div>
+    <br>
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Weather Cleaning</h1>
+    </div>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            This page describes the cleaning process for the data derived from visualcrossing's Weather API.
+            <br><br>
+            The cleaning module Python script can be found <a href='https://github.com/clickityKlein/snowbound'>here (Cleaning - Weather Cleaning)</a>.
+        </p>
+    </div>
+    <br>
+    
+    <!-- introduce weather data -->
+    <div class="container">
+        <h3>Weather Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The weather data API provided a few years of daily weather observations across thousands of stations, which were aggregated 
+            by the API call into generalized weather observations for coordinates associated with ski resorts. Ultimately, the weather variables were 
+            the goal but had a subsequent outcome of data surrounding weather stations.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Initial Weather Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Initial Weather Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_initial_null | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Initial Station Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ stations_initial | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Initial Station Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ stations_null | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <!-- understanding the results -->
+    <div class="container">
+        <br>
+        <h5>Understanding the Weather Results</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Understanding the variables within the weather data is essential to not only applying the data, but also dealing with null values and outliers. Thankfully, 
+            visualcrossing provides a breakdown of the variables. The details are as follows:
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Metrics:
+            <ul>
+                <li>Temperature: Degrees Fahrenheit</li>
+                <li>Heat Index: Degrees Fahrenheit</li>
+                <li>Wind Chill: Degrees Fahrenheit</li>
+                <li>Precipitation: Inches</li>
+                <li>Snow: Inches</li>
+                <li>Wind: Miles Per Hour</li>
+                <li>Wind Gust: Miles Per Hour</li>
+                <li>Visibility: Miles</li>
+                <li>Pressure: Millibars</li>
+                <li>Solar Radiation: W/m^2</li>
+                <li>Solar Energy: MJ/m^2</li>
+                <li>Soil Moisture: Inches</li>
+                <li>Station Distance: Meters</li>
+            </ul>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Descriptions:
+            <ul>
+                <li>cloudcover: how much of the sky is covered in cloud ranging from 0-100%</li>
+                <li>conditions: textual representation of the weather conditions. See Weather Data Conditions</li>
+                <li>description: longer text descriptions suitable for displaying in weather displays. The descriptions combine the main features of the weather for the day such as precipitation or amount of cloud cover. Daily descriptions are provided for historical and forecast days. When the timeline request includes the model forecast period, a seven day outlook description is provided at the root response level</li>
+                <li>datetime: ISO 8601 formatted date, time or datetime value indicating the date and time of the weather data in the local time zone of the requested location. See Dates and Times in the Weather API for more information</li>
+                <li>datetimeEpoch: number of seconds since 1st January 1970 in UTC time</li>
+                <li>tzoffset: the time zone offset in hours. This will only occur in the data object if it is different from the global time zone offset</li>
+                <li>dew: dew point temperature</li>
+                <li>feelslike: what the temperature feels like accounting for heat index or wind chill. Daily values are average values (mean) for the day</li>
+                <li>feelslikemax (day only): maximum feels like temperature at the location</li>
+                <li>feelslikemin (day only): minimum feels like temperature at the location</li>
+                <li>hours: array of hourly weather data objects. This is a child of each of the daily weather object when hours are selected</li>
+                <li>humidity: relative humidity in %</li>
+                <li>icon: a fixed, machine readable summary that can be used to display an icon</li>
+                <li>moonphase: represents the fractional portion through the current moon lunation cycle ranging from 0 (the new moon) to 0.5 (the full moon) and back to 1 (the next new moon). See How to include sunrise, sunset, moon phase, moonrise and moonset data into your API requests</li>
+                <li>normal: array of normal weather data values – Each weather data normal is an array of three values representing, in order, the minimum value over the statistical period, the mean value, and the maximum value over the statistical period</li>
+                <li>offsetseconds (hourly only): time zone offset for this weather data object in seconds – This value may change for a location based on daylight saving time observation</li>
+                <li>precip: the amount of liquid precipitation that fell or is predicted to fall in the period. This includes the liquid-equivalent amount of any frozen precipitation such as snow or ice.</li>
+                <li>precipcover (days only): the proportion of hours where there was non-zero precipitation</li>
+                <li>precipprob (forecast only): the likelihood of measurable precipitation ranging from 0% to 100%</li>
+                <li>preciptype: an array indicating the type(s) of precipitation expected or that occurred. Possible values include rain, snow, freezingrain and ice.</li>
+                <li>pressure: the sea level atmospheric or barometric pressure in millibars (or hectopascals)</li>
+                <li>snow: the amount of snow that fell or is predicted to fall</li>
+                <li>snowdepth: the depth of snow on the ground</li>
+                <li>source: the type of weather data used for this weather object. – Values include historical observation (“obs”), forecast (“fcst”), historical forecast (“histfcst”) or statistical forecast (“stats”). If multiple types are used in the same day, “comb” is used. Today a combination of historical observations and forecast data.</li>
+                <li>stations (historical only): the weather stations used when collecting an historical observation record</li>
+                <li>sunrise (day only): The formatted time of the sunrise (For example “2022-05-23T05:50:40”). See How to include sunrise, sunset, moon phase, moonrise and moonset data into your API requests</li>
+                <li>sunriseEpoch: sunrise time specified as number of seconds since 1st January 1970 in UTC time</li>
+                <li>sunset: The formatted time of the sunset (For example “2022-05-23T20:22:29”). See How to include sunrise, sunset, moon phase, moonrise and moonset data into your API requests</li>
+                <li>sunsetEpoch: sunset time specified as number of seconds since 1st January 1970 in UTC time</li>
+                <li>moonrise (day only, optional): The formatted time of the moonrise (For example “2022-05-23T02:38:10”). See How to include sunrise, sunset, moon phase, moonrise and moonset data into your API requests</li>
+                <li>moonriseEpoch (day only, optional): moonrise time specified as number of seconds since 1st January 1970 in UTC time</li>
+                <li>moonset (day only, optional): The formatted time of the moonset (For example “2022-05-23T13:40:07”)</li>
+                <li>moonsetEpoch (day only, optional): moonset time specified as number of seconds since 1st January 1970 in UTC time</li>
+                <li>temp: temperature at the location. Daily values are average values (mean) for the day.</li>
+                <li>tempmax (day only): maximum temperature at the location.</li>
+                <li>tempmin (day only): minimum temperature at the location.</li>
+                <li>uvindex: a value between 0 and 10 indicating the level of ultra violet (UV) exposure for that hour or day. 10 represents high level of exposure, and 0 represents no exposure. The UV index is calculated based on amount of short wave solar radiation which in turn is a level the cloudiness, type of cloud, time of day, time of year and location altitude. Daily values represent the maximum value of the hourly values.</li>
+                <li>uvindex2 (optional, 5 day forecast only): an alternative UV index element that uses the algorithms and models used by the US National Weather Service. In order to maintain backwards compatibility, this UV index element is deployed as a new, optional element ‘uvindex2’ and may be requested using the elements parameter.</li>
+                <li>visibility: distance at which distant objects are visible</li>
+                <li>winddir: direction from which the wind is blowing</li>
+                <li>windgust: instantaneous wind speed at a location – May be empty if it is not significantly higher than the wind speed. Daily values are the maximum hourly value for the day.</li>
+                <li>windspeed: the sustained wind speed measured as the average windspeed that occurs during the preceding one to two minutes. Daily values are the maximum hourly value for the day.</li>
+                <li>windspeedmax (day only, optional): maximum wind speed over the day.</li>
+                <li>windspeedmean (day only , optional ): average (mean) wind speed over the day.</li>
+                <li>windspeedmin (day only , optional ): minimum wind speed over the day.</li>
+                <li>solarradiation: (W/m2) the solar radiation power at the instantaneous moment of the observation (or forecast prediction). See the full solar radiation data documentation and Wind and Solar Energy pages.</li>
+                <li>solarenergy: (MJ /m2 ) indicates the total energy from the sun that builds up over an hour or day. See the full solar radiation data documentation and Wind and Solar Energy pages .</li>
+                <li>severerisk (forecast only): a value between 0 and 100 representing the risk of convective storms (e.g. thunderstorms, hail and tornadoes). Severe risk is a scaled measure that combines a variety of other fields such as the convective available potential energy (CAPE) and convective inhibition (CIN), predicted rain and wind. Typically, a severe risk value less than 30 indicates a low risk, between 30 and 70 a moderate risk and above 70 a high risk.
+                </li>
+            </ul>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            <i>
+                It should also be noted that the retrieved data was done on observations and hourly, so not all variables appear in the data.
+            </i>
+        </p>
+        <br>
+    </div>
+    <br>
+    <div class="container">
+        <br>
+        <h5>Dropping Columns & Searching for Outliers</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Gaining an initial understanding of the data provided insight into columns not applicable to the scope of this timeframe or were 
+            essentially duplicate and inferior information of other columns.
+            <ul>
+                <li>Epoch Columns: drop due to irrelevance of scope to 1970 in this project</li>
+                <li>conditions & description: combination of preciptype and icon were superior</li>
+                <li>source: since this was historical data, all source is observational data</li>
+            </ul>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Outliers were then searched for in some of the remaining numeric type columns.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <figure>
+            <img src="{{ url_for('static', filename='eda/weather_prenull_outliers.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    "Prior null value processing for numerical weather data."
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <div class="container">
+        <br>
+        <h5>Boxplot Analysis</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Two main phenomenon were illuminated by this visualization. Namely:
+            <ul>
+                <li>visibility has an outlier: according to an article by <a href="https://time.com/archive/6766128/science-how-far-can-you-see/"> [Time]</a>, the maximum distance at 25,000 feet of elevation results in a visibility distance of 194 miles on a perfect day.</li>
+                <li>severerisk has non-null values that range between 0-100: it was suppposed to be a forecast only variable.</li>
+            </ul>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <br>
+        <h5>Dealing with Null Values</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            After replacing the visibility outlier with a Null value instead of dropping the entire row, the null values were taken care of 
+            with methods which retained rows as well:
+            <ul>
+                <li>windgust: average windgust for resort and month</li>
+                <li>visibility: average windgust for resort and month</li>
+                <li>solarradiation: average windgust for resort and month</li>
+                <li>solarenergy: average windgust for resort and month</li>
+                <li>uvindex: average windgust for resort and month</li>
+                <li>preciptype: only null when there is no precipitation, and remainder of data is currently in list type format, replace with "['None']"</li>
+                <li>tzoffset: only null when timezone is different from the global time zone offset, replace with 0</li>
+                <li>severerisk: only null when severerisk is 0, replace with 0</li>
+            </ul>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <br>
+        <h5>Unpacking Lists</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            There were 2 list type columns which required unpacking.
+            <br><br>
+            
+            For preciptype, <code>MultiLabelBinarizer()</code> from scikit-learn was used to 
+            create numeric representations of booleans in their own columns. In other words, it was encoded.
+            <br><br>
+            
+            For stations, given there were thousands, an encoding approach might not be the best at this point. The column in list type format 
+            was left in. However, a basket type dataframe was created and saved from this for possible later use in an apriori method or model.
+            
+        </p>
+    </div>
+    <br>
+    
+    <!-- final dataset -->
+    <div class="container">
+        <h3>The Final Weather Data</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            After the steps throughout the script were taken, an acceptable Weather dataset was formed.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Snippet of Final Weather Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Null Values of Final Weather Data
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final_null | safe }}
+        </div>
+        <br>
+    </div>
+    <br>
+    <br>
+{% endblock %}
