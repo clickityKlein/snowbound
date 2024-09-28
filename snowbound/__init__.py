@@ -4,12 +4,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
 from flask_login import LoginManager
+from dotenv import load_dotenv
 
 
 app = Flask(__name__)
 
 
-# app.config['SECRET_KEY'] = 'mysecret'
+load_dotenv('config/.env')
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 
