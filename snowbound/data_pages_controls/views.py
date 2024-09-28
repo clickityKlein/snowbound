@@ -1,4 +1,5 @@
 from flask import render_template, redirect, url_for, request, Blueprint, flash, send_from_directory
+from snowbound.data_pages_controls.forms import ScaleForm
 import pandas as pd
 import os
 
@@ -188,3 +189,47 @@ def load_data_exploration():
     
     return render_template('data_pages/data_exploration.html',
                            total_corr=total_corr)
+
+'''
+scale pages: cleaning
+'''
+# render scale and generalization exploration page
+@data_pages_controls.route('/data_pages/scale_cleaning.html', methods=['GET', 'POST'])
+def load_scale_cleaning():
+    return render_template('data_pages/scale_cleaning.html')
+
+'''
+scale pages: eda
+'''
+# render scale and generalization exploration page
+@data_pages_controls.route('/data_pages/scale_eda.html', methods=['GET', 'POST'])
+def load_scale_eda():
+    form = ScaleForm()
+    # default time and spatial scales
+    time_scale=form.time_scale.data
+    spatial_scale=form.spatial_scale.data
+    basedir = '../..'
+    
+    if form.validate_on_submit():
+        time_scale = form.time_scale.data
+        spatial_scale = form.spatial_scale.data
+        filedir = f'static/eda/scale/{spatial_scale}_{time_scale}.html'
+        filename = os.path.join(basedir, filedir)
+        return render_template('data_pages/scale_eda.html',
+                               form=form,
+                               time_scale=time_scale,
+                               spatial_scale=spatial_scale,
+                               filename=filename)
+    else:
+            # Print specific form errors
+            for field, errors in form.errors.items():
+                for error in errors:
+                    print(f"Error in {field}: {error}")
+    
+    # default filename
+    filename = os.path.join(basedir, f'static/eda/scale/{spatial_scale}_{time_scale}.html')
+    return render_template('data_pages/scale_eda.html',
+                           form=form,
+                           time_scale=time_scale,
+                           spatial_scale=spatial_scale,
+                           filename=filename)
