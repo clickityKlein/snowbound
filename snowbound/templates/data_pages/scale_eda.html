@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <h1>Scale and Generalization</h1>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Statistical characteristcs can vary throughout different levels of aggregation, such as spatial unit sizes like country compared to region. To properly analyze a phenomenon, like snowfall, different scales of the phenomenon can be studied. 
+            For the most accuracy, the "scale of the analysis must be the actual scale of the phenomenon" <a href='https://typeset.io/papers/scale-in-geography-2j3wpsqu4w'>[Montello, 2001]</a>. Additionally, 
+            it's important to proceed with caution on making inferences across scales, which is known as the cross-level fallacy. Particularly in the example of snowfall, starting from a country scale and 
+            disaggregating down through a hierarchy into resort-scale themselves, the statistical characteristcs from the orginal units increasingly vary when broken into smaller units. This is an example of the 
+            Modifiable Areal Unit Problem (MAUP).
+        </p>
+        <p style="font-size: 20px; text-align: justify;">
+            Aside from being cognizant of the cross-level fallacy, MAUP, and the particular phenomenon of interest, each level of scale could provide 
+            patterns explicit to different features. This is an illustration of spatial and temporal aggregation for just snowfall. Are other weather features affected by this? 
+            What implications does this have across businesses and resort ratings? How do predictive models react to different levels of scale?
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3 class="justify-content-center">Average Snowfall Scale Selection</h3>
+    </div>
+    <form id="aggregationForm">
+        {{ form.hidden_tag() }}
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-4">
+                <label for="time_scale" class="form-label">Temporal Aggregation</label>
+                <div>
+                    {{ form.time_scale(class="form-select", id="time_scale") }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="spatial_scale" class="form-label">Spatial Aggregation</label>
+                <div>
+                    {{ form.spatial_scale(class="form-select", id="spatial_scale") }}
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row g-3 justify-content-center">
+            <div class="col-md-3">
+                <div>
+                   {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div id="spinner" class="spinner-border" style="width: 5rem; height: 5rem;" role="status">
+                <span class="visually-hidden">Loading</span>
+            </div>
+        </div>
+        <iframe id="aggregationMap" src="{{ filename }}" height="750px" width="100%"></iframe>
+    </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('aggregationForm');
+            const iframe = document.getElementById('aggregationMap');
+            const spinner = document.getElementById('spinner');
+    
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting the traditional way
+    
+                const timeScale = document.getElementById('time_scale').value;
+                const spatialScale = document.getElementById('spatial_scale').value;
+                const filename = `/static/eda/scale/${spatialScale}_${timeScale}.html`;
+    
+                console.log('Time Scale:', timeScale); // Debugging statement
+                console.log('Spatial Scale:', spatialScale); // Debugging statement
+                console.log('Generated Filename:', filename); // Debugging statement
+                
+                spinner.style.display = 'block';
+                iframe.style.opacity = '0';
+                
+                iframe.src = filename; // Update the iframe source
+            });
+            
+            iframe.addEventListener('load', function() {
+                spinner.style.display = 'none';
+                iframe.style.opacity = '1';
+            
+            })
+        });
+    </script>
+{% endblock %}
