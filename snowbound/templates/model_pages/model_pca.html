@@ -1,6 +1,1010 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Modeling - PCA</h1>
+        <h1>Modeling - PRincipal Component Analysis (PCA)</h1>
     </div>
+    <br>
+    
+    <div class="container">
+        <h3>What is PCA?</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Principal Component Analysis, or simply PCA, is a dimenson reduction technique which operates by consolidating information from multiple 
+            features into a new projection space in which each new feature is orthogonal to each other new feature.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>What Data Can Be Used?</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            PCA is used on quantitative data. This analysis focuses on the quantitative data of the main datasets used throughout this project:
+            <br>
+            <ul>
+                <li>Ski Resorts Data - Cleaning and Aggregation Process Described <a href='https://snowbound-0fqq.onrender.com/data_pages/ski_resorts_cleaning.html'>Here</a></li>
+                <li>Weather Data - Cleaning and Aggregation Process Described <a href='https://snowbound-0fqq.onrender.com/data_pages/weather_cleaning.html'>Here</a></li>
+                <li>Google Places Data - Cleaning and Aggregation Process Described <a href='https://snowbound-0fqq.onrender.com/data_pages/google_cleaning.html'>Here</a></li>
+            </ul>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Ski Resorts Data - Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Weather Data - Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Google Places Data - Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Data Preparation</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Each dataset required some alteration in preparation for PCA. Namely, this included subsetting the data to quantitative values and separating the 
+            labels. The labels would be saved for later to compare with the results. Some of the datasets had multiple categorical data 
+            features which could be used as labels depending on the purpose of the analysis. Other columns were simply dropped. Thus, a concise script with which could perform this cleaning, along with 
+            applying the PCA algorithm and analysis of the results was created. This script can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>, and 
+            contains detailed documentation on these functions.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Ski Resort Data - Preparation</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <ul>
+                <li>Quantitative Data Retained:</li>
+                <ul>
+                    <li>Overall Rating</li>
+                    <li>Elevation Difference</li>
+                    <li>Elevation Low</li>
+                    <li>Elevation High</li>
+                    <li>Trails Total</li>
+                    <li>Trails Easy</li>
+                    <li>Trails Intermediate</li>
+                    <li>Trails Difficult</li>
+                    <li>Lifts</li>
+                    <li>Price</li>
+                    <li>Resort Size</li>
+                    <li>Run Variety</li>
+                    <li>Lifts Quality</li>
+                    <li>Latitude</li>
+                    <li>Longitude</li>
+                </ul>
+                <li>Potential Label Columns Set Aside:</li>
+                <ul>
+                    <li>Resort</li>
+                    <li>state_province_territory</li>
+                    <li>Country</li>
+                    <li>City</li>
+                    <li>Pass</li>
+                    <li>Region</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Weather Data - Preparation</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <ul>
+                <li>Quantitative Data Retained:</li>
+                <ul>
+                    <li>tempmax</li>
+                    <li>tempmin</li>
+                    <li>temp</li>
+                    <li>feelslikemax</li>
+                    <li>feelslikemin</li>
+                    <li>feelslike</li>
+                    <li>dew</li>
+                    <li>humidity</li>
+                    <li>precip</li>
+                    <li>snow</li>
+                    <li>snowdepth</li>
+                    <li>windgust</li>
+                    <li>windspeed</li>
+                    <li>winddir</li>
+                    <li>pressure</li>
+                    <li>cloudcover</li>
+                    <li>visibility</li>
+                    <li>solarradiation</li>
+                    <li>solarenergy</li>
+                    <li>uvindex</li>
+                    <li>moonphase</li>
+                    <li>severerisk</li>
+                </ul>
+                <li>Potential Label Columns Set Aside:</li>
+                <ul>
+                    <li>datetime</li>
+                    <li>icon</li>
+                    <li>resort</li>
+                    <li>type_snow</li>
+                    <li>type_rain</li>
+                    <li>type_ice</li>
+                    <li>type_freezingrain</li>
+                    <li>type_none</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Google Places Data - Preparation</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <ul>
+                <li>Quantitative Data Retained:</li>
+                <ul>
+                    <li>Latitude</li>
+                    <li>Longitude</li>
+                    <li>rating</li>
+                    <li>total_ratings</li>
+                </ul>
+                <li>Potential Label Columns Set Aside:</li>
+                <ul>
+                    <li>Name</li>
+                    <li>Resort</li>
+                    <li>Call Category</li>
+                    <li>Initial Category</li>
+                    <li>Secondary Category</li>
+                    <li>Tertiary Category</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Applying Principal Component Analysis in Python</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            PCA in Python can be accomplished through the Scikit-Learn module, <code>sklearn.decomposition.PCA</code>. However, it is important 
+            to first normalize the quantitative data. Results can be skewed when values are significantly different between features. In other words, 
+            when features have much larger and smaller values than each other. To accomplish normalization, another Scikit-Learn module was used, 
+            <code>sklearn.preprocessing.StandardScaler</code>. Each feature has its mean removed and is scaled to unit variance.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            PCA can be applied in a generic sense, without specifying how many principal components are to be returned. This will create a return of 
+            as many principal components as there are input features. PCA can also be applied with a desired number of components to be returned. One point of confusion with 
+            either of these methods is how the original features relate to the output. It's important to understand that PCA transforms or projects the data into a different space using 
+            eigenvalues and eigenvectors. There isn't exactly a one-to-one relationship between the projected data onto principal components and the features of the original dataset. To 
+            further illustrate PCA, analyze its results, and try to make sense of a relationship between original features and the PCA projection, several attributes of sklearn's PCA model 
+            will be used. Given a model was created with the following code:
+            <br><br>
+<pre>
+    <code>
+        # sklearn libraries
+        from sklearn.decomposition import PCA
+        from sklearn.preprocessing import StandardScaler
+        
+        # normalize pandas dataframe with only quantitative features
+        scaler = StandardScaler()
+        df_normal = scaler.fit_transform(df)
+        
+        # create the pca model and project data into PCA space
+        pca = PCA()
+        pca_projection = pca.fit_transform(df_normal)
+        
+        # obtain eigenvalues
+        eigenvalues = pca.explained_variance_
+        
+        # explained variance
+        eigenvalue_ratios = pca.explained_variance_ratio_
+        
+        # obtain eigenvectors
+        eigenvectors = pca.components_
+        
+        # obtain loadings matrix
+        loadings_matrix = pd.DataFrame(pca.components_.T, columns=[f'principal_component_{col+1}' for col in range(pca.components_.shape[0])], index=df.columns)
+    </code>
+</pre>
+            <br><br>
+            
+            Attributes Explained:
+            <br>
+            <ul>
+                <li>eigenvalues: the amount of variance explained by each of the selected components</li>
+                <li>eigenvectors: directions of maximum variance in the data, sorted by decreasing eigenvalues</li>
+                <li>eigenvalue ratios: percentage of variance explained by each of the selected components</li>
+                <li>loadings matrix: represents the correlation between original features and principal components</li>
+                <li>pca projection: original data projected onto the pca space</li>
+            </ul>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>PCA and Analysis Process</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Each dataset was processed and the results were analyzed in this <a href='https://github.com/clickityKlein/snowbound'>script</a>, 
+            for full-feature PCA, 3-dimensional PCA, and 2-dimensional PCA via the following:
+            <br>
+            <ol>
+                <li>PCA Application and Key Attribute Extraction <code>perform_pca()</code></li>
+                <li>Orthogonality Validated <code>validate_orthogonality()</code></li>
+                <li>Visualize Variance <code>visualize_variance()</code></li>
+                <ul>
+                    <li>Full Dimensional PCA Includes Additional Outputs for Components Required for Retention of 95% Explained Variance</li>
+                </ul>
+                <li>Explained Variance</li>
+                <ul>
+                    <li>Full Dimensional PCA Includes Additional Output for the Top 3 Eigenvalues</li>
+                </ul>
+                <li>Loadings Matrix Analysis</li>
+                <ul>
+                    <li>Loadings Matrix Barplot</li>
+                    <li>Loadings Matrix Boxplot</li>
+                </ul>
+                <li>Further Visualizations</li>
+                <ul>
+                    <li>3-Dimensional PCA with Labeled Hue - Weather Includes an Animated Time Series Visualization</li>
+                    <li>2-Dimensional PCA with Labeled Hue</li>
+                </ul>
+            <ol>
+        </p>
+    </div>
+
+    <br>
+    <div class="container" id="pca-results">
+        <h3>PCA Results and Analysis</h3>
+    </div>
+    
+    <div class="accordion" id="pcaAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Ski Resorts Data - Full Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_gen'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_gen'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    95% of Variance Explained through Principal Component 7.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Eigenvalues - Python Output</h5>
+                        <br>
+                        <div class="container">
+                            <code>print(pca.explained_variance_)</code>
+                            <pre>
+                                <code>
+Eigenvalues Results:
+[1.01328995e+01 
+ 1.48572492e+00 
+ 1.25942178e+00 
+ 6.53151568e-01 
+ 4.20975982e-01 
+ 3.17249298e-01 
+ 2.07698104e-01 
+ 1.45693923e-01 
+ 1.29290376e-01 
+ 1.15058542e-01 
+ 1.00412733e-01 
+ 5.16338499e-02 
+ 2.04720021e-02 
+ 1.69084120e-16 
+ 0.00000000e+00]
+                                </code>
+                            </pre>
+                        </div>
+                        <br>
+                        
+                        <h5>Eigenvalues - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_gen'][2] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_gen'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_gen'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_gen'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Weather Data - Full Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_gen'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_gen'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    95% of Variance Explained through Principal Component 12.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Eigenvalues - Python Output</h5>
+                        <br>
+                        <div class="container">
+                            <code>print(pca.explained_variance_)</code>
+                            <pre>
+                                <code>
+Eigenvalues Results:
+[8.13046790e+00 
+ 3.09882044e+00 
+ 1.95971060e+00 
+ 1.17444139e+00
+ 1.00421464e+00 
+ 9.79725935e-01 
+ 9.47683726e-01 
+ 9.06603608e-01
+ 8.56151879e-01 
+ 7.59333726e-01 
+ 7.15182152e-01 
+ 5.74145340e-01
+ 3.36380706e-01 
+ 3.15792092e-01 
+ 1.15469316e-01 
+ 9.25721624e-02
+ 1.40815413e-02 
+ 8.75185242e-03 
+ 5.67468881e-03 
+ 4.04961900e-03
+ 6.83425476e-04 
+ 9.11417831e-05]
+                                </code>
+                            </pre>
+                        </div>
+                        <br>
+                        
+                        <h5>Eigenvalues - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_gen'][2] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_gen'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_gen'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_gen'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Google Places Data - Full Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_gen'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_gen'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    95% of Variance Explained through Principal Component 4.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Eigenvalues - Python Output</h5>
+                        <br>
+                        <div class="container">
+                            <code>print(pca.explained_variance_)</code>
+                            <pre>
+                                <code>
+Eigenvalues Results:
+[1.32498375 
+ 1.1252785  
+ 0.87469825 
+ 0.6752141]
+                                </code>
+                            </pre>
+                        </div>
+                        <br>
+                        
+                        <h5>Eigenvalues - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_gen'][2] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_gen'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_gen'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_gen'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                    Ski Resorts Data - 3 Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_3d'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        
+                        <figure>
+                            <img src="{{ data_dim['resorts_3d'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Explained and Cumulative Variance for 3-Dimensional PCA.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_3d'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_3d'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_3d'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Visualizing PCA in 3 Dimensions with Labels</h5>
+                        {% set resorts_country_src = data_dim['resorts_3d'][6][0].replace('\\', '/') %}
+                        {% set resorts_pass_src = data_dim['resorts_3d'][6][1].replace('\\', '/') %}
+                        {% set resorts_region_src = data_dim['resorts_3d'][6][2].replace('\\', '/') %}
+                        <br>
+                        <a href="{{ url_for('static', filename=resorts_country_src) }}">Resorts with Country Label - Expand Image</a>
+                        <div class="mt-3">
+                            <iframe src="{{ url_for('static', filename=resorts_country_src) }}" width="100%" height="750px" loading="lazy"></iframe>
+                        </div>
+                        <br>
+                        <a href="{{ url_for('static', filename=resorts_region_src) }}">Resorts with Region Label - Expand Image</a>
+                        <div class="mt-3">
+                            <iframe src="{{ url_for('static', filename=resorts_region_src) }}" width="100%" height="750px" loading="lazy"></iframe>
+                        </div>
+                        <br>
+                        <a href="{{ url_for('static', filename=resorts_pass_src) }}">Resorts with Pass Label - Expand Image</a>
+                        <div class="mt-3">
+                            <iframe src="{{ url_for('static', filename=resorts_pass_src) }}" width="100%" height="750px" loading="lazy"></iframe>
+                        </div>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                    Weather Data - 3 Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_3d'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        
+                        <figure>
+                            <img src="{{ data_dim['weather_3d'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Explained and Cumulative Variance for 3-Dimensional PCA.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_3d'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_3d'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_3d'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Visualizing PCA in 3 Dimensions with Labels</h5>
+                        {% set weather_src = data_dim['weather_3d'][6].replace('\\', '/') %}
+                        <br>
+                        <a href="{{ url_for('static', filename=weather_src) }}">Weather Data with Type of Weather Label - Expand Image</a>
+                        <div class="mt-3">
+                            <iframe src="{{ url_for('static', filename=weather_src) }}" width="100%" height="750px" loading="lazy"></iframe>
+                        </div>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseSix">
+                    Google Places Data - 3 Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseSix" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_3d'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        
+                        <figure>
+                            <img src="{{ data_dim['google_3d'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Explained and Cumulative Variance for 3-Dimensional PCA.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_3d'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_3d'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_3d'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Visualizing PCA in 3 Dimensions with Labels</h5>
+                        {% set google_src = data_dim['google_3d'][6].replace('\\', '/') %}
+                        <br>
+                        <a href="{{ url_for('static', filename=google_src) }}">Google Places with Business Category Label - Expand Image</a>
+                        <div class="mt-3">
+                            <iframe src="{{ url_for('static', filename=google_src) }}" width="100%" height="750px" loading="lazy"></iframe>
+                        </div>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSeven" aria-expanded="false" aria-controls="flush-collapseSeven">
+                    Ski Resorts Data - 2 Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseSeven" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_2d'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        
+                        <figure>
+                            <img src="{{ data_dim['resorts_2d'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Explained and Cumulative Variance for 2-Dimensional PCA.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['resorts_2d'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_2d'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_2d'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Visualizing PCA in 2 Dimensions with Labels</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_2d'][6][0] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Resorts with Country Label.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_2d'][6][2] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Resorts with Region Label.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['resorts_2d'][6][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Resorts with Pass Label.
+                                </figcaption>
+                        </figure>
+                        <br>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEight" aria-expanded="false" aria-controls="flush-collapseEight">
+                    Weather Data - 2 Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseEight" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_2d'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        
+                        <figure>
+                            <img src="{{ data_dim['weather_2d'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Explained and Cumulative Variance for 2-Dimensional PCA.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['weather_2d'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_2d'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_2d'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Visualizing PCA in 2 Dimensions with Labels</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['weather_2d'][6] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Weather with Weather Type Labels.
+                                </figcaption>
+                        </figure>
+                        <br>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseNine" aria-expanded="false" aria-controls="flush-collapseNine">
+                    Google Places Data - 2 Dimensions
+                </button>
+            </h2>
+            <div id="flush-collapseNine" class="accordion-collapse collapse" data-bs-parent="#pcaAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <h5>Explained and Cumulative Variance - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_2d'][0] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Explained and Cumulative Variance - Visual</h5>
+                        <br>
+                        
+                        <figure>
+                            <img src="{{ data_dim['google_2d'][1] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Explained and Cumulative Variance for 2-Dimensional PCA.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Table</h5>
+                        <br>
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ data_dim['google_2d'][3] | safe }}
+                        </div>
+                        <br>
+                        
+                        <h5>Loadings - Barplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_2d'][4] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Barplot of the Average Correlation Ranking between Features and Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Loadings - Boxplot</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_2d'][5] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Spread of the Correlation Rankings for Each Feature across Principal Components.
+                                </figcaption>
+                        </figure>
+                        <br>
+                        
+                        <h5>Visualizing PCA in 2 Dimensions with Labels</h5>
+                        <br>
+                        <figure>
+                            <img src="{{ data_dim['google_2d'][6] }}" width="100%">
+                                <figcaption style="text-align: center;">
+                                    Google Places with Business Category Label.
+                                </figcaption>
+                        </figure>
+                        <br>
+                    </p>
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Summary of PCA Results and Analysis</h3>
+    </div>
+    <br>
+    <br>
+    <br>
+    
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('pca-results').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+        
+        document.querySelectorAll('.return-to-pca').forEach(button => {
+            button.addEventListener('click', () => {
+                document.getElementById('pca-results').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 {% endblock %}
