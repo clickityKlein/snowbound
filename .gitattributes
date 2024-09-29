@@ -3,3 +3,4 @@ snowbound/static/eda/scale/country_week.html filter=lfs diff=lfs merge=lfs -text
 snowbound/static/eda/scale/region_month.html filter=lfs diff=lfs merge=lfs -text
 snowbound/static/eda/scale/region_week.html filter=lfs diff=lfs merge=lfs -text
 snowbound/static/eda/scale/resort_month.html filter=lfs diff=lfs merge=lfs -text
+snowbound/static/eda/scale/resort_week.html filter=lfs diff=lfs merge=lfs -text
