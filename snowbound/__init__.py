@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 
 
-load_dotenv('config/.env')
+# load_dotenv('config/.env')
+load_dotenv()
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 
