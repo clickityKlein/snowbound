@@ -4,6 +4,9 @@ import os
 
 model_pages_controls = Blueprint('model_pages_controls', __name__)
 
+'''
+PCA
+'''
 # function to aid in pca page output
 def formulate_pca_output(dataset, dimension):
     # path start
@@ -113,10 +116,59 @@ def load_pca_page():
                            google_final=google_final,
                            data_dim=data_dim)
 
+'''
+CLUSTERING
+'''
+# function to aid in pca page output
+def formulate_clustering_output_kmeans():
+    # path start
+    # adv_path_start = 'snowbound/static/models/clustering/kmeans'
+    img_path_start = '../../static/models/clustering/kmeans'
+    # html_path_start = 'models/clustering/kmeans'
+    
+    # datasets
+    datasets = ['resorts', 'weather', 'google']
+    
+    # silhouette plots
+    sil_cluster_plots = {dataset:[] for dataset in datasets}
+    for cluster in range(2, 11):
+        for dataset in datasets:
+            sil_cluster_plots[dataset].append(os.path.join(img_path_start, f'{dataset}_clusters_{cluster}.png'))
+            
+    # average silhouette scores and elbow plots
+    avg_sil_plots = {dataset: None for dataset in datasets}
+    elbow_plots = {dataset: None for dataset in datasets}
+    for dataset in datasets:
+        avg_sil_plots[dataset] = os.path.join(img_path_start, f'coefficients_{dataset}.png')
+        elbow_plots[dataset] = os.path.join(img_path_start, f'elbow_{dataset}.png')
+    
+    # returns
+    return sil_cluster_plots, avg_sil_plots, elbow_plots
+
 # render clustering model page
 @model_pages_controls.route('/model_pages/model_clustering.html', methods=['GET', 'POST'])
 def load_clustering_page():
-    return render_template('model_pages/model_clustering.html')
+    # final resort data - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/resorts_snippet.csv')
+    resorts_final = df.to_html(classes='table table-striped', index=False)
+    
+    # weather final - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/weather_snippet.csv')
+    weather_final = df.to_html(classes='table table-striped', index=False)
+    
+    # google types final - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/google_places_snippet.csv')
+    google_final = df.to_html(classes='table table-striped', index=False)
+    
+    sil_cluster_plots, avg_sil_plots, elbow_plots = formulate_clustering_output_kmeans()
+    
+    return render_template('model_pages/model_clustering.html',
+                           resorts_final=resorts_final,
+                           weather_final=weather_final,
+                           google_final=google_final,
+                           sil_cluster_plots=sil_cluster_plots,
+                           avg_sil_plots=avg_sil_plots,
+                           elbow_plots=elbow_plots)
 
 # render arm model page
 @model_pages_controls.route('/model_pages/model_arm.html', methods=['GET', 'POST'])

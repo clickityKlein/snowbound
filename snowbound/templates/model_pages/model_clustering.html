@@ -3,4 +3,347 @@
     <div class="container">
         <h1>Modeling - Clustering</h1>
     </div>
+    <br>
+    
+    <div class="container">
+        <h3>Clustering</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Clustering is a method which groups the "closest" values together. This page will analyze results and applications from different clustering methods. 
+            Namely, the following will be explored:
+            
+            <ul>
+                <li>KMeans Clustering</li>
+                <li>Hierarchical Clustering</li>
+                <li>DBSCAN (Density) Clustering</li>
+            </ul>
+            
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>What Data Can Be Used?</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            The data for cluster modeling will be initialized with PCA. Therefore, the data preparation will be identical to the PCA section. 
+            This analysis focuses on the quantitative data of the main datasets used throughout this project:
+            <br>
+            <ul>
+                <li>Ski Resorts Data - Cleaning and Aggregation Process Described <a href='https://snowbound-0fqq.onrender.com/data_pages/ski_resorts_cleaning.html'>Here</a></li>
+                <li>Weather Data - Cleaning and Aggregation Process Described <a href='https://snowbound-0fqq.onrender.com/data_pages/weather_cleaning.html'>Here</a></li>
+                <li>Google Places Data - Cleaning and Aggregation Process Described <a href='https://snowbound-0fqq.onrender.com/data_pages/google_cleaning.html'>Here</a></li>
+            </ul>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Ski Resorts Data - Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Weather Data - Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Google Places Data - Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ google_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Data Preparation</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Each dataset required some alteration in preparation for PCA. Namely, this included subsetting the data to quantitative values and separating the 
+            labels. The labels would be saved for later to compare with the results. Some of the datasets had multiple categorical data 
+            features which could be used as labels depending on the purpose of the analysis. Other columns were simply dropped. Thus, a concise script with which could perform this cleaning, along with 
+            applying the PCA algorithm and analysis of the results was created. This script can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>, and 
+            contains detailed documentation on these functions.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Ski Resort Data - Preparation</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <ul>
+                <li>Quantitative Data Retained:</li>
+                <ul>
+                    <li>Overall Rating</li>
+                    <li>Elevation Difference</li>
+                    <li>Elevation Low</li>
+                    <li>Elevation High</li>
+                    <li>Trails Total</li>
+                    <li>Trails Easy</li>
+                    <li>Trails Intermediate</li>
+                    <li>Trails Difficult</li>
+                    <li>Lifts</li>
+                    <li>Price</li>
+                    <li>Resort Size</li>
+                    <li>Run Variety</li>
+                    <li>Lifts Quality</li>
+                    <li>Latitude</li>
+                    <li>Longitude</li>
+                </ul>
+                <li>Potential Label Columns Set Aside:</li>
+                <ul>
+                    <li>Resort</li>
+                    <li>state_province_territory</li>
+                    <li>Country</li>
+                    <li>City</li>
+                    <li>Pass</li>
+                    <li>Region</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Weather Data - Preparation</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <ul>
+                <li>Quantitative Data Retained:</li>
+                <ul>
+                    <li>tempmax</li>
+                    <li>tempmin</li>
+                    <li>temp</li>
+                    <li>feelslikemax</li>
+                    <li>feelslikemin</li>
+                    <li>feelslike</li>
+                    <li>dew</li>
+                    <li>humidity</li>
+                    <li>precip</li>
+                    <li>snow</li>
+                    <li>snowdepth</li>
+                    <li>windgust</li>
+                    <li>windspeed</li>
+                    <li>winddir</li>
+                    <li>pressure</li>
+                    <li>cloudcover</li>
+                    <li>visibility</li>
+                    <li>solarradiation</li>
+                    <li>solarenergy</li>
+                    <li>uvindex</li>
+                    <li>moonphase</li>
+                    <li>severerisk</li>
+                </ul>
+                <li>Potential Label Columns Set Aside:</li>
+                <ul>
+                    <li>datetime</li>
+                    <li>icon</li>
+                    <li>resort</li>
+                    <li>type_snow</li>
+                    <li>type_rain</li>
+                    <li>type_ice</li>
+                    <li>type_freezingrain</li>
+                    <li>type_none</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Google Places Data - Preparation</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            <ul>
+                <li>Quantitative Data Retained:</li>
+                <ul>
+                    <li>Latitude</li>
+                    <li>Longitude</li>
+                    <li>rating</li>
+                    <li>total_ratings</li>
+                </ul>
+                <li>Potential Label Columns Set Aside:</li>
+                <ul>
+                    <li>Name</li>
+                    <li>Resort</li>
+                    <li>Call Category</li>
+                    <li>Initial Category</li>
+                    <li>Secondary Category</li>
+                    <li>Tertiary Category</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>KMeans Clustering</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            KMeans is one of the more common methods of clustering. There are several different methods to choose an optimal number of clusters to use. 
+            Using both the Silhouette Method and Elbow Method can help confirm this optimal amount. 
+            This script can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>, and 
+            contains detailed documentation on these functions.
+        </p>
+    </div>
+    <br>
+    
+    <!-- KMeans - Resorts -->
+    <div class="container">
+        <h5>KMeans - Resorts</h5>
+        <div style="display: flex; justify-content: space-between;">
+            <figure style="flex: 1; margin-right: 10px;">
+                <img src="{{ avg_sil_plots['resorts'] }}" width="100%">
+            </figure>
+            <figure style="flex: 1; margin-left: 10px;">
+                <img src="{{ elbow_plots['resorts'] }}" width="100%">
+            </figure>
+        </div>
+    <div>
+    <div id="carouselResortsKmeans" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <img src="{{ sil_cluster_plots['resorts'][0] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][1] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][2] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][3] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][4] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][5] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][6] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][7] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['resorts'][8] }}" class="d-block w-75 mx-auto">
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsKmeans" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselResortsKmeans" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <!-- KMeans - Weather -->
+    <div class="container">
+        <h5>KMeans - Weather</h5>
+        <div style="display: flex; justify-content: space-between;">
+            <figure style="flex: 1; margin-right: 10px;">
+                <img src="{{ avg_sil_plots['weather'] }}" width="100%">
+            </figure>
+            <figure style="flex: 1; margin-left: 10px;">
+                <img src="{{ elbow_plots['weather'] }}" width="100%">
+            </figure>
+        </div>
+    <div>
+    <div id="carouselWeatherKmeans" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <img src="{{ sil_cluster_plots['weather'][0] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][1] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][2] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][3] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][4] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][5] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][6] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][7] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][8] }}" class="d-block w-75 mx-auto">
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselWeatherKmeans" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselWeatherKmeans" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <!-- KMeans - Google -->
+    <div class="container">
+        <h5>KMeans - Google</h5>
+        <div style="display: flex; justify-content: space-between;">
+            <figure style="flex: 1; margin-right: 10px;">
+                <img src="{{ avg_sil_plots['google'] }}" width="100%">
+            </figure>
+            <figure style="flex: 1; margin-left: 10px;">
+                <img src="{{ elbow_plots['google'] }}" width="100%">
+            </figure>
+        </div>
+    <div>
+    <div id="carouselGoogleKmeans" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <img src="{{ sil_cluster_plots['weather'][0] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][1] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][2] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][3] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][4] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][5] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][6] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][7] }}" class="d-block w-75 mx-auto">
+        </div>
+        <div class="carousel-item">
+            <img src="{{ sil_cluster_plots['weather'][8] }}" class="d-block w-75 mx-auto">
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselGoogleKmeans" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselGoogleKmeans" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    
 {% endblock %}
