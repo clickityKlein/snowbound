@@ -1,0 +1,17 @@
+antecedents,consequents,antecedent support,consequent support,support,confidence,lift,leverage,conviction,zhangs_metric
+frozenset({'The Martian'}),frozenset({'Die Hard'}),0.4,0.2,0.2,0.5,2.5,0.12,1.6,1.0
+frozenset({'Die Hard'}),frozenset({'The Martian'}),0.2,0.4,0.2,1.0,2.5,0.12,inf,0.7499999999999998
+frozenset({'Inception'}),frozenset({'ET'}),0.3,0.3,0.2,0.6666666666666667,2.2222222222222228,0.11000000000000001,2.1000000000000005,0.7857142857142859
+frozenset({'ET'}),frozenset({'Inception'}),0.3,0.3,0.2,0.6666666666666667,2.2222222222222228,0.11000000000000001,2.1000000000000005,0.7857142857142859
+frozenset({'Toy Story'}),frozenset({'ET'}),0.3,0.3,0.2,0.6666666666666667,2.2222222222222228,0.11000000000000001,2.1000000000000005,0.7857142857142859
+frozenset({'ET'}),frozenset({'Toy Story'}),0.3,0.3,0.2,0.6666666666666667,2.2222222222222228,0.11000000000000001,2.1000000000000005,0.7857142857142859
+frozenset({'Toy Story'}),frozenset({'Inception'}),0.3,0.3,0.3,1.0,3.3333333333333335,0.21,inf,1.0
+frozenset({'Inception'}),frozenset({'Toy Story'}),0.3,0.3,0.3,1.0,3.3333333333333335,0.21,inf,1.0
+frozenset({'The Martian'}),frozenset({'Shawshank Redemption'}),0.4,0.2,0.2,0.5,2.5,0.12,1.6,1.0
+frozenset({'Shawshank Redemption'}),frozenset({'The Martian'}),0.2,0.4,0.2,1.0,2.5,0.12,inf,0.7499999999999998
+"frozenset({'Toy Story', 'Inception'})",frozenset({'ET'}),0.3,0.3,0.2,0.6666666666666667,2.2222222222222228,0.11000000000000001,2.1000000000000005,0.7857142857142859
+"frozenset({'Toy Story', 'ET'})",frozenset({'Inception'}),0.2,0.3,0.2,1.0,3.3333333333333335,0.14,inf,0.8749999999999999
+"frozenset({'Inception', 'ET'})",frozenset({'Toy Story'}),0.2,0.3,0.2,1.0,3.3333333333333335,0.14,inf,0.8749999999999999
+frozenset({'Toy Story'}),"frozenset({'Inception', 'ET'})",0.3,0.2,0.2,0.6666666666666667,3.3333333333333335,0.14,2.400000000000001,1.0000000000000002
+frozenset({'Inception'}),"frozenset({'Toy Story', 'ET'})",0.3,0.2,0.2,0.6666666666666667,3.3333333333333335,0.14,2.400000000000001,1.0000000000000002
+frozenset({'ET'}),"frozenset({'Toy Story', 'Inception'})",0.3,0.3,0.2,0.6666666666666667,2.2222222222222228,0.11000000000000001,2.1000000000000005,0.7857142857142859

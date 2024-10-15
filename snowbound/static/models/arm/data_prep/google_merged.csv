@@ -1,0 +1,11 @@
+types,Call Category,Resort,Country,Pass,Region
+"['bar', 'lodging', 'restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['gym', 'spa', 'lodging', 'restaurant', 'food', 'point_of_interest', 'health', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['meal_takeaway', 'restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['bar', 'restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['bar', 'restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['restaurant', 'food', 'point_of_interest', 'store', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['bar', 'restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West
+"['meal_delivery', 'meal_takeaway', 'restaurant', 'food', 'point_of_interest', 'establishment']",Restaurants,Vail,United States,Epic,West

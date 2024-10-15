@@ -1,0 +1,11 @@
+latitude,longitude,name,rating,types,total_ratings,vicinity,resort,call_category,price_level
+39.63941080000001,-106.3678356,Manor Vail Lodge,4.7,"['bar', 'lodging', 'restaurant', 'food', 'point_of_interest', 'establishment']",370.0,"595 Vail Valley Drive, Vail",Vail,Restaurants,
+39.64157799999999,-106.371678,Gravity Haus Vail,4.4,"['gym', 'spa', 'lodging', 'restaurant', 'food', 'point_of_interest', 'health', 'establishment']",256.0,"352 East Meadow Drive, Vail",Vail,Restaurants,
+39.6426389,-106.3778035,Leonora,4.3,"['restaurant', 'food', 'point_of_interest', 'establishment']",167.0,"16 Vail Road, Vail",Vail,Restaurants,3.0
+39.6389618,-106.3693787,Larkspur Events & Dining,4.5,"['restaurant', 'food', 'point_of_interest', 'establishment']",198.0,"458 Vail Valley Drive, Vail",Vail,Restaurants,3.0
+39.63037000000001,-106.418694,Subway,2.7,"['meal_takeaway', 'restaurant', 'food', 'point_of_interest', 'establishment']",105.0,"2161 North Frontage Road West #11-12, Vail",Vail,Restaurants,1.0
+39.6408609,-106.3746646,Sweet Basil,4.4,"['bar', 'restaurant', 'food', 'point_of_interest', 'establishment']",838.0,"193 Gore Creek Drive, Vail",Vail,Restaurants,3.0
+39.6402275,-106.3743814,Elway's,4.3,"['bar', 'restaurant', 'food', 'point_of_interest', 'establishment']",385.0,"Located Upstairs in The Lodge at Vail, 174 Gore Creek Drive, Vail",Vail,Restaurants,4.0
+39.6439143,-106.3900881,The Little Diner,4.7,"['restaurant', 'food', 'point_of_interest', 'store', 'establishment']",1390.0,"616 West Lionshead Circle, Vail",Vail,Restaurants,2.0
+39.6402477,-106.3733325,Red Lion,3.9,"['bar', 'restaurant', 'food', 'point_of_interest', 'establishment']",740.0,"304 Bridge Street St.1, Vail",Vail,Restaurants,2.0
+39.64148999999999,-106.3974714,Chicago Pizza,3.9,"['meal_delivery', 'meal_takeaway', 'restaurant', 'food', 'point_of_interest', 'establishment']",216.0,"1031 South Frontage Road West, Vail",Vail,Restaurants,1.0

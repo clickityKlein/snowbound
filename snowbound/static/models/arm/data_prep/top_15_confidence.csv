@@ -1,0 +1,16 @@
+antecedents,consequents,antecedent support,consequent support,support,confidence,lift,leverage,conviction,zhangs_metric
+"frozenset({'establishment', 'point_of_interest', 'store', 'supermarket'})",frozenset({'grocery_or_supermarket'}),0.026148690360702,0.0431695916747508,0.026148690360702,1.0,23.164453524004085,0.025019862075001,inf,0.9825220738057504
+"frozenset({'food', 'convenience_store', 'drugstore'})",frozenset({'health'}),0.011376664608872,0.2087044712937648,0.011376664608872,1.0,4.791464187618846,0.0090023038365909,inf,0.8004014272970563
+"frozenset({'food', 'convenience_store', 'drugstore'})",frozenset({'establishment'}),0.011376664608872,1.0,0.011376664608872,1.0,1.0,0.0,inf,0.0
+"frozenset({'finance', 'food', 'store'})","frozenset({'establishment', 'point_of_interest'})",0.0126113413881294,1.0,0.0126113413881294,1.0,1.0,0.0,inf,0.0
+"frozenset({'convenience_store', 'drugstore'})","frozenset({'establishment', 'food'})",0.011376664608872,0.3715054237587089,0.011376664608872,1.0,2.691750741839763,0.0071501720023923,inf,0.6357270294380017
+"frozenset({'finance', 'food', 'point_of_interest', 'store'})",frozenset({'establishment'}),0.0126113413881294,1.0,0.0126113413881294,1.0,1.0,0.0,inf,0.0
+"frozenset({'finance', 'food', 'store', 'establishment'})",frozenset({'point_of_interest'}),0.0126113413881294,1.0,0.0126113413881294,1.0,1.0,0.0,inf,0.0
+"frozenset({'establishment', 'convenience_store', 'drugstore'})",frozenset({'health'}),0.011376664608872,0.2087044712937648,0.011376664608872,1.0,4.791464187618846,0.0090023038365909,inf,0.8004014272970563
+"frozenset({'convenience_store', 'drugstore', 'health'})",frozenset({'establishment'}),0.011376664608872,1.0,0.011376664608872,1.0,1.0,0.0,inf,0.0
+"frozenset({'convenience_store', 'drugstore'})","frozenset({'establishment', 'health'})",0.011376664608872,0.2087044712937648,0.011376664608872,1.0,4.791464187618846,0.0090023038365909,inf,0.8004014272970563
+"frozenset({'drugstore', 'pharmacy'})","frozenset({'point_of_interest', 'store', 'health'})",0.0114648558073904,0.0378781197636475,0.0114648558073904,1.0,26.40046565774156,0.0110305886260451,inf,0.9732803996788296
+"frozenset({'establishment', 'convenience_store', 'drugstore'})",frozenset({'point_of_interest'}),0.011376664608872,1.0,0.011376664608872,1.0,1.0,0.0,inf,0.0
+"frozenset({'convenience_store', 'point_of_interest', 'drugstore'})",frozenset({'establishment'}),0.011376664608872,1.0,0.011376664608872,1.0,1.0,0.0,inf,0.0
+"frozenset({'point_of_interest', 'drugstore', 'pharmacy'})","frozenset({'store', 'health'})",0.0114648558073904,0.0378781197636475,0.0114648558073904,1.0,26.40046565774156,0.0110305886260451,inf,0.9732803996788296
+"frozenset({'store', 'drugstore', 'pharmacy'})","frozenset({'point_of_interest', 'health'})",0.0114648558073904,0.2087044712937648,0.0114648558073904,1.0,4.791464187618846,0.0090720891376497,inf,0.8004728343295566

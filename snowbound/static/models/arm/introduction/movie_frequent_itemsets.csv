@@ -1,0 +1,19 @@
+support,itemsets
+0.2,frozenset({'Beerfest'})
+0.2,frozenset({'Click'})
+0.2,frozenset({'Die Hard'})
+0.3,frozenset({'ET'})
+0.3,frozenset({'Inception'})
+0.2,frozenset({'Interstellar'})
+0.3,frozenset({'Scarface'})
+0.2,frozenset({'Shawshank Redemption'})
+0.4,frozenset({'The Martian'})
+0.2,frozenset({'The Matrix'})
+0.3,frozenset({'Toy Story'})
+0.2,frozenset({'Up'})
+0.2,"frozenset({'The Martian', 'Die Hard'})"
+0.2,"frozenset({'Inception', 'ET'})"
+0.2,"frozenset({'Toy Story', 'ET'})"
+0.3,"frozenset({'Toy Story', 'Inception'})"
+0.2,"frozenset({'The Martian', 'Shawshank Redemption'})"
+0.2,"frozenset({'Toy Story', 'Inception', 'ET'})"

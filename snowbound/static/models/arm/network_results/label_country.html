@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#3182bd", "id": "united states", "label": "united states", "shape": "dot", "size": 50, "title": "Node: united states\nCount: 447\nAverage Confidence: 0.06\nAverage Lift: 1.09"}, {"color": "#3182bd", "id": "atm", "label": "atm", "shape": "dot", "size": 10, "title": "Node: atm\nCount: 16\nAverage Confidence: 0.02\nAverage Lift: 1.35"}, {"color": "#3182bd", "id": "bakery", "label": "bakery", "shape": "dot", "size": 10, "title": "Node: bakery\nCount: 16\nAverage Confidence: 0.02\nAverage Lift: 0.92"}, {"color": "#d9d9d9", "id": "canada", "label": "canada", "shape": "dot", "size": 50, "title": "Node: canada\nCount: 279\nAverage Confidence: 0.08\nAverage Lift: 1.06"}, {"color": "#d9d9d9", "id": "bar", "label": "bar", "shape": "dot", "size": 30, "title": "Node: bar\nCount: 32\nAverage Confidence: 0.09\nAverage Lift: 0.97"}, {"color": "#d9d9d9", "id": "beauty_salon", "label": "beauty_salon", "shape": "dot", "size": 10, "title": "Node: beauty_salon\nCount: 16\nAverage Confidence: 0.03\nAverage Lift: 0.99"}, {"color": "#d9d9d9", "id": "cafe", "label": "cafe", "shape": "dot", "size": 30, "title": "Node: cafe\nCount: 64\nAverage Confidence: 0.03\nAverage Lift: 1.06"}, {"color": "#3182bd", "id": "campground", "label": "campground", "shape": "dot", "size": 10, "title": "Node: campground\nCount: 16\nAverage Confidence: 0.03\nAverage Lift: 1.11"}, {"color": "#3182bd", "id": "clothing_store", "label": "clothing_store", "shape": "dot", "size": 20, "title": "Node: clothing_store\nCount: 24\nAverage Confidence: 0.09\nAverage Lift: 1.07"}, {"color": "#3182bd", "id": "convenience_store", "label": "convenience_store", "shape": "dot", "size": 50, "title": "Node: convenience_store\nCount: 112\nAverage Confidence: 0.04\nAverage Lift: 1.20"}, {"color": "#d9d9d9", "id": "department_store", "label": "department_store", "shape": "dot", "size": 10, "title": "Node: department_store\nCount: 8\nAverage Confidence: 0.03\nAverage Lift: 1.54"}, {"color": "#d9d9d9", "id": "doctor", "label": "doctor", "shape": "dot", "size": 10, "title": "Node: doctor\nCount: 16\nAverage Confidence: 0.11\nAverage Lift: 0.95"}, {"color": "#3182bd", "id": "establishment", "label": "establishment", "shape": "dot", "size": 50, "title": "Node: establishment\nCount: 364\nAverage Confidence: 0.07\nAverage Lift: 1.08"}, {"color": "#3182bd", "id": "food", "label": "food", "shape": "dot", "size": 50, "title": "Node: food\nCount: 280\nAverage Confidence: 0.05\nAverage Lift: 1.10"}, {"color": "#d9d9d9", "id": "gas_station", "label": "gas_station", "shape": "dot", "size": 30, "title": "Node: gas_station\nCount: 64\nAverage Confidence: 0.04\nAverage Lift: 0.98"}, {"color": "#d9d9d9", "id": "grocery_or_supermarket", "label": "grocery_or_supermarket", "shape": "dot", "size": 30, "title": "Node: grocery_or_supermarket\nCount: 64\nAverage Confidence: 0.04\nAverage Lift: 1.03"}, {"color": "#3182bd", "id": "health", "label": "health", "shape": "dot", "size": 40, "title": "Node: health\nCount: 96\nAverage Confidence: 0.05\nAverage Lift: 1.22"}, {"color": "#d9d9d9", "id": "hospital", "label": "hospital", "shape": "dot", "size": 10, "title": "Node: hospital\nCount: 16\nAverage Confidence: 0.03\nAverage Lift: 1.01"}, {"color": "#d9d9d9", "id": "liquor_store", "label": "liquor_store", "shape": "dot", "size": 30, "title": "Node: liquor_store\nCount: 32\nAverage Confidence: 0.04\nAverage Lift: 0.99"}, {"color": "#3182bd", "id": "lodging", "label": "lodging", "shape": "dot", "size": 20, "title": "Node: lodging\nCount: 24\nAverage Confidence: 0.10\nAverage Lift: 1.03"}, {"color": "#d9d9d9", "id": "meal_takeaway", "label": "meal_takeaway", "shape": "dot", "size": 30, "title": "Node: meal_takeaway\nCount: 32\nAverage Confidence: 0.03\nAverage Lift: 1.00"}, {"color": "#3182bd", "id": "park", "label": "park", "shape": "dot", "size": 20, "title": "Node: park\nCount: 24\nAverage Confidence: 0.03\nAverage Lift: 1.02"}, {"color": "#3182bd", "id": "point_of_interest", "label": "point_of_interest", "shape": "dot", "size": 50, "title": "Node: point_of_interest\nCount: 364\nAverage Confidence: 0.07\nAverage Lift: 1.08"}, {"color": "#d9d9d9", "id": "restaurant", "label": "restaurant", "shape": "dot", "size": 40, "title": "Node: restaurant\nCount: 96\nAverage Confidence: 0.08\nAverage Lift: 1.02"}, {"color": "#d9d9d9", "id": "shopping_mall", "label": "shopping_mall", "shape": "dot", "size": 10, "title": "Node: shopping_mall\nCount: 8\nAverage Confidence: 0.03\nAverage Lift: 1.03"}, {"color": "#d9d9d9", "id": "spa", "label": "spa", "shape": "dot", "size": 20, "title": "Node: spa\nCount: 24\nAverage Confidence: 0.05\nAverage Lift: 0.99"}, {"color": "#3182bd", "id": "store", "label": "store", "shape": "dot", "size": 50, "title": "Node: store\nCount: 272\nAverage Confidence: 0.05\nAverage Lift: 1.10"}, {"color": "#d9d9d9", "id": "supermarket", "label": "supermarket", "shape": "dot", "size": 30, "title": "Node: supermarket\nCount: 64\nAverage Confidence: 0.03\nAverage Lift: 1.04"}, {"color": "#3182bd", "id": "drugstore", "label": "drugstore", "shape": "dot", "size": 30, "title": "Node: drugstore\nCount: 64\nAverage Confidence: 0.02\nAverage Lift: 1.35"}, {"color": "#3182bd", "id": "finance", "label": "finance", "shape": "dot", "size": 20, "title": "Node: finance\nCount: 24\nAverage Confidence: 0.02\nAverage Lift: 1.34"}, {"color": "#3182bd", "id": "hair_care", "label": "hair_care", "shape": "dot", "size": 10, "title": "Node: hair_care\nCount: 4\nAverage Confidence: 0.02\nAverage Lift: 0.94"}, {"color": "#3182bd", "id": "home_goods_store", "label": "home_goods_store", "shape": "dot", "size": 10, "title": "Node: home_goods_store\nCount: 8\nAverage Confidence: 0.02\nAverage Lift: 1.05"}, {"color": "#3182bd", "id": "real_estate_agency", "label": "real_estate_agency", "shape": "dot", "size": 10, "title": "Node: real_estate_agency\nCount: 4\nAverage Confidence: 0.02\nAverage Lift: 1.27"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "united states", "to": "atm", "weight": 0.5379959650302623}, {"arrows": "to", "from": "united states", "to": "bakery", "weight": 0.5379959650302623}, {"arrows": "to", "from": "united states", "to": "bar", "weight": 1.0759919300605245}, {"arrows": "to", "from": "united states", "to": "beauty_salon", "weight": 0.5379959650302623}, {"arrows": "to", "from": "united states", "to": "cafe", "weight": 2.151983860121049}, {"arrows": "to", "from": "united states", "to": "campground", "weight": 0.5379959650302623}, {"arrows": "to", "from": "united states", "to": "clothing_store", "weight": 0.8069939475453934}, {"arrows": "to", "from": "united states", "to": "convenience_store", "weight": 3.765971755211836}, {"arrows": "to", "from": "united states", "to": "doctor", "weight": 0.5379959650302623}, {"arrows": "to", "from": "united states", "to": "drugstore", "weight": 2.151983860121049}, {"arrows": "to", "from": "united states", "to": "establishment", "weight": 12.239408204438467}, {"arrows": "to", "from": "united states", "to": "finance", "weight": 0.8069939475453934}, {"arrows": "to", "from": "united states", "to": "food", "weight": 9.41492938802959}, {"arrows": "to", "from": "united states", "to": "gas_station", "weight": 2.151983860121049}, {"arrows": "to", "from": "united states", "to": "grocery_or_supermarket", "weight": 2.151983860121049}, {"arrows": "to", "from": "united states", "to": "hair_care", "weight": 0.13449899125756556}, {"arrows": "to", "from": "united states", "to": "health", "weight": 3.2279757901815738}, {"arrows": "to", "from": "united states", "to": "home_goods_store", "weight": 0.26899798251513113}, {"arrows": "to", "from": "united states", "to": "hospital", "weight": 0.5379959650302623}, {"arrows": "to", "from": "united states", "to": "liquor_store", "weight": 1.0759919300605245}, {"arrows": "to", "from": "united states", "to": "lodging", "weight": 0.8069939475453934}, {"arrows": "to", "from": "united states", "to": "meal_takeaway", "weight": 1.0759919300605245}, {"arrows": "to", "from": "united states", "to": "park", "weight": 0.8069939475453934}, {"arrows": "to", "from": "united states", "to": "point_of_interest", "weight": 12.239408204438467}, {"arrows": "to", "from": "united states", "to": "real_estate_agency", "weight": 0.13449899125756556}, {"arrows": "to", "from": "united states", "to": "restaurant", "weight": 3.2279757901815738}, {"arrows": "to", "from": "united states", "to": "shopping_mall", "weight": 0.26899798251513113}, {"arrows": "to", "from": "united states", "to": "spa", "weight": 0.8069939475453934}, {"arrows": "to", "from": "united states", "to": "store", "weight": 9.145931405514458}, {"arrows": "to", "from": "united states", "to": "supermarket", "weight": 2.151983860121049}, {"arrows": "to", "from": "canada", "to": "bar", "weight": 1.0759919300605245}, {"arrows": "to", "from": "canada", "to": "beauty_salon", "weight": 0.5379959650302623}, {"arrows": "to", "from": "canada", "to": "cafe", "weight": 2.151983860121049}, {"arrows": "to", "from": "canada", "to": "clothing_store", "weight": 0.8069939475453934}, {"arrows": "to", "from": "canada", "to": "convenience_store", "weight": 3.765971755211836}, {"arrows": "to", "from": "canada", "to": "department_store", "weight": 0.26899798251513113}, {"arrows": "to", "from": "canada", "to": "doctor", "weight": 0.5379959650302623}, {"arrows": "to", "from": "canada", "to": "establishment", "weight": 12.239408204438467}, {"arrows": "to", "from": "canada", "to": "food", "weight": 9.41492938802959}, {"arrows": "to", "from": "canada", "to": "gas_station", "weight": 2.151983860121049}, {"arrows": "to", "from": "canada", "to": "grocery_or_supermarket", "weight": 2.151983860121049}, {"arrows": "to", "from": "canada", "to": "health", "weight": 3.2279757901815738}, {"arrows": "to", "from": "canada", "to": "hospital", "weight": 0.5379959650302623}, {"arrows": "to", "from": "canada", "to": "liquor_store", "weight": 1.0759919300605245}, {"arrows": "to", "from": "canada", "to": "lodging", "weight": 0.8069939475453934}, {"arrows": "to", "from": "canada", "to": "meal_takeaway", "weight": 1.0759919300605245}, {"arrows": "to", "from": "canada", "to": "park", "weight": 0.8069939475453934}, {"arrows": "to", "from": "canada", "to": "point_of_interest", "weight": 12.239408204438467}, {"arrows": "to", "from": "canada", "to": "restaurant", "weight": 3.2279757901815738}, {"arrows": "to", "from": "canada", "to": "shopping_mall", "weight": 0.26899798251513113}, {"arrows": "to", "from": "canada", "to": "spa", "weight": 0.8069939475453934}, {"arrows": "to", "from": "canada", "to": "store", "weight": 9.145931405514458}, {"arrows": "to", "from": "canada", "to": "supermarket", "weight": 2.151983860121049}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

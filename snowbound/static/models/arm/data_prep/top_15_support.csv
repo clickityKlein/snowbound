@@ -1,0 +1,16 @@
+antecedents,consequents,antecedent support,consequent support,support,confidence,lift,leverage,conviction,zhangs_metric
+frozenset({'point_of_interest'}),frozenset({'establishment'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'establishment'}),frozenset({'point_of_interest'}),1.0,1.0,1.0,1.0,1.0,0.0,inf,0.0
+frozenset({'point_of_interest'}),frozenset({'food'}),1.0,0.3715054237587089,0.3715054237587089,0.3715054237587089,1.0,0.0,1.0,0.0
+frozenset({'food'}),"frozenset({'establishment', 'point_of_interest'})",0.3715054237587089,1.0,0.3715054237587089,1.0,1.0,0.0,inf,0.0
+frozenset({'establishment'}),"frozenset({'food', 'point_of_interest'})",1.0,0.3715054237587089,0.3715054237587089,0.3715054237587089,1.0,0.0,1.0,0.0
+frozenset({'point_of_interest'}),"frozenset({'establishment', 'food'})",1.0,0.3715054237587089,0.3715054237587089,0.3715054237587089,1.0,0.0,1.0,0.0
+"frozenset({'establishment', 'point_of_interest'})",frozenset({'food'}),1.0,0.3715054237587089,0.3715054237587089,0.3715054237587089,1.0,0.0,1.0,0.0
+"frozenset({'food', 'point_of_interest'})",frozenset({'establishment'}),0.3715054237587089,1.0,0.3715054237587089,1.0,1.0,0.0,inf,0.0
+"frozenset({'establishment', 'food'})",frozenset({'point_of_interest'}),0.3715054237587089,1.0,0.3715054237587089,1.0,1.0,0.0,inf,0.0
+frozenset({'food'}),frozenset({'establishment'}),0.3715054237587089,1.0,0.3715054237587089,1.0,1.0,0.0,inf,0.0
+frozenset({'establishment'}),frozenset({'food'}),1.0,0.3715054237587089,0.3715054237587089,0.3715054237587089,1.0,0.0,1.0,0.0
+frozenset({'food'}),frozenset({'point_of_interest'}),0.3715054237587089,1.0,0.3715054237587089,1.0,1.0,0.0,inf,0.0
+"frozenset({'point_of_interest', 'store'})",frozenset({'establishment'}),0.3312461416350648,1.0,0.3312461416350648,1.0,1.0,0.0,inf,0.0
+frozenset({'establishment'}),frozenset({'store'}),1.0,0.3312461416350648,0.3312461416350648,0.3312461416350648,1.0,0.0,1.0,0.0
+frozenset({'store'}),"frozenset({'establishment', 'point_of_interest'})",0.3312461416350648,1.0,0.3312461416350648,1.0,1.0,0.0,inf,0.0
