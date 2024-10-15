@@ -179,9 +179,52 @@
     <br>
     
     <div class="container">
+        <h4>Ski Resorts Data - PCA Projection Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ pca_snippets[0] | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            <strong>The three-dimensional PCA for the resorts data retains 85.63% of information from the orginal features.</strong>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Weather Data - PCA Projection Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ pca_snippets[1] | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            <strong>The three-dimensional PCA for the weather data retains 59.95% of information from the orginal features.</strong>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Google Places Data - PCA Projection Snippet</h4>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ pca_snippets[2] | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            <strong>The three-dimensional PCA for the resorts data retains 83.12% of information from the orginal features.</strong>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
         <h3>KMeans Clustering</h3>
         <p style="font-size: 20px; text-align: justify;">
-            KMeans is one of the more common methods of clustering. There are several different methods to choose an optimal number of clusters to use. 
+            KMeans is one of the more common methods of clustering. The goal is to partition a dataset into a specified number of clusters, where each point 
+            belong to the cluster with the nearest mean. It is an unsupervised method which works to accomplish this goal by minimizing the sum of square distances between centroids. 
+            Distance and "closeness" will be evaluated via Euclidean Distance throughout this method and the other clustering methods. When choosing centroids, 
+            k randomly selected points are used as the initial centroids. Data points are assigned to the nearest centroid, forming k-clusters, with the mean updated for the points in each 
+            cluster. This is repeated until centroids no longer have signficant changes or a maximum number of iterations is reached.
+            
+            <br><br>
+            There are several different methods to choose an optimal number of clusters to use. 
             Using both the Silhouette Method and Elbow Method can help confirm this optimal amount. 
             This script can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>, and 
             contains detailed documentation on these functions.
@@ -200,35 +243,37 @@
                 <img src="{{ elbow_plots['resorts'] }}" width="100%">
             </figure>
         </div>
-    <div>
+    </div>
+    
     <div id="carouselResortsKmeans" class="carousel carousel-dark slide">
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="{{ sil_cluster_plots['resorts'][0] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][1] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][2] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][3] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][4] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][5] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][6] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][7] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['resorts'][8] }}" class="d-block w-75 mx-auto">
+                <img src="{{ sil_cluster_plots['resorts'][0] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][1] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][2] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][3] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][4] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][5] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][6] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][7] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['resorts'][8] }}" class="d-block w-75 mx-auto">
+            </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsKmeans" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -238,6 +283,40 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+    </div>
+
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            <strong>2, 3, and 10</strong> clusters are decent choices for the optimal number of clusters for the Resorts data, with <strong>3</strong> showing strong potential to be the most optimal.
+            <ul>
+                <li>k=2 Clusters
+                    <ul>
+                        <li>Silhouette Method: 2 has the highest average silhouette score, with each cluster having datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: 2 isn't in a definitive elbow point, and likely wouldn't be recommended if only using this method.</li>
+                    </ul>
+                </li>
+                <li>k=3 Clusters
+                    <ul>
+                        <li>Silhouette Method: 3 has a relatively high average silhouette score, excluding 2, with each cluster having datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: 3 is a definitive elbow point, although it is a local elbow point with relatively high WCSS, it could be recommended using this method.</li>
+                    </ul>
+                </li>
+                <li>k=10 Clusters
+                    <ul>
+                        <li>Silhouette Method: 10 has a relatively high average silhouette score, excluding 2, with each cluster having datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: Although 10 is past the second elbow point, it does have the expectedly lowest WCSS. If there were more cluster groups considered, it could be possible that this is leading into another elbow point.</li>
+                    </ul>
+                </li>
+                <li>Further Considerations
+                    <ul>
+                        <li>k=5 Clusters has a decent average silhouette score, excluding 2, however one of the cluster's data has silhouette coefficients which do not meet the silhouette average score.</li>
+                        <li>k=5, 6, and 7 Clusters would likely be the strongest choices of clusters if strictly using the elbow method. However, as describe above, 5 clusters isn't a good choice due to the silhouette coefficients of one of its clusters, and 6 and 7 have the lowest silhouette averages of the tested clusters.</li>
+                        <li>k=8 Clusters would also be a decent option. This reduces computational overhead compared to k=10 Clusters, but the average silhouette score is lower than 2, 3, and 10.</li>
+                    </ul>
+                </li>
+            </ul>
+        </p>
     </div>
     <br>
     
@@ -252,35 +331,37 @@
                 <img src="{{ elbow_plots['weather'] }}" width="100%">
             </figure>
         </div>
-    <div>
+    </div>
+    
     <div id="carouselWeatherKmeans" class="carousel carousel-dark slide">
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="{{ sil_cluster_plots['weather'][0] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][1] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][2] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][3] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][4] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][5] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][6] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][7] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][8] }}" class="d-block w-75 mx-auto">
+                <img src="{{ sil_cluster_plots['weather'][0] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][1] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][2] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][3] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][4] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][5] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][6] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][7] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['weather'][8] }}" class="d-block w-75 mx-auto">
+            </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselWeatherKmeans" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -290,6 +371,42 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+    </div>
+    
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            <strong>2, 3, and 5</strong> clusters are decent choices for the optimal number of clusters for the Weather data, with <strong>3 and 5</strong> showing strong potential to be the most optimal.
+            <ul>
+                <li>k=2 Clusters
+                    <ul>
+                        <li>Silhouette Method: 2 has the highest average silhouette score, with each cluster having datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: 2 isn't in a definitive elbow point, and likely wouldn't be recommended if only using this method.</li>
+                    </ul>
+                </li>
+                <li>k=3 Clusters
+                    <ul>
+                        <li>Silhouette Method: 3 has a relatively high average silhouette score, excluding 2, with each cluster having datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: 3 is a definitive elbow point, although it is a local elbow point with relatively high WCSS, it could be recommended using this method.</li>
+                    </ul>
+                </li>
+                <li>k=5 Clusters
+                    <ul>
+                        <li>Silhouette Method: 5 has a relatively high average silhouette score, excluding 2, with each cluster having datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: 5 is a definitive elbow point, and would likely be the suggested number of clusters if strictly using this method.</li>
+                    </ul>
+                </li>
+                <li>Further Considerations
+                    <ul>
+                        <li>k=2, 3, and 5 have the highest average silhouette scores.</li>
+                        <li>All clusters tested have datapoints in which every cluster has datapoints with silhouette coefficents surpassing the average silhouette score.</li>
+                        <li>All clusters tested have a relatively uniform distribution of datapoints across clusters, indicated by the size of the silhouette coefficients.</li>
+                        <li>Although the silhouette averages and coefficients indicate decent choices for number of clusters, the scores for k=6, 8, 9, and 10 have relatively low average silhouette scores, which taper down even moreso after 7.</li>
+                        <li>k=7 Clusters could be another choice, even being an elbow point in the Elbow Chart. However, the chosen 3 cluster numbers have better relative average silhouette scores.</li>
+                    </ul>
+                </li>
+            </ul>
+        </p>
     </div>
     <br>
     
@@ -304,35 +421,37 @@
                 <img src="{{ elbow_plots['google'] }}" width="100%">
             </figure>
         </div>
-    <div>
+    </div>
+    
     <div id="carouselGoogleKmeans" class="carousel carousel-dark slide">
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="{{ sil_cluster_plots['weather'][0] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][1] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][2] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][3] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][4] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][5] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][6] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][7] }}" class="d-block w-75 mx-auto">
-        </div>
-        <div class="carousel-item">
-            <img src="{{ sil_cluster_plots['weather'][8] }}" class="d-block w-75 mx-auto">
+                <img src="{{ sil_cluster_plots['google'][0] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][1] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][2] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][3] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][4] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][5] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][6] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][7] }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ sil_cluster_plots['google'][8] }}" class="d-block w-75 mx-auto">
+            </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselGoogleKmeans" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -343,7 +462,742 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+    
+    <br>
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            <strong>4, 5 and 6</strong> clusters are decent choices for the optimal number of clusters for the Google data, with <strong>5 and 6</strong> showing strong potential to be the most optimal.
+            <ul>
+                <li>k=4 Clusters
+                    <ul>
+                        <li>Silhouette Method: Although 3 clusters has a higher average silhouette score, 4 is still among the highest average silhouette scores. Each cluster has datapoints with silhouette coefficients surpassing the silhouette average.</li>
+                        <li>Elbow Method: Cluster choices of 4, 5, and 6 are optimal choices according to this method.</li>
+                    </ul>
+                </li>
+                <li>k=5 Clusters
+                    <ul>
+                        <li>Silhouette Method: 5 clusters has the second highest average silhouette scores. One of the clusters with a small proportion of datapoints doesn't have silhouette coefficients which surpass the silhouette average, but that could be due to the proportion of data clustered into that group on an otherwise clustering with a high average.</li>
+                        <li>Elbow Method: Cluster choices of 4, 5, and 6 are optimal choices according to this method.</li>
+                    </ul>
+                </li>
+                <li>k=6 Clusters
+                    <ul>
+                        <li>Silhouette Method: 6 clusters has the highest average silhouette scores. One of the clusters with a small proportion of datapoints doesn't have silhouette coefficients which surpass the silhouette average, but that could be due to the proportion of data clustered into that group on an otherwise clustering with a high average.</li>
+                        <li>Elbow Method: Cluster choices of 4, 5, and 6 are optimal choices according to this method.</li>
+                    </ul>
+                </li>
+                <li>Further Considerations
+                    <ul>
+                        <li>Although k=3 Clusters has the third highest average silhouette score, using k=4 Clusters (fourth highest average silhouette score) was further validated via the elbow method.</li>
+                        <li>All clusters tested have datapoints in which every cluster has datapoints with silhouette coefficents surpassing the average silhouette score.</li>
+                        <li>All clusters tested have a relatively uniform distribution of datapoints across clusters, indicated by the size of the silhouette coefficients.</li>
+                        <li>Although the silhouette averages and coefficients indicate decent choices for number of clusters, the scores for k=8, 9, and 10 have significantly lower average silhouette scores than the rest of the cluster choices. Additionally, they aren't quite supported by the elbow method.</li>
+                    </ul>
+                </li>
+            </ul>
+        </p>
+    </div>
+    <br>
+
+    <div class="container">
+        <h4>KMeans Visualization - Resorts</h4>
+        <p style="font-size: 20px; text-align: justify;">
+            For the Resorts data, clustering was performed for the following combinations of clusters and labels:
+            <ul>
+                <li>Clusters
+                    <ul>
+                        <li>2 Clusters</li>
+                        <li>3 Clusters</li>
+                        <li>10 Clusters</li>
+                    </ul>
+                </li>
+                <li>Labels
+                    <ul>
+                        <li>Country: United States and Canada</li>
+                        <li>Pass: type of ski pass associated with the businesses near a given ski resort</li>
+                        <li>Region: 10 different spatial boundaries across North America</li>
+                    </ul>
+                </li>
+            </ul>
+            For each combination, the legend features are toggleable.
+        </p>
+    </div>
     <br>
     
+    <div id="carouselResortsCentroids" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(plotting_pathways['Resorts'] | length) %}
+            {% set resort_src = plotting_pathways['Resorts'][plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ plotting_titles['Resorts'][plot] | safe }}
+                    </div>
+                    
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=resort_src) }}" width="100%" height="500px" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=resort_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsCentroids" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselResortsCentroids" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
     
+    <div class="container">
+        <h4>KMeans Visualization - Weather</h4>
+        <p style="font-size: 20px; text-align: justify;">
+            For the Weather data, clustering was performed for the following combinations of clusters and labels:
+            <ul>
+                <li>Clusters
+                    <ul>
+                        <li>2 Clusters</li>
+                        <li>3 Clusters</li>
+                        <li>5 Clusters</li>
+                    </ul>
+                </li>
+                <li>Labels
+                    <ul>
+                        <li>Icon: weather type for a given time period returned by the weather API</li>
+                        <li>Month: illustrate how the clusters evolve over months via average monthly aggregation</li>
+                    </ul>
+                </li>
+            </ul>
+            Note that a subset of the Weather data was used for illustrative purposes.
+            <br>
+            For each combination, the legend features are toggleable.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselWeatherCentroids" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(plotting_pathways['Weather'] | length) %}
+            {% set resort_src = plotting_pathways['Weather'][plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ plotting_titles['Weather'][plot] | safe }}
+                    </div>
+                    
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=resort_src) }}" width="100%" height="500px" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=resort_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselWeatherCentroids" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselWeatherCentroids" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>KMeans Visualization - Google</h4>
+        <p style="font-size: 20px; text-align: justify;">
+            For the Google data, clustering was performed for the following combinations of clusters and labels:
+            <ul>
+                <li>Clusters
+                    <ul>
+                        <li>4 Clusters</li>
+                        <li>5 Clusters</li>
+                        <li>6 Clusters</li>
+                    </ul>
+                </li>
+                <li>Labels
+                    <ul>
+                        <li>Call Category: the business type that was passed to the Google Places API</li>
+                        <li>Country: United States and Canada</li>
+                        <li>Pass: type of ski pass associated with the businesses near a given ski resort</li>
+                        <li>Region: 10 different spatial boundaries across North America</li>
+                    </ul>
+                </li>
+            </ul>
+            Note that a subset of the Google data was used for illustrative purposes.
+            <br>
+            For each combination, the legend features are toggleable.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselGoogleCentroids" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(plotting_pathways['Google'] | length) %}
+            {% set resort_src = plotting_pathways['Google'][plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ plotting_titles['Google'][plot] | safe }}
+                    </div>
+                    
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=resort_src) }}" width="100%" height="500px" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=resort_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselGoogleCentroids" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselGoogleCentroids" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>KMeans Clustering Results and Discussion</h4>
+        <p style="font-size: 20px; text-align: justify;">
+        
+        </p>
+    </div>
+    <br>
+    
+    <!-- START HIERARCHICAL CLUSTERING -->
+    <div class="container">
+        <h3>Hierarchical Clustering</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Hierarchical Clustering determines cluster assignments by building a hierarchy, either bottom-up (agglomerative) or top-down (divisive), and produces 
+            a tree-based hierarchy of points called a dendrogram. 
+            
+            There are two main types of hierarchical clustering:
+            <ul>
+                <li>
+                    Agglomerative (agnes)
+                    <ul>
+                        <li>bottom-up</li>
+                        <li>starts with the points as individual clusters (i.e. each observation is initially considered as single-element cluster)</li>
+                        <li>at each step, merge the closest pair of clusters until only one cluster (or specified k clusters) left</li>
+                    </ul>
+                </li>
+                <li>
+                    Divisive (diana)
+                    <ul>
+                        <li>top-down</li>
+                        <li>starts with one, all-inclusive clsuter (i.e. every observation in a single cluster)</li>
+                        <li>at each step, split a cluster until each clsuter contains a point (or specified k clusters) left</li>
+                    </ul>
+                </li>
+            </ul>
+            Although some methods can take in a specified number of clusters, the strength of Hierarchical Clustering is in its ability to produce a visual tree known as a dendrogram, which is somewhat
+            agnostic of this criteria, in an effort to visually compare similarities via distances.
+            <br><br>
+            
+            The common machine learning libraries which allow for hierarchical clustering mostly use agglomerative clustering (bottom-up). Scikit-Learn has a module for this, <code>sklearn.cluster.AgglomerativeClustering</code>, however, this mainly relies on 
+            a specified number of clusters input. A more common approach in analysis of this sort is to use <code>scip.cluster.hierarchy</code> with <code>dendrogram</code> and <code>linkage</code>. This particular analysis will feature SciPy's libraries and modules.
+            <br><br>
+            
+            Functions were created and then applied to create and analyze agglomerative dendrograms.
+            <br><br>
+            
+            The functions script can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>, and 
+            contains detailed documentation.
+            <br><br>
+            
+            The applications of the functions can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>.
+            <br><br>
+            
+            Note that the same three-dimensional PCA space projected data on the three main datasets were used again for hierarchical clustering, however the Resorts data provided 
+            the best results.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Hierarchical Clustering - Resorts</h4>
+        <p style="font-size: 20px; text-align: justify;">
+            The following process of analysis was applied to the Resorts data:
+            <ol>
+                <li>Run three-dimensional PCA on the data.</li>
+                <li>Create Linkage Matrix using the reduced dataset using the Ward's method.</li>
+                <li>Create dendrogram with parameters which essentially shows a complete bottom-up approach.</li>
+                <li>Tune parameters to investigate different tree clusters.</li>
+                <li>Expand leaves.</li>
+            </ol>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Complete Hierarchical Tree</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            The complete bottom-up visualization for the Resorts data:
+        </p>
+        <br>
+        <figure>
+            <img src="{{ image_pathways['dendr_full'] }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Full dendrogram illustrating a complete bottom-up approach.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            There are a few things to note about this image:
+            <ul>
+                <li>The parameters show 2 clear clusters (green and orange) under the final child cluster (blue) which contains all observations.</li>
+                <li>The tree has increasing splits at the beginning, stemming from initial observations as their own clusters.</li>
+                <li>The initial observation nodes are difficult to interpret. In fact, the dendrogram doesn't give much interpretation value in its current state.</li>
+            </ul>
+            
+            One key takeway is that with the current parameters, there is little diagnostic value from this dendrogram. By tuning the parameters and expanding the nodes, actionable results can be achieved.
+        </p>
+        
+        <br>
+        <h5>Truncated to Level 3 - Default Threshold</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            Truncating the dendrogram to level 3 will yield something more reasonable:
+        </p>
+        <figure>
+            <img src="{{ image_pathways['dendr_3_0'] }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Truncated to Level 3.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            There are a few things to note about this image:
+            <ul>
+                <li>The parameters show 2 clear clusters (green and orange) under the final child cluster (blue) which contains all observations.</li>
+                <li>There is a similar result to the full dendrogram, however this version is more interpretable. At the very least, the leaves (final nodes) are readable.</li>
+                <li>Leaves with <code>(number)</code> indicate <code>number</code> of original observations under that leaf.</li>
+                <li>Leaves with <code>number</code> indicate the <code>index</code> of a single original observation ending in that branch. If labels are provided, leaves with this format would produce a label.</li>
+                <li>Truncating at level 3 results in 3 tree layers underneath the final child cluster.</li>
+            </ul>
+            
+            With these parameters, there are two clear clusters, but what's actually underneath the leaves (i.e. original observations)? If labels are applied, is there a clear split between labels? How can statistical tests help to 
+            ensure a clear differentiation between labels?
+            <br><br>
+            
+            By examining different labels and applying a chi-squared statistic hypothesis test, whether or not a significant association between clusters and column labels can be concluded.
+        </p>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_3_0_country'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_3_0_country'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_3_0_region'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_3_0_region'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_3_0_pass'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_3_0_pass'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+            </div>
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Although there isn't a distinct label separation between the clusters, different distributions of the labels are present in each cluster.
+        </p>
+        
+        <h5>Truncated to Level 3 - Color Threshold set to Distance 30</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            With a truncation to level 3 revealing a more interpretable dendrogram, further patterns were revealed. By lowering the distance threshold for identifying clusters, 
+            different clusters within the data and different distributions can be revealed as well.
+        </p>
+        <figure>
+            <img src="{{ image_pathways['dendr_3_30'] }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Truncated to Level 3 with Color Threshold set to a distance of 30.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            With these parameters, there are three clear clusters. What is underneath the leaves?
+        </p>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_3_30_country'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_3_30_country'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_3_30_region'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_3_30_region'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_3_30_pass'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_3_30_pass'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+            </div>
+        </div>
+        <br>
+        
+        <h5>Truncated to Level 4 - Color Threshold set to Distance 20</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            Truncating to Level 3 was vetted well, but further clusters and patterns can be revealed given different parameters. How does a deeper truncation level with a closer distance fair for this data?
+        </p>
+        <figure>
+            <img src="{{ image_pathways['dendr_4_20'] }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Truncated to Level 4 with Color Threshold set to a distance of 20.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            With these parameters, there are five clear clusters. What is underneath the leaves?
+        </p>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_4_20_country'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_4_20_country'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_4_20_region'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_4_20_region'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ image_pathways['spread_4_20_pass'] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ image_pathways['spread_4_20_pass'] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Hierarchical Clustering Results and Discussion</h4>
+        <p style="font-size: 20px; text-align: justify;">
+        
+        </p>
+    </div>
+    <br>
+    
+    <!-- START DBSCAN CLUSTERING -->
+    <div class="container">
+        <h3>Density Clustering (DBSCAN)</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Density Clustering is particularly useful when performing clustering on datasets with irregular (arbitrary) shapes and varying densities. 
+            Similar to hierarchical clustering, and different to KMeans clustering, this method doesn't require a specified number of clusters. 
+            <br><br>
+            
+            The main properties of DBSCAN clustering, comparitively are:
+            <ul>
+                <li>Arbitrary Cluster Shapes</li>
+                <li>Unspecified Number of Clusters</li>
+            </ul>
+            
+            Using Scikit-Learn's module <code>sklearn.cluster.DBSCAN</code>, DBSCAN can be implemented on the datasets associated within this scope. The inputs necessary to utilize this module are namely:
+            <ul>
+                <li>Epsilon: maximum distance between two observations</li>
+                <li>Minimum Samples: number of observations required within parameters to be considered a cluster</li>
+            </ul>
+            
+            Tuning the correct input parameters can be implemented via industry knowledge or dataset specific. This analysis will use a set of heuristics for choosing the correct input parameters. The process is detailed <a href='https://github.com/clickityKlein/snowbound'>in this script</a>.
+        </p>
+        Note that the same three-dimensional PCA space projected data on the three main datasets were used again for density based clustering.
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Parameter Heuristics</h4>
+        <p style="font-size: 20px; text-align: justify;">
+            If not utilizing domain knowledge for parameter selection, the following heuristics are generally accepted for density clustering:
+            <ul>
+                <li>Epsilon: k-distance graph with elbow points</li>
+                <li>Minimum Sample: number of dataset dimensions + 1</li>
+            </ul>
+        </p>
+        Minimum Sample choice is relatively straight forward, thus the question of epsilon remains. A k-distance graph approach is initialized with a choice of minimum samples made, and then the 
+        average distance between each point in the dataset and its minimum sample of neighbors is calculated. This can be aided with <code>sklearn.neighbors.NearestNeighbors</code>. 
+        A decent choice for epsilon is then the elbow of the sorted plotted ascending distances.
+        <br><br>
+        
+        Finding the elbow, or maximum curvature, can be accomplished through "eyeballing", a manual implementation, or even through a module. This analysis take a manual approach which utilizes KMeans clustering to 
+        cluster the slopes between curves and uses an automated approach using <code>kneed.KneeLocator</code>.
+        <br><br>
+        
+        For each dataset, the following parameters will be implemented:
+        <ul>
+            <li>Manual (i.e. distance slope clustering)</li>
+            <li>Automatic (i.e. <code>KneeLocator</code>)</li>
+            <li>Custom (i.e. use previous parameters to attempt best clustering)</li>
+        </ul>
+        
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>DBSCAN Clusering - Resorts</h4>
+        <br>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <figure style="flex: 1;">
+                    <img src="{{ epsilon_choices['Resorts'][0] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ epsilon_choices['Resorts'][0] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ epsilon_choices['Resorts'][1] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ epsilon_choices['Resorts'][1] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+            </div>
+        </div>
+        <p style="font-size: 20px; text-align: justify;">
+            The epsilon value with the automatic detection technique gives a value of 1.22, while looking at the slope clusters give a value of around 0.1. Another manual value for epsilon could be 
+            right where the values start to change on the k-distance graph, which looks to be around 0.8.
+            <br><br>
+            
+            By running the DBSCAN algorithm and visually evaluating how the parameters cluster the data can provide insight into the best choice.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselResortsDBSCAN" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(dbscan_clusters['Resorts'] | length) %}
+            {% set dbscan_src = dbscan_clusters['Resorts'][plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ dbscan_titles['Resorts'][plot] | safe }}
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=dbscan_src) }}" width="100%" height="500px" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=dbscan_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsDBSCAN" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselResortsDBSCAN" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>DBSCAN Clusering - Weather</h4>
+        <br>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <figure style="flex: 1;">
+                    <img src="{{ epsilon_choices['Weather'][0] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ epsilon_choices['Weather'][0] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ epsilon_choices['Weather'][1] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ epsilon_choices['Weather'][1] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+            </div>
+        </div>
+        <p style="font-size: 20px; text-align: justify;">
+            The epsilon value with the automatic detection technique gives a value of 0.86, while looking at the slope clusters give a value of around 0.1. Another manual value for epsilon could be 
+            right where the values start to change on the k-distance graph, which looks to be between these.
+            <br><br>
+            
+            By running the DBSCAN algorithm and visually evaluating how the parameters cluster the data can provide insight into the best choice.
+        </p>
+        
+    </div>
+    <br>
+    
+    <div id="carouselWeatherDBSCAN" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(dbscan_clusters['Weather'] | length) %}
+            {% set dbscan_src = dbscan_clusters['Weather'][plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ dbscan_titles['Weather'][plot] | safe }}
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=dbscan_src) }}" width="100%" height="500px" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=dbscan_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselWeatherDBSCAN" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselWeatherDBSCAN" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>DBSCAN Clusering - Google</h4>
+        <br>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between;">
+                <figure style="flex: 1;">
+                    <img src="{{ epsilon_choices['Google'][0] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ epsilon_choices['Google'][0] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+                <figure style="flex: 1;">
+                    <img src="{{ epsilon_choices['Google'][1] }}" width="100%">
+                        <figcaption style="text-align: center;">
+                            <a href="{{ epsilon_choices['Google'][1] }}">(expand)</a>.
+                        </figcaption>
+                </figure>
+            </div>
+        </div>
+        <p style="font-size: 20px; text-align: justify;">
+            The epsilon value with the automatic detection technique gives a value of 0.99, while looking at the slope clusters give a value of around just above 0 to about 1. A custom version of the parameters was also used 
+            for this with epsilon value of 0.65 and minimum samples of 10.
+            <br><br>
+            
+            By running the DBSCAN algorithm and visually evaluating how the parameters cluster the data can provide insight into the best choice.
+        </p>
+        
+    </div>
+    <br>
+    
+    <div id="carouselGoogleDBSCAN" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(dbscan_clusters['Google'] | length) %}
+            {% set dbscan_src = dbscan_clusters['Google'][plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ dbscan_titles['Google'][plot] | safe }}
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=dbscan_src) }}" width="100%" height="500px" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=dbscan_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselGoogleDBSCAN" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselGoogleDBSCAN" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h4>Density Clustering (DBSCAN) Results and Discussion</h4>
+        <p style="font-size: 20px; text-align: justify;">
+            Given the arbitrary shape detection used in density clustering, the clustering detection seemed to work best for <b>Resorts Data</b> and 
+            <b>Google Data</b>. A property of this clustering method is its outlier detection. Resorts and Google have rather obscure shapes, especially Google, and it was 
+            mentioned previously that outliers could be causing this. Although these aren't outliers in a typical sense, as they just don't belong any single cluster, its still a decent analysis 
+            technique.
+            <br><br>
+            
+            This method wasn't great for the PCA projection of the Weather Data due to its spherical nature. Already being not an obscure shape, the algorithm seemed to cluster itself almost entirely. Although a small change of parameters did result in 
+            some of the datapoints on the outside of the data being grouped together, with more outliers (or not assigned to a single group) were recognized as well.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h2>An Overview on Clustering Techniques (Strengths and Weaknesses)</h2>
+        <p style="font-size: 20px; text-align: justify;">
+        <ul>
+            <li>KMeans Clustering: iterate through centroids to minimize the sum of square distances between centroids and points.</li>
+            <ul>
+                <li>Strength: easy to implement and understand.</li>
+                <li>Strength: works well with large dataset and relatively quick.</li>
+                <li>Weakness: works with the assumption that clusters are spherical and evenly sized.</li>
+                <li>Weakness: the number of clusters must be specified beforehand.</li>
+                <li>Applications: seemed to work best for the Weather data due its spherical nature.</li>
+            </ul>
+            <li>Hierarchical Clustering: builds a hierarchy of clusters either bottom-up (agglomerative) or top-down (divisive), which produces a tree structure known as a dendrogram.</li>
+            <ul>
+                <li>Strength: the dendrogram can produce intuitive visual representations of the data.</li>
+                <li>Strength: works with various distance or similarity measures.</li>
+                <li>Strength: the shape of the data distribution doesn't affect the results.</li>
+                <li>Strength: the number of clusters does not need to be specified beforehand.</li>
+                <li>Weakness: computationally expensive.</li>
+                <li>Weakness: can be difficult to use on larger datasets.</li>
+                <li>Applications: only tested in-depth on the Resort data, which did seem to produce clusters with different properties.</li>
+            </ul>
+            <li>Density Clustering (DBSCAN): groups together closely packed points and identifies areas of high density as clusters based on parameters.</li>
+            <ul>
+                <li>Strength: the number of clusters does not need to be specified beforehand.</li>
+                <li>Strength: works well with clusters of arbitrary shape.</li>
+                <li>Weakness: the process is highly sensitive to parameter choice, which are given in place of a specified number of clusters.</li>
+                <li>Weakness: computationally expensive</li>
+                <li>Applications: seemed to work best for the Resort and Google data, which is logical due to their arbitrary and obsure shapes. This did not work well on the Weather data, likely due to the entirety of the data essentially being a highly dense sphere.</li>
+            </ul>
+        </ul>
+        
+        
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h2>Conclusion</h2>
+        <p style="font-size: 20px; text-align: justify;">
+            Distinct groupings can be identified for staple sources associated with the ski and snowbound community. Ski Resorts themselves, Weather Phenomena surrounding Ski Resorts, and 
+            Places of Business all contain characteristics which can be consolidated and patterns extracted. Ski Resorts can be processed into hierarchical structure which explains different distributions such as 
+            location (either county or region) or by Pass Type (Ikon, Epic, Other). Weather characteristics tend to form patterns around the type of weather (snow, rain, clear, etc.) and especially around time of year (i.e. months). 
+            Places of Business tend to form different groups based on their category, location (either county or region), and even by the Pass Type (Ikon, Epic, Other) of their associated ski resort!
+        </p>
+    </div>
+    <br>
+    
+    <br>
 {% endblock %}

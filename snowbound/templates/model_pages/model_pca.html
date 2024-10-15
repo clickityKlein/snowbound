@@ -10,6 +10,25 @@
         <p style="font-size: 20px; text-align: justify;">
             Principal Component Analysis, or simply PCA, is a dimenson reduction technique which operates by consolidating information from multiple 
             features into a new projection space in which each new feature is orthogonal to each other new feature.
+            
+            Specifically, PCA is a constrained optimization technique in which an eigenspace transformation is used to put quantitative data 
+            into a different orthonormal basis. 
+            
+            PCA initialization requires standardization (which limits the variation of the data), from which a covariance matrix is computed. 
+            
+            The eigenspace transformation extracts eigenvalues and eigenvectors from the covariance matrix of the standardized data. 
+            
+            The covariance matrix step is crucial, as antyhing above a zero shows correlation, which is what needs to removed. 
+            
+            In essence, the eigenvectors form the orthonormal basis due to them being uncorrelated. 
+            
+            The associated eigenvalues are the explained information (or explained variance) of the eigenvectors. 
+            
+            In a dataset which has no correlation between its variables, the eigenvectors would essentially be its columns and removing 
+            dimensions removes actual information. However, this is rare in real datasets. 
+            
+            Furthermore, the covariance matrix is symmetric, which allows for the guaranteed existence of an orthonormal basis of corresponding 
+            vector space consisting of eigenvectors and corresponding real-valued eigenvalues.
         </p>
     </div>
     <br>
@@ -259,6 +278,31 @@
             <ol>
         </p>
     </div>
+    
+    <div class="container">
+        <h5>The Loadings Matrix</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            Loadings Matrices represent the correlation between the original variables and the principal components. When PCA is performed, 
+            the new principal components are a consolidation of information of the original variables. Therefore, each principal component could be influenced by each of the original variables (i.e. potentially contain information from each original variable). 
+            The loadings matrix shows this influence (direction and strength) amount by calculating correlations. Closer to zero, the less influence. A positive correlation indicates that higher scores on the factor are associated with higher scores on the variable. 
+            A negative correlation indicates that higher scores on the factor are associated with lower scores on the variable. Higher negative correlations (in an absolute sense) are indicative of high influence, just inversely!
+            <br><br>
+            Essentially, these correlations help in understanding which factors influence which variables and whether this influence is direct or inverse. By analyzing loadings matrices, the true power of PCA and its consolidation properties are revealed. 
+            To further illustrate this property, it can be beneficial to investigate the absolute values of a loadings matrix. Using absolute values, the correlations will be investigated via the following:
+            <ul>
+                <li>Correlation Ranking</li>
+                <ol>
+                    <li>Turn correlations into their absolute value correlations.</li>
+                    <li>Obtain rank of each original variable across each principal component. The lower the rank, the higher the absolute correlation, the more influenced a principal component is by the original variable.</li>
+                    <li>Analyze the rankings</li>
+                </ol>
+                <li>Average Correlation Ranking: a low average absolute correlation rank indicates this original variable has greater influence across the principal components, thus a more substantial amount of information is obtained from that original variable.</li>
+                <li>Correlation Ranking Spread: a mean is a common statistical measure, but the overall spread of rankings can illustrate further statistical measures and influence as a whole.</li>
+            </ul>
+            Additionally, if direct dimensionality reduction is desired (versus transformation into a new space), this could aid in feature selection.
+        </p>
+    </div>
+    <br>
 
     <br>
     <div class="container" id="pca-results">
@@ -291,7 +335,10 @@
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        Illustrated above is how much information is retained or explained by each principal component. The principal components are ordered by descending associated eigenvalues, such that 
+                        the principal component with the largest associated eigenvalue is first. This means that the principal components decreasingly explain the variance in the dataset. For this particular dataset, 
+                        it takes 7 principal components until 95% of variance within the dataset is explained.
+                        <br><br>
                         <h5>Eigenvalues - Python Output</h5>
                         <br>
                         <div class="container">
@@ -326,6 +373,14 @@ Eigenvalues Results:
                         </div>
                         <br>
                         
+                        The highest 3 eigenvalues for this dataset are:
+                        
+                        <ol>
+                            <li>10.1328995</li>
+                            <li>1.48572492</li>
+                            <li>1.25942178</li>
+                        </ol>
+                        
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -352,6 +407,7 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
+                        Elevation Difference is commonly the highest influencing original feature, while Latitude is commonly the lowest influencing original feature.
                     </p>
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
@@ -384,7 +440,10 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        Illustrated above is how much information is retained or explained by each principal component. The principal components are ordered by descending associated eigenvalues, such that 
+                        the principal component with the largest associated eigenvalue is first. This means that the principal components decreasingly explain the variance in the dataset. For this particular dataset, 
+                        it takes 12 principal components until 95% of variance within the dataset is explained.
+                        <br><br>
                         <h5>Eigenvalues - Python Output</h5>
                         <br>
                         <div class="container">
@@ -426,6 +485,14 @@ Eigenvalues Results:
                         </div>
                         <br>
                         
+                        The highest 3 eigenvalues for this dataset are:
+                        
+                        <ol>
+                            <li>8.130468</li>
+                            <li>3.098820</li>
+                            <li>1.95971060</li>
+                        </ol>
+                        
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -452,6 +519,7 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
+                        Humidity is commonly the highest influencing original feature, while Moonphase is commonly the lowest influencing original feature.
                     </p>
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
@@ -484,7 +552,9 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        Illustrated above is how much information is retained or explained by each principal component. The principal components are ordered by descending associated eigenvalues, such that 
+                        the principal component with the largest associated eigenvalue is first. This means that the principal components decreasingly explain the variance in the dataset. For this particular dataset, 
+                        it takes all 4 principal components until 95% of variance within the dataset is explained.
                         <h5>Eigenvalues - Python Output</h5>
                         <br>
                         <div class="container">
@@ -507,7 +577,13 @@ Eigenvalues Results:
                             {{ data_dim['google_gen'][2] | safe }}
                         </div>
                         <br>
+                        The highest 3 eigenvalues for this dataset are:
                         
+                        <ol>
+                            <li>1.32498375</li>
+                            <li>1.1252785</li>
+                            <li>0.87469825</li>
+                        </ol>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -534,6 +610,7 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
+                        Each of the original features have equivalent average influence on the principal components. However, Latitude and Rating have a smaller ranking spread than Longitude and Total Ratings.
                     </p>
                     <div class="d-grid gap-2 col-6 mx-auto">
                         <button type="button" class="btn btn-dark return-to-pca">Return to PCA Results and Analysis Selection</button>
@@ -567,7 +644,8 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        For three dimensional principal component analysis, 85.63% of information is retained from the original data.
+                        <br><br>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -594,8 +672,12 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        The loadings matrix differs between the full dimensional PCA and the three dimensional PCA.
+                        <br><br>
                         <h5>Visualizing PCA in 3 Dimensions with Labels</h5>
+                        Several different labels were applied to the data projected into the PCA space. Some interesting clusters can be observed using this. Note that 
+                        the labels can be toggled through the legend.
+                        
                         {% set resorts_country_src = data_dim['resorts_3d'][6][0].replace('\\', '/') %}
                         {% set resorts_pass_src = data_dim['resorts_3d'][6][1].replace('\\', '/') %}
                         {% set resorts_region_src = data_dim['resorts_3d'][6][2].replace('\\', '/') %}
@@ -647,7 +729,8 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        For three dimensional principal component analysis, 59.95% of information is retained from the original data.
+                        <br><br>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -674,8 +757,13 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        The loadings matrix differs between the full dimensional PCA and the three dimensional PCA.
+                        <br><br>
                         <h5>Visualizing PCA in 3 Dimensions with Labels</h5>
+                        
+                        The label of weather type was applied to the data projected into the PCA space. Some interesting clusters can be observed using this. Since the 
+                        weather data is so numerous, a subset aggregated into monthly averages was used for illustrative purposes.
+                        
                         {% set weather_src = data_dim['weather_3d'][6].replace('\\', '/') %}
                         <br>
                         <a href="{{ url_for('static', filename=weather_src) }}">Weather Data with Type of Weather Label - Expand Image</a>
@@ -715,7 +803,8 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        For three dimensional principal component analysis, 83.12% of information is retained from the original data.
+                        <br><br>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -742,8 +831,13 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        The loadings matrix differs between the full dimensional PCA and the three dimensional PCA.
+                        <br><br>
                         <h5>Visualizing PCA in 3 Dimensions with Labels</h5>
+                        
+                        A categorical label was applied to the data projected into the PCA space. Some interesting clusters can be observed using this. Since the 
+                        business data is so numerous, a subset was used for illustrative purposes.
+                        
                         {% set google_src = data_dim['google_3d'][6].replace('\\', '/') %}
                         <br>
                         <a href="{{ url_for('static', filename=google_src) }}">Google Places with Business Category Label - Expand Image</a>
@@ -783,7 +877,8 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        For two dimensional principal component analysis, 77.25% of information is retained from the original data.
+                        <br><br>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -810,8 +905,13 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        Again, the loadings matrix for two dimensional PCA shows different influence across the original data features.
+                        <br><br>
                         <h5>Visualizing PCA in 2 Dimensions with Labels</h5>
+                        
+                        Several different labels were applied to the data projected into the PCA space. Some interesting patterns can be observed using this.
+                        
+                        
                         <br>
                         <figure>
                             <img src="{{ data_dim['resorts_2d'][6][0] }}" width="100%">
@@ -867,7 +967,8 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        For two dimensional principal component analysis, 51.04% of information is retained from the original data.
+                        <br><br>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -894,8 +995,12 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        Again, the loadings matrix for two dimensional PCA shows different influence across the original data features. Moonphase is close to not having any influence on the two dimensional principal components.
+                        <br><br>
                         <h5>Visualizing PCA in 2 Dimensions with Labels</h5>
+                        
+                        The label of Weather Type was applied to the data projected onto the PCA space. This time, the data in its entirety was used.
+                        
                         <br>
                         <figure>
                             <img src="{{ data_dim['weather_2d'][6] }}" width="100%">
@@ -937,7 +1042,8 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        For two dimensional principal component analysis, 61.25% of information is retained from the original data.
+                        <br><br>
                         <h5>Loadings - Table</h5>
                         <br>
                         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
@@ -964,8 +1070,13 @@ Eigenvalues Results:
                                 </figcaption>
                         </figure>
                         <br>
-                        
+                        There is a slight difference between the loadings matrix in two dimensional PCA compared to the full dimensional PCA.
+                        <br><br>
                         <h5>Visualizing PCA in 2 Dimensions with Labels</h5>
+                        
+                        The label of business category was applied to the data projected onto the PCA space. This time, the data in its entirety was used, and an interesting pattern was created.
+                        
+                        
                         <br>
                         <figure>
                             <img src="{{ data_dim['google_2d'][6] }}" width="100%">
@@ -986,6 +1097,22 @@ Eigenvalues Results:
     
     <div class="container">
         <h3>Summary of PCA Results and Analysis</h3>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Principal Component Analysis was applied to three main datasets relevant to this topic. Full Feature PCA, Three Dimensional PCA, and 
+            Two Dimensional PCA results were analyzed. Specifically, eigenvectors and eigenvalues from the data projected into PCA spaces were investigated, with emphasis on how much information was retained by the 
+            PCA process. An additional component of the analysis used loadings matrices in an attempt to understand the strength and direction each original feature had on the principal componets (new features). 
+            Illustrations of the projected data were made for three dimensionsal PCA and two dimensional PCA, with labels applied to help detect potential patterns.
+            <br><br>
+            Some interesting takeaways:
+            <ul>
+                <li>Loadings matrices and subsequently the influence of the original features on the principal components changed with reduced principal components, namely in the datasets with a greater number of features.</li>
+                <li>Visualizations on the resort data with different labels did reveal some relevant cluster patterns.</li>
+                <li>Visualizations on the weather data also revealed some relevant cluster patterns, and was the most symmetric of the three datasets when projected into the PCA space.</li>
+                <li>Visualizations on the google places data did have some relevant cluster patterns revealed, but the data projected into the PCA space produced an overall shape much different to the other datasets. Even though outliers were addressed while cleaning this data, could hidden outliers be responsible for the uniqueness of the PCA projection results?</li>
+            </ul>
+        </p>
+        
     </div>
     <br>
     <br>

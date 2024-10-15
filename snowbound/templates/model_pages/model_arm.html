@@ -1,6 +1,513 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Modeling - ARM</h1>
+        <h1>Modeling - Association Rule Mining (ARM)</h1>
     </div>
+    <br>
+    
+    <div class="container">
+        <h3>How Does Association Rule Mining Work?</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Association rule mining is a technique used to find and quantify relationships within sets, 
+            specifically the occurrence of events together. A common use and colloquialism for ARM is 
+            market basket analysis, where items purchased together by customers are examined. The goal of this 
+            specific analysis is to provide an answer to the question “Given a limited number of items at a location, 
+            what items are most associated with each other?” In general, does a set or subset imply another set or subset? <b>This is the idea of a rule</b>. This can also 
+            be used for other purposes aside from customer-based studies, as this particular analysis will focus on.
+            <br>
+            <h4>Components of ARM</h4>
+            <br>
+            Association Rule Mining is a measure of cooccurence, not causality, and there are several key components to help analyze the findings of cooccurence.
+            <br>
+            <ul>
+                <li>Support quantifies how often an itemset or rule appears in a dataset (proportion / total probability).</li>
+                <li>Confidence quantifies the likelihood an itemset's consequent occurs given its antecent (conditional probability of a consequent occuring given its antecent).</li>
+                <li>Lift asseses the performance of an association rule by quantifying an improvement (or degradation) from the inital prediction, where the inital prediction would the support of the antecent.</li>
+                <ul>
+                    <li>Lift less than 1 indicates a negative correlation, or the rules are simply not correlated.</li>
+                    <li>Lift equal to 1 indicates indepedence between the rules, absolutely no correlation. "Is something is everywhere, it is nowhere". If an item is in every single set, as an antecedent, lift will always be 1.</li>
+                    <li>Lift greater than 1 indicates a positive correlation, or improvement of the initial rule. In other words, this shows a valid assocation. A high lift value inidcates that the association rule is more significant, the itemsets are highly dependent on each other.</li>
+                <ul>
+            </ul>
+            
+            <br>
+            <h5>Formulas: Support (single itemset)</h5>
+            <br>
+            <div>
+                \[ Support(I) =  \frac{\text{number of sets containing I}}{\text{total number of sets}} \]
+            </div>
+            
+            <br>
+            <h5>Formulas: Support (association rule)</h5>
+            <br>
+            <div>
+                Given an antecedent A and consequent C:
+                <br>
+                \[ Support(A \rightarrow C) =  \frac{\text{number of sets containing A and C}}{\text{total number of sets}} \]
+            </div>
+            
+            <br>
+            <h5>Formulas: Confidence (association rule)</h5>
+            <br>
+            <div>
+                Given an antecedent A and consequent C:
+                <br>
+                \[ Confidence(A \rightarrow C) =  \frac{\text{proportion of sets containing A and C}}{\text{proportion of sets containing A}} \]
+                <br>
+                \[ Confidence(A \rightarrow C) =  P(C|A) = \frac{P(CA)}{P(A)} \]
+                <br>
+                Note that caution is required when proceeding with the confidence formula. The intersection is not the true/traditional intersection of events, but that it contains every element in itemsets A and C. 
+            </div>
+            
+            <br>
+            <h5>Formulas: Lift (association rule)</h5>
+            <br>
+            <div>
+                Given an antecedent A and consequent C:
+                <br>
+                \[ Lift(C \rightarrow A) =  \frac{Confidence(A \rightarrow C)}{Support(C)} \]
+                <br>
+                \[ Lift(C \rightarrow A) = \frac{Support(A \rightarrow C)}{Support(A) Support(C)} \]
+                <br>
+            </div>
+            
+            <br>
+            <h4>Apriori Algorithm</h4>
+            <br>
+            A prominent algorithm in association rule mining is the apriori algorithm. Some key terminology in understanding the Apriori Algorithm:
+            <br>
+            <ul>
+                <li>Maximal Itemset: Itemset in which none of its supersets are frequent.</li>
+                <li>Closed Itemset: Itemset in which none of its immeidate supersets have the same support count as the itemset, itself.</li>
+                <li>k-itemset: Itemset which contains k items</li>
+                <li>Apriori Property: All non-empty subsets of frequent itemsets must be frequent. In other words, given a frequent itemset, all non-empty subsets of the frequent itemset are frequent as well.</li>
+                <li>Antimonotonicity: If a set cannot pass a test, all its supersets will fail the test as well. If an itemset is infrequent, all its supersets will be infrequent as well. This is essentially the contrapositive of the Apriori Property.</li>
+                <li>Maximum Number of Possible Frequent Itemsets</li>
+                    <ul>
+                        <li>Total: \( 2^n \)</li>
+                        <li>Excluding the Empyset: \( 2^n - 1 \)</li>
+                        <li>This can be problematic due to the factorial growth per element.</li>
+                    </ul>
+                <li>Apriori Pruning Principal: foundation of the Apriori Algorithm, which draws on the above terminology and formulas in the following process:</li>
+                    <ol>
+                        <li>Generate Candidate Itemsets: start with a single item and generate candidate itemsets of length 1.</li>
+                        <li>Count Support: scan the dataset to count the support for each candidate itemset.</li>
+                        <li>Prune Infrequent Itemsets: eliminate itemsets that do not meet the minimum support threshold.</li>
+                        <li>Generate Next-Level Candidates: combine frequent itemsets from the previous step to generate new candidate itemsets of length k+1.</li>
+                        <li>Repeat: continue counting support and pruning until no new frequent itemsets can be generated.</li>
+                    </ol>
+                <li>Apriori Based Rule Generation: after the frequent itemsets are found via the pruning process, an additional rule-generating algorithm can be applied with roughly the following process:</li>
+                    <ol>
+                        <li>Generate Frequent Itemsets: Apriori Algorithm identifies itemsets based on specified minimum support.</li>
+                        <li>Generate Candidate Rules: for each frequent itemset, generate all possible rules by splitting it into antecedent and consequent parts.</li>
+                        <li>Calculate Metrics: for each candidate rule, calculate metrics like support, confidence, and lift.</li>
+                        <li>Prune Rules: retain rules which meet a minimum threshold metric (usually confidence).</li>
+                    </ol>
+            </ul>
+            <br>
+            Using an example of a small dataset containing movie watchlists, the <b>Apriori Pruning Principal</b> and <b>Apriori Based Rule Generation</b> can be illustrated.
+        </p>
+    </div>
+    <br><br>
+
+    <div class="container">
+        <!-- First row with three equal columns for tables -->
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <h5>The Transaction Type Dataset</h5>
+                <br>
+                Mimic a transaction type dataset of movie watchlists for 10 users.
+                <br>
+                <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                    {{ introduction[0] | safe }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5>Apriori Pruning Principal</h5>
+                <br>
+                Minimum support threshold of 0.20 for frequent itemsets.
+                <br>
+                <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                    {{ introduction[2] | safe }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h5>Apriori Based Rule Generation</h5>
+                <br>
+                Miminum confidence threshold of 0.20 for assocation rules.
+                <br>
+                <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                    {{ introduction[3] | safe }}
+                </div>
+            </div>
+        </div>
+        <br><br>
+        <!-- Second row with two equally spaced images -->
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <figure>
+                    {% set intro_src = introduction[1].replace('\\', '/') %}
+                    <img src="{{ intro_src }}" class="img-fluid" alt="Frequency Count for Each Movie" width="75%">
+                    <figcaption style="text-align: center;">
+                        Frequency Count for the Mimic Watchlist. <a href="{{ intro_src }}">(expand image)</a>
+                    </figcaption>
+                </figure>
+            </div>
+            <div class="col-md-6">
+                <figure>
+                    {% set intro_src = introduction[4].replace('\\', '/') %}
+                    <img src="{{ intro_src }}" class="img-fluid" alt="Association Rules Visualization">
+                    <figcaption style="text-align: center;">
+                        Association Rules for the Mimic Watchlist. <a href="{{ intro_src }}">(expand image)</a>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    
+    <div class="container">
+        <h3>Applying Association Rule Mining</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            This analysis will focus on finding associations between categories returned by the Google Places API. The API itself returns a list of categories associated with each business.
+            <br>
+            The categories themselves will be analyzed, however, a few labels can be applied to the transaction type data as well to help identify associations. Namely,
+            <br>
+            <ul>
+                <li>Call Category: The actual call to the API of the business category requested.</li>
+                <li>Country: Associated country with the business place within a ski resort radius.</li>
+                <li>Pass: Associated ski pass with the business place within a ski resort radius.</li>
+                <li>Region: Associated region with the business place within a ski resort radius..</li>
+            </ul>
+            <br>
+            Call Category will be of most interest, as this could provide insights of the Google Places API efficacy. The other labels could produce interesting relationships themselves, revealing associations seemingly not relevant during the initialization of the project.
+            <br><br>
+            A script for the detailed functions required for preparing data, applying apriori, and illustrating the results with a network can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>. The application process script can be found <a href='https://github.com/clickityKlein/snowbound'>here</a>.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Data Preparation</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Preparing data for this type of analysis consists of creating the initial transaction-type data, and then allowing for expansion into labels.
+            <br>
+            The general preparation process:
+            <br>
+            <ol>
+                <li>Obtain the initial dataset with the transaction type data.</li>
+                <li>Clean the initial dataset (namely steps that were previously applied to the main Google dataset):</li>
+                    <ul>
+                        <li>Drop Duplicates</li>
+                        <li>Use <code>ast.literal_eval()</code> to Ensure List Type.</li>
+                        <li>Create Keys to Merge back with the Google Data for Label Expansion.</li>
+                    <ul>
+                <li>Merge back with the Google dataset.</li>
+            </ol>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Initial Dataset with Transaction Type Data</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The initial dataset containing a column with list values required for the transaction data. Several cleaning steps mentioned above will prepare this data for merging in with the cleaned google places data.
+        </p>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_prep[0] | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Google Places Full Data</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The cleaned final google places data used across this project. Will be merged into.
+        </p>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_prep[1] | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Google Merged Data</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The ARM-ready dataset. The main transaction data exists in one of the columns while the labels exist for use in expansion functions available in the functions script.
+        </p>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_prep[2] | safe }}
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <h5>Transaction-Type Data Isolated</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            A snippet of the transaction-type data isolated.
+        </p>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_prep[3] | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <br>
+    <div class="container">
+        <h3>Results</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Using just the main transaction type data (i.e. no labels included), the Apriori Algorithm was ran to find frequent itemsets and then an Apriori Rule Based Algorithm was ran to find association rules.
+            <br><br>
+            Given that this was a large dataset, to capture as many frequent itemsets and association rules as possible, a low support threshold was used for the inital alogrithm and a low confidence threshold was used for the secondary algorithm. The final association rules can always be reduced via filtering on different 
+            thresholds if required. The dataset being rather large is relevant to support since this is an initial measure on proportion in relation to the entire dataset. Rarer occurences would be pruned if not.
+            <br>
+            <ul>
+                <li>Support Theshold: 0.01</li>
+                <li>Confidence Threshold: 0.01</li>
+            </ul>
+            <br>
+            In reference to creating rules with low thresholds, the rules can now be sorted to examine important findings by metric.
+            <br>
+            <ul>
+                <li>Top 15 Rules for Support</li>
+                <li>Top 15 Rules for Support with Lift Greater Than 1: A lift value greater than 1 indicates a positive correlation. The association rule is more significant, thus the adding this parameter to the results is better indicative of relationships within the data.</li>
+                <li>Top 15 Rules for Confidence</li>
+                <li>Top 15 Rules for Confidence with Lift Greater Than 1: A lift value greater than 1 indicates a positive correlation. The association rule is more significant, thus the adding this parameter to the results is better indicative of relationships within the data.</li>
+                <li>Top 15 Rules for Lift</li>
+            </ul>
+            <br>
+        </p>
+    </div>
+    
+    <div class="accordion" id="topAccordion">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                    Top 15 Rules For Support
+                </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#topAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ top_15_results[0] | safe }}
+                        </div>
+                        <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Top 15 Rules for Support with Lift Greater Than 1
+                </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" data-bs-parent="#topAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ top_15_results[1] | safe }}
+                        </div>
+                        <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                    Top 15 Rules for Confidence
+                </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" data-bs-parent="#topAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ top_15_results[2] | safe }}
+                        </div>
+                        <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseFour">
+                    Top 15 Rules for Confidence with Lift Greater Than 1
+                </button>
+            </h2>
+            <div id="flush-collapseFour" class="accordion-collapse collapse" data-bs-parent="#topAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ top_15_results[3] | safe }}
+                        </div>
+                        <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseFive">
+                    Top 15 Rules for Lift
+                </button>
+            </h2>
+            <div id="flush-collapseFive" class="accordion-collapse collapse" data-bs-parent="#topAccordion">
+                <div class="accordion-body">
+                    <p style="font-size: 20px; text-align: justify;">
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            {{ top_15_results[4] | safe }}
+                        </div>
+                        <br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The top rules without applying the lift parameter show that <b>Establishment</b> and <b>Point of Interest</b> are very common, if not in every rule. Therefore, by applying 
+            the lift parameter of greater than 1, rules begin to show associations with more signficant results. In fact, when sorted by descending lift values itself, these illustrate 
+            some of the most significant associations.
+            <br><br>
+            To further illustrate these associations, networks visualizations were created. Note that these networks are interactive and contain hover information.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselTopRules" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            {% for plot in range(top_rules_networks | length) %}
+            {% set rules_src = top_rules_networks[plot].replace('\\', '/') %}
+                <div class="carousel-item {% if plot == 0 %}active{% endif %}">
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        {{ top_rules_titles[plot] | safe }}
+                    </div>
+                    <div class="mt-3">
+                        <iframe src="{{ url_for('static', filename=rules_src) }}" width="100%" height="800px" class="d-block w-75 mx-auto" loading="lazy"></iframe>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+                        <a href="{{ url_for('static', filename=rules_src) }}">(expand image)</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTopRules" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselTopRules" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Label Expansion - Call Categories</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Associations between the returned categories do reveal interesting assocations in there own right. However, insight can be gained into the efficacy of the Google Places API by appending the 
+            call category label to the datasets. In other words, when the API was called with a specific business category in mind, what actually was returned?
+            <br><br>
+            
+            For this process, the label was appended to the transaction-type data and association rules were made again with the same low thresholds to capture as many associations as possible. Once the rules were created, the 
+            antecedents were reduced to only rules with the call category as a single antecedent.
+            <br><br>
+            
+            <h5>Label Expansion - Call Categories Assocation Rules Snippet (not sorted)</h5>
+            <br>
+            This a snippet of the assocaition rules results from this process (note this is not sorted in any manner):
+            <br>
+            <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                {{ rules_calls | safe }}
+            </div>
+            <br><br>
+            
+            Additionally, a network illustration with the same interactivity and hover information as with the previous visuals. Note that the call categories were colored differently, and when a return category had an association with 
+            multiple call categories, the call category which appeared as the antecedent the majority of the time was responsible for the coloring of the return category node.
+        </p>
+    </div>
+    <br>
+    
+    {% set rules_src = rules_call_network.replace('\\', '/') %}
+    <div class="mt-3">
+        <iframe src="{{ url_for('static', filename=rules_src) }}" width="100%" height="800px" class="d-block w-75 mx-auto" loading="lazy"></iframe>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+        <a href="{{ url_for('static', filename=rules_src) }}">(expand image)</a>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            As seen with the unlabled networks, Point of Interest and Establishment are central returns for the majority of the categories. However, 
+            this also illustrates that there are significant associations between what was called within the API and categories that could be expected as returns.
+            <br><br>
+            
+            <b>In other words, this shows that the the Google Places API did perform well in the case of properly returning business types based on a call.</b>
+        </p>
+    <div>
+    <br>
+    
+    <div class="container">
+        <h2>Association Rule Mining Insights</h2>
+        <p style="font-size: 20px; text-align: justify;">
+            Several results were found within the Google data via Assocation Rule Mining. Most notably:
+            <ul>
+                <li>Lift needed to be filtered due the common presence of <b>Establishment</b> and <b>Point of Interest</b>. Given that the search parameters within the API calls were essentially for these overarching categories, this is not surprising, but it also doesn't reveal patterns within the data.</li>
+                <li>After lift was filtered to reveal rules with lift greater than 1 (i.e. a signficant positive correlation), then patterns were able to be revealed. Notably, showing that the top 15 rules changed given the metric.</li>
+                <li>The Top 15 Rules by Support mainly contained rules between the categories <b>Food</b> and <b>Restaurant</b>.</li>
+                    <ul>
+                        <li>This reveals that the categories of <b>Food</b> and <b>Restaurant</b> have a high proportion throughout the data.</li>
+                    </ul>
+                <li>The Top 15 Rules by Confidence mainly contained rules between categories involving the <b>Store</b> category.</li>
+                    <ul>
+                        <li>This reveals that the category of <b>Store</b> has a high conditional occurence in the rules throughout the data.</li>
+                    </ul>
+                <li>Top 15 Rules by Lift mainly contained rules between categories involving the <b>Convenience Store</b> and <b>Health</b> categories.</li>
+                    <ul>
+                        <li>This reveals that the categories of <b>Convenience Store</b> and <b>Health</b> have highly significant association rules throughout the data.</li>
+                    </ul>
+                <li>In the case of expanding the transaction-type data by the label of <b>Call Category</b>, this reassured the efficacy of the Google Places API, showing significant associations between expected return categories. Additionally, this revealed associations between different call categories and return categories. There were multiple return categories which had associations stemming from multiple call categories.</li>
+                    <ul>
+                        <li>Viewing the hover information from this network, acceptable average lift of the nodes can be affirmed.</li>
+                        <li>Again, average support isn't displayed due to the size of the dataset and its association with the overall proportion of rules.</li>
+                    </ul>
+            </ul>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h2>Conclusion</h2>
+        <p style="font-size: 20px; text-align: justify;">
+            Associated Rule Mining, although more commonly applied in market basket analysis with 
+            transaction specific data, can be quite useful in finding associations and relationships across many 
+            applications. For example, categorizing businesses near ski resorts using Google Place’s application interface. 
+            Different types of main business categories are surrounding ski resorts, such as Restaurants, Bars, Shopping Centers, 
+            and Medical Services. The actual businesses may contain different subcategories within Google Place’s interface. By 
+            looking at the associations between main categories and subcategories of businesses surrounding ski resorts, patterns 
+            begin to emerge. For instance, businesses categorized as Food and Restaurant establishments are highly prevalent within 
+            this area. In general, Stores will be in the area given that other businesses are nearby. Additionally, where there’s 
+            Food and Stores, there’s a general trend of Convenience Stores and Health centers associated with the ski resort 
+            location. In summary, multiple businesses offering general amenities are almost certain to exist in these locations. 
+            Where there is one, there is likely many.
+        </p>
+    </div>
+    <br>
+    
+    <br>
 {% endblock %}
