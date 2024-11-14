@@ -1,6 +1,320 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Modeling - NB</h1>
+        <h1>Modeling - Naive Bayes</h1>
     </div>
+    <br>
+    <div class="container">
+        <h2>Overview</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Naive Bayes is a generative supervised machine learning classification method. 
+            The generative aspect indicates that the model learns from the probability of the data given previous knowledge of the label. 
+            This is in comparison to a discriminative model, where the goal is to find a function which distinguishes between groups (i.e. Logistic Regression). 
+            The supervised aspect means that the model is given labels to learn from. 
+            The Naïve aspect comes from the assumption that the categories have conditional independence in order to apply the Bayes’ Theorem. 
+            This is a Naive assumption because it’s unlikely that the variables within the data have true independence. 
+            For example, consider a model built from customer reviews which is trying to classify if the review was positive or negative. 
+            The review might have language such as “happy” and “glad”, which are clearly not independent terms. 
+            However, the assumption of independence is made to allow for the calculations to work. 
+            This example is one of sentiment analysis, however there are many potential applications of this method as it is implicitly acceptable for n-class classification. 
+            For example, predicting weather a label is “true” or “false” is a 2-class problem, but Naive Bayes can extend this to multiple labels. 
+            Back to the sentiment analysis example, a review could be “positive”, “negative”, or “neutral”. 
+            Applications also include document classification, which could be used to classify an article into categories such as “politics”, “sports”, “entertainment”, among many other overall article types.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            In general, Naive Bayes uses the conditional independence assumption to apply the Bayes’ Theorem. 
+            Essentially, the goal is to find the probability of a label given a datapoint. 
+            The Bayes’ Theorem is appropriate for this task and uses several components of the probabilities within the data to calculate this. 
+            Namely, the probability of the data itself occurring, the probability of the label occurring, and the conditional probability in the opposite direction (i.e. the probability of the datapoint given a label). 
+            Especially in larger datasets, some of the conditional probabilities can be zero. 
+            This presents an issue due to the multiplicative calculations required, which would zero out the entire probability. 
+            Smoothing techniques are used to account for this, with the Laplacian Correction being the most common. 
+            This technique adds 1 to each case’s count. 
+            The general smoothing technique adds a specified variable (or alpha) to the count.
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            There are several primary forms of Naive Bayes:
+            <br>
+            <ul>
+                <li>Multinomial Naive Bayes</li>
+                <li>Gaussian Naive Bayes</li>
+                <li>Bernoulli Naive Bayes</li>
+                <li>Categorical Naive Bayes</li>
+            </ul>
+        </p>
+        <br>
+        
+        <h3>Multinomial Naive Bayes</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Multinomial Naive Bayes "is suitable for classification within discrete features (e.g., word counts for text classification)."<a href='https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html'>[sklearn documentation]</a>
+        </p>
+        <br>
+        
+        <h3>Gaussian Naive Bayes</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Gaussian Naive Bayes can be used when features are continuous, and are assumed to follow a normal (or Gaussian) distribution.
+        </p>
+        <br>
+        
+        <h3>Bernoulli Naive Bayes</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Bernoulli Naive Bayes is applicable for discrete data, specifically when features are binary. 
+            To extend from the multinomial example, instead of word counts, the data should be either 0s or 1s for if the word was included.
+        </p>
+        <br>
+        
+        <h3>Categorical Naive Bayes</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Categorical Naive Bayes is "suitable for classification with discrete features that are categorically distributed" <a href='https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.CategoricalNB.html'>[sklearn documentation]</a>. 
+            Note that this method requires encoding which represents the categorical variables as numerical. Ordinal encoding ensures order of the categorical variables (i.e. letter grades have an order), 
+            and non-ordinal categorical data (i.e. no implied order) can still be encoded.
+        </p>
+        <br>
+        
+        <h3>Analysis Code</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The code for this analysis can be found <a href='https://github.com/clickityKlein/snowbound'>[here]</a>.
+        </p>
+        <br>
+        
+    </div>
+    <div class="container">
+        <h2>Data Preparation</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            This project will be applying three of the Naive Bayes techniques:
+            <br>
+            <ul>
+                <li>Multinomial Naive Bayes</li>
+                <li>Gaussian Naive Bayes</li>
+                <li>Bernoulli Naive Bayes</li>
+            </ul>
+            <br>
+            Each of the methods requires different data preparation, which will be detailed below.
+        </p>
+        <br>
+        <h3>Initial Data</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Following from the previous sections, this section will use the same datasets. As a reminder, here is a preview of the data that will be used:
+        </p>
+        <br><br>
+        
+        <h5>Ski Resorts Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+        <br><br>
+        
+        <h5>Weather Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+        <br><br>
+        
+        <h5>Google Places Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+        <br><br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Using these datasets, the following preparation will take place to prepare them for the different Naive Bayes methods.
+        </p>
+        <br><br>
+        
+        <h4>Multinomial Naive Bayes</h4>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The most recent full year of data for weather data was from 2023, and the weather type occurences are currently in binary format for daily data. 
+            This data was summed for each resort for the 2023 year.
+            <br><br>
+            The ski resort data additionally has the number of trails per difficulty and the number lifts, which will be used in this analysis.
+            <br><br>
+            Using this count data, the type of Pass for resorts will attempted to be modeled. The possible options are:
+            
+            <ul>
+                <li>Ikon</li>
+                <li>Epic</li>
+                <li>Other</li>
+            </ul>
+            
+            Below is a snippet of the prepared data for the Multinomial Naive Bayes data.
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ multinomial_snippet | safe }}
+        </div>
+        <br>
+        
+        <h4>Gaussian Naive Bayes</h4>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Due to the machine learning method being able to continuous data, the entirety of the weather dataset was used for this Naive Bayes technique.
+            <br><br>
+            However, a small change was made to the label data for this dataset. To balance the label dataset, "partly-cloudy-day", "cloudy", "wind", and "fog" were transformed into "other".
+            <br><br>
+            This reduced the overall labels into:
+            
+            <ul>
+                <li>snow</li>
+                <li>rain</li>
+                <li>clear-day</li>
+                <li>Other</li>
+            </ul>
+            
+            Below is a snippet of the prepared data for the Gaussian Naive Bayes data.
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ gaussian_snippet | safe }}
+        </div>
+        <br>
+        
+        <h4>Bernoulli Naive Bayes</h4>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            For the Bernoulli setup, the data used was to test the efficacy of the Google Places API itself. The data was encoded to account for the return category calls for the API in 0s and 1s.
+            <br><br>
+            Using this binomial type data, the following labels are:
+            
+            <ul>
+                <li>Medical</li>
+                <li>Lodging</li>
+                <li>Shopping</li>
+                <li>Restaurants</li>
+                <li>Grocery</li>
+                <li>Spas</li>
+                <li>Bars</li>
+            </ul>
+            
+            <br><br>
+            Essentially, the Google API also returns a list of accompanying categories for the call category. This will test if there are any patterns between the call category and the other returns.
+            
+            <br><br>
+            
+            Below is a snippet of the prepared data for the Multinomial Naive Bayes data.
+        </p>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ bernoulli_snippet | safe }}
+        </div>
+        <br>
+        <h3>Training and Testing Sets</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Additionally, training and testing sets were created. The two sets are disjoint, and must be disjoint. 
+            Using non-disjoint data between testing and training won't give an accurate representation of the performance of the model. 
+            First, this could result in an overfit of the model, which could end up describing noise, rather than the underlying distribution. 
+            Second, the testing set being non-disjoint helps to represent real-world data (i.e. unseen data). 
+        </p>
+        <br>
+        
+        <h5>Multinomial Naive Bayes Training Dataset</h5>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ multinomial_train_snippet | safe }}
+        </div>
+        <br>
+        
+        <h5>Multinomial Naive Bayes Testing Dataset</h5>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ multinomial_test_snippet | safe }}
+        </div>
+        <br>
+        
+        <h5>Gaussian Naive Bayes Training Dataset</h5>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ gaussian_train_snippet | safe }}
+        </div>
+        <br>
+        
+        <h5>Gaussian Naive Bayes Testing Dataset</h5>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ gaussian_test_snippet | safe }}
+        </div>
+        <br>
+        
+        <h5>Bernoulli Naive Bayes Training Dataset</h5>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ bernoulli_train_snippet | safe }}
+        </div>
+        <br>
+        
+        <h5>Gaussian Naive Bayes Testing Dataset</h5>
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ bernoulli_test_snippet | safe }}
+        </div>
+        <br>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h2>Code</h2>
+        <p style="font-size: 20px; text-align: justify;">
+            Once again, the code can be found <a href='https://github.com/clickityKlein/snowbound'>[here]</a>.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h2>Results</h2>
+        <p style="font-size: 20px; text-align: justify;">
+            For each method, the balance of the labels was examined, the accuracy of the modeling on the test set was reported, and the confusion matrix was created.
+        </p>
+        <br><br>
+        <h3>Multinomial Naive Bayes</h3>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/nb/balance_Multinomial.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Balance Across Labels for Multinomial Naive Bayes.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The accuracy for this result was 75.44%.
+        </p>
+        <br>
+        
+        <h3>Gaussian Naive Bayes</h3>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/nb/balance_Gaussian.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Balance Across Labels for Gaussian Naive Bayes.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The accuracy for this result was 68.25%.
+        </p>
+        <br>
+        
+        <h3>Bernoulli Naive Bayes</h3>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/nb/balance_Bernoulli.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Balance Across Labels for Bernoulli Naive Bayes.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The accuracy for this result was 92.94%.
+        </p>
+        <br>
+    </div>
+    <br>
+    
+    <br>
+    <br>
 {% endblock %}

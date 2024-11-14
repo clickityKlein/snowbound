@@ -389,7 +389,66 @@ def load_dt_page():
 # render nb model page
 @model_pages_controls.route('/model_pages/model_nb.html', methods=['GET', 'POST'])
 def load_nb_page():
-    return render_template('model_pages/model_nb.html')
+    img_path_start = 'snowbound/static/models/nb'
+    
+    # final resort data - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/resorts_snippet.csv')
+    resorts_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # google places cleaned - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/google_places_snippet.csv')
+    google_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # weather final - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/weather_snippet.csv')
+    weather_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # multinomial data
+    # multinomial main snippets
+    df = pd.read_csv('snowbound/static/models/nb/multinomial_snippet.csv')
+    multinomial_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    # multinomial train snippet
+    df = pd.read_csv('snowbound/static/models/nb/multinomial_train_snippet.csv')
+    multinomial_train_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    # multinomial test snippet
+    df = pd.read_csv('snowbound/static/models/nb/multinomial_test_snippet.csv')
+    multinomial_test_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # gaussian data
+    # gaussian main snippets
+    df = pd.read_csv('snowbound/static/models/nb/gaussian_snippet.csv')
+    gaussian_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    # gaussian train snippet
+    df = pd.read_csv('snowbound/static/models/nb/gaussian_train_snippet.csv')
+    gaussian_train_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    # gaussian test snippet
+    df = pd.read_csv('snowbound/static/models/nb/gaussian_test_snippet.csv')
+    gaussian_test_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # bernoulli data
+    # bernoulli main snippets
+    df = pd.read_csv('snowbound/static/models/nb/bernoulli_snippet.csv')
+    bernoulli_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    # bernoulli train snippet
+    df = pd.read_csv('snowbound/static/models/nb/bernoulli_train_snippet.csv')
+    bernoulli_train_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    # bernoulli test snippet
+    df = pd.read_csv('snowbound/static/models/nb/bernoulli_test_snippet.csv')
+    bernoulli_test_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    return render_template('model_pages/model_nb.html',
+                           resorts_final=resorts_final,
+                           google_final=google_final,
+                           weather_final=weather_final,
+                           multinomial_snippet=multinomial_snippet,
+                           multinomial_train_snippet=multinomial_train_snippet,
+                           multinomial_test_snippet=multinomial_test_snippet,
+                           gaussian_snippet=gaussian_snippet,
+                           gaussian_train_snippet=gaussian_train_snippet,
+                           gaussian_test_snippet=gaussian_test_snippet,
+                           bernoulli_snippet=bernoulli_snippet,
+                           bernoulli_train_snippet=bernoulli_train_snippet,
+                           bernoulli_test_snippet=bernoulli_test_snippet)
 
 # render svm model page
 @model_pages_controls.route('/model_pages/model_svm.html', methods=['GET', 'POST'])
