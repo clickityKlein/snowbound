@@ -280,10 +280,18 @@
                 </figcaption>
         </figure>
         <br>
+        
         <p style="font-size: 20px; text-align: justify;">
             The accuracy for this result was 75.44%.
         </p>
         <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/nb/cm_Multinomial.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Confusion Matrix for Multinomial Naive Bayes.
+                </figcaption>
+        </figure>
         
         <h3>Gaussian Naive Bayes</h3>
         <br>
@@ -299,6 +307,13 @@
         </p>
         <br>
         
+        <figure>
+            <img src="{{ url_for('static', filename='models/nb/cm_Gaussian.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Confusion Matrix for Gaussian Naive Bayes.
+                </figcaption>
+        </figure>
+        
         <h3>Bernoulli Naive Bayes</h3>
         <br>
         <figure>
@@ -307,11 +322,20 @@
                     Balance Across Labels for Bernoulli Naive Bayes.
                 </figcaption>
         </figure>
+        
         <br>
         <p style="font-size: 20px; text-align: justify;">
             The accuracy for this result was 92.94%.
         </p>
         <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/nb/cm_Bernoullie.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Confusion Matrix for Bernoullie Naive Bayes.
+                </figcaption>
+        </figure>
+        
     </div>
     <br>
     
