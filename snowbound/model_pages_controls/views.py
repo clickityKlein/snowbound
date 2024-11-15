@@ -384,7 +384,52 @@ def load_arm_page():
 # render dt model page
 @model_pages_controls.route('/model_pages/model_dt.html', methods=['GET', 'POST'])
 def load_dt_page():
-    return render_template('model_pages/model_dt.html')
+    # sample data
+    sample_data = {'age': [25, 34, 45, 52, 23],
+                   'blood_pressure': [120, 140, 130, 150, 115],
+                   'cholesterol': [180, 220, 200, 240, 170],
+                   'disease': ['False', 'True', 'False', 'True', 'False']}
+
+    df_sample = pd.DataFrame(sample_data)
+    sample_table = df_sample.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # final resort data - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/resorts_snippet.csv')
+    resorts_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # google places cleaned - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/google_places_snippet.csv')
+    google_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # weather final - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/weather_snippet.csv')
+    weather_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # decision tree prepared - snippet
+    df = pd.read_csv('snowbound/static/models/dt/dt_prepared_snippet.csv')
+    dt_prepared = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # decision tree prepared train - snippet
+    df = pd.read_csv('snowbound/static/models/dt/dt_default_train_snippet.csv')
+    dt_prepared_train = df.to_html(classes='table table-striped', index=True, justify='left')
+    
+    # decision tree prepared test - snippet
+    df = pd.read_csv('snowbound/static/models/dt/dt_default_test_snippet.csv')
+    dt_prepared_test = df.to_html(classes='table table-striped', index=True, justify='left')
+    
+    # predicted label percents
+    df = pd.read_csv('snowbound/static/models/dt/predicted_label_percents.csv')
+    predictions = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    return render_template('model_pages/model_dt.html',
+                           sample_table=sample_table,
+                           resorts_final=resorts_final,
+                           google_final=google_final,
+                           weather_final=weather_final,
+                           dt_prepared=dt_prepared,
+                           dt_prepared_train=dt_prepared_train,
+                           dt_prepared_test=dt_prepared_test,
+                           predictions=predictions)
 
 # render nb model page
 @model_pages_controls.route('/model_pages/model_nb.html', methods=['GET', 'POST'])

@@ -1,6 +1,408 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Modeling - DT</h1>
+        <h1>Modeling - Decision Trees</h1>
     </div>
+    <br>
+    <div class="container">
+        <h2>Overview</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Decision Trees are a heuristic based classification model which are useful for capturing non-linear trends and patterns in data. 
+            The heuristic aspect means that it follows a set of rules to provide an answer, whereas an algorithm follows steps to provide an 
+            answer which is always optimal. The tree aspect comes from the flowchart-like structure which features nodes and branches depending on 
+            decisions calculated from the data, constructing a logical pathway for classification.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/intro_1.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Partitioning Example.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The example above, from this <a href='https://grantmcdermott.com/parttree/'>[documentation]</a>, shows how decision trees can 
+            partition non-linear data. This is two-dimensional dataset example, but the same idea holds true for higher dimensions.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/intro_2.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Basic Tree Example.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The example above, from this <a href='https://venngage-wordpress.s3.amazonaws.com/uploads/2019/08/what-is-a-decision-tree-5.png'>[website]</a>, shows the 
+            flowchart like structure, illustrating how a decision can be made by splitting logically on a criteria.
+            <br><br>
+            Notice that this example uses both qualitative and quantitative data. Decision Trees are effective on even mixed data. In fact, given at least a single column of 
+            quantitivate data, there are an infinite number of trees that can be made depending on how the quantitiatve variables are split. In addition to an infinite number of ways to 
+            split the quantitative variables (especially continuous data), tree depth can add to the complexity of a model.
+            <br><br>
+            Trees can be shallow or deep, meaning the number of branches and subsequent nodes that are allowed. A tree can be split until each node is pure or even only contains a single value. 
+            Purity in a node refers to the amount of labels within it. For example, given a decision tree whose task is to model a binary label dataset, if a node contains only a single label type, it is considered pure. 
+            Investigating the purity (and impurity) of a node is how "goodness" of split is measured. How are criteria for a split formed and how does this relate to purity? The common heuristics that are used in this process are: 
+            <br>
+            <ul>
+                <li>Gini</li>
+                <li>Entropy</li>
+                <li>Information Gain</li>
+            </ul>
+            <br>
+            Gini and Entropy calculate the impurity of a node, and Information Gain measures the overall impurity after a split is made and either Gini or Impurity is calculated. The attribute with the 
+            highest Information Gain is chosen for the split.
+        </p>
+        <br>
+        
+        <br>
+        <div>
+            \[ Gini(I) = 1 - \sum_\limits{j=1}^{c} p_j^2 \]
+        </div>
+        <br>
+        
+        <br>
+        <div>
+            \[ Entropy(I) = -\sum_\limits{j=1}^{c} p_jlog_2(p_j) \]
+        </div>
+        <br>
+        
+        <br>
+        <div>
+            \[ InfoGain = I(parent) - \sum_\limits{j=1}^{c} \frac{N(v_j)}{N} I(v_j) \]
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            These formulas may seem complicated, but this can be illustrated better with an example using Entropy.
+        </p>
+        <br>
+        
+        <h3>Decision Tree Example</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            In this small dataset, the data consists of Age, Blood Pressure, and Cholesterol, while the label is if a patient has a certaint disease (what the decision tree will try to predict).
+        </p>        
+        <br>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ sample_table | safe }}
+        </div>
+        <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Entropy Sample.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Entropy Example.
+                </figcaption>
+        </figure>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Behind the scenes, the process that takes place is:
+            
+            <ol>
+                <li>Entropy of the entire dataset is calculated (i.e. the 2 classes for every single row)</li>
+                <li>Entropy for each potential split is calculated</li>
+                <li>Information Gain is calculated via subtracting the Split Entropy from the System Entropy</li>
+                <li>The split providing the greatest Information Gain is taken.</li>
+            </ol>
+            <br>
+            
+            In this example, the nodes are pure after the first split. If they weren't pure the process would continue with each node acting like the 
+            total system entropy and each potential split within that node being calculated to find the maximum information gain. Note that is a greedy algorithm, and takes the best possible 
+            result at each step and continues on.
+        </p>
+        <br>
+        <br>
+        
+        <h2>Data Preparation</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The decision tree portion of this project will utitlize the Weather and Ski Resorts data. It will use monthly averaged weather for each resort, and encoded regions, with the label 
+            being Pass type. As a reminder, the possible Pass types are Ikon, Epic, and Other. However, the Other category is overwhelming, and will be dropped. Decision Trees will be trained on Ikon and Epic and then will be 
+            used to find how well the Other categories would fit in either of the passes. In other words, possible expansion resorts for the popular passes.
+        </p>
+        
+        <h3>Initial Data</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Following from the previous sections, this section will use the same datasets. As a reminder, here is a preview of the data that will be used:
+        </p>
+        <br><br>
+        
+        <h5>Ski Resorts Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+        <br><br>
+        
+        <h5>Weather Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+        <br><br>
+        
+        <h3>Prepared Data</h3>
+        <br>
+        <h5>Snippet of Complete Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ dt_prepared | safe }}
+        </div>
+        <br>
+        <h5>Snippet of Training Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ dt_prepared_train | safe }}
+        </div>
+        <br>
+        <h5>Snippet of Testing Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ dt_prepared_test | safe }}
+        </div>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Additionally, training and testing sets were created. The two sets are disjoint, and must be disjoint. 
+            Using non-disjoint data between testing and training won't give an accurate representation of the performance of the model. 
+            First, this could result in an overfit of the model, which could end up describing noise, rather than the underlying distribution. 
+            Second, the testing set being non-disjoint helps to represent real-world data (i.e. unseen data).
+            <br><br>
+            
+            Also, the balance of the labels were examined, which is featured below:
+        </p>
+        <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/label_balance_full.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Balance of the Labels in the Overall Dataset.
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h2>Code</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The code for preparing the data and running the decision tree modeling can be found <a href='https://github.com/clickityKlein/snowbound/blob/main/snowbound/scripts/modeling/dt/decision_trees_coding.py'>[here]</a>.
+            <br><br>
+            
+            Different hyperparameters were ran on the decision tree used to predict the label of Pass type. The goal was to see how the parameters changed (if possible) the root node. 
+            The different scenarios test the different parameters of scikit-learn's <code>DecisionTreeClassifier()</code>.
+        </p>
+        <br>
+        
+        <h2>Results</h2>
+        <br>
+        
+        <h5>Scenario 1: Default Parameters</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            The default hyperparameters were:
+            
+            <ul>
+                <li>criterion: gini</li>
+                <li>splitter: best</li>
+                <li>class_weight: None</li>
+            </ul>
+            <br>
+            
+            The default case resulted in an accuracy of 87.76% with the head node having the criteria <strong>Elevation High <= 1148.0</strong>.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/cm_Default.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 1: Default Parameters.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Default.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 1: Default Parameters. <a href="{{ url_for('static', filename='models/dt/Default.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h5>Scenario 2: Change Entropy</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            The updated hyperparameters were:
+            
+            <ul>
+                <li>criterion: entropy</li>
+                <li>splitter: best</li>
+                <li>class_weight: None</li>
+            </ul>
+            <br>
+            
+            This scenario used entropy instead of gini shows in an increase of accuracy, up to 94.69% with the head node having the criteria <strong>Elevation High <= 397.5</strong>.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/cm_Entropy.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 2: Entropy.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Entropy.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 2: Entropy. <a href="{{ url_for('static', filename='models/dt/Entropy.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h5>Scenario 3: Change Log Loss</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            The updated hyperparameters were:
+            
+            <ul>
+                <li>criterion: log_loss</li>
+                <li>splitter: best</li>
+                <li>class_weight: None</li>
+            </ul>
+            <br>
+            
+            This scenario used log_loss instead of gini shows in an increase of accuracy, up to 95.51% with the head node having the criteria <strong>Elevation High <= 397.5</strong>. Interestingly enough, 
+            this is the same root node as the scenario which used entropy instead of gini.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/cm_Log Loss.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 3: Log Loss.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Log Loss.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 3: Log Loss. <a href="{{ url_for('static', filename='models/dt/Log Loss.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h5>Scenario 4: Change Log Loss and Balance</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            The updated hyperparameters were:
+            
+            <ul>
+                <li>criterion: log_loss</li>
+                <li>splitter: best</li>
+                <li>class_weight: balanced</li>
+            </ul>
+            <br>
+            
+            This scenario used log_loss instead of gini, and used balance instead of none for the weighting. This resulting in an accuracy of 97.96% with the head node having the criteria <strong>Elevation High <= 1148.0</strong>. 
+            Although this scenario increased the accuracy again, the root node has the same as the default scenario.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/cm_Log Loss with Balance.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 4: Log Loss With Balance.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Log Loss with Balance.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 4: Log Loss With Balance. <a href="{{ url_for('static', filename='models/dt/Log Loss with Balance.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h5>Scenario 5: Change Log Loss, Balance, and Randomize</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            The updated hyperparameters were:
+            
+            <ul>
+                <li>criterion: log_loss</li>
+                <li>splitter: random</li>
+                <li>class_weight: balanced</li>
+            </ul>
+            <br>
+            
+            This scenario used log_loss instead of gini, balance instead of none for the weighting, and random instead of best for the splitter. This resulting in an accuracy of 91.84% with the head node having the criteria <strong>Region_Midwest <= 0.624</strong>. 
+            This scenario resulted in the third different root node.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/cm_Log Loss with Balance with Random.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 5: Log Loss With Balance With Random.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Log Loss with Balance with Random.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario 5: Log Loss With Balance With Random. <a href="{{ url_for('static', filename='models/dt/Log Loss with Balance with Random.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h3>Applications</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            With the high accuracies in these models, this could be a potential decent application. Recall that there are actually three pass types in the data, but the Other has been dropped for 
+            balancing measures. However, this provides an opportunity to illustrate possible expansions for the Ikon and Epic companies. To accomplish this, a model was trained with sklearn's <code>GridSearchCV</code> 
+            to test different parameters through cross fold validation. The different combinations of parameters tested above were input into the model.
+            <br><br>
+            
+            The best parameters resulted in:
+            
+            <ul>
+                <li>criterion: entropy</li>
+                <li>splitter: beest</li>
+                <li>class_weight: balanced</li>
+                <li>accuracy: 97.96%</li>
+                <li>root node: <strong>Elevation High <= 1148.0</strong></li>
+            </ul>
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/cm_Best Case.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario Best.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/Best Case.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Scenario Best. <a href="{{ url_for('static', filename='models/dt/Best Case.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The rows containing the label of Pass type Other were originally dropped. Predictions were made on these dropped rows. The result of this was a label prediction for each month for each resort, 
+            thus the percentage of each label for each resort was examined. If a resort had a high percentage of being categorized as a certain pass over all its months, this would likely indicate that it could be a logical expansion.
+            <br><br>
+            
+            The following table shows the percentage of time the resort was classified as either label.
+        </p>
+        <br>
+        
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ predictions | safe }}
+        </div>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            The maximum percentage for each resort was taken as the label prediction, and a distribution of this maximum percentage was created.
+        </p>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/dt/percent_choice.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Distribution of the Prediction Probabilities.
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h2>Conclusions</h2>
+        <br>
+        
+        
+    </div>
+    <br><br>
+    
 {% endblock %}
