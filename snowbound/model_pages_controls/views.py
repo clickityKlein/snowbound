@@ -503,4 +503,29 @@ def load_svm_page():
 # render regression model page
 @model_pages_controls.route('/model_pages/model_regression.html', methods=['GET', 'POST'])
 def load_regression_page():
-    return render_template('model_pages/model_regression.html')
+    # final resort data - snippet
+    df = pd.read_csv('snowbound/data/cleaned_data/resorts_snippet.csv')
+    resorts_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # regression snippet
+    df = pd.read_csv('snowbound/static/models/regression/regression_snippet.csv')
+    regression_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # regression train snippet
+    df = pd.read_csv('snowbound/static/models/regression/train_snippet.csv')
+    train_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # regression test snippet
+    df = pd.read_csv('snowbound/static/models/regression/test_snippet.csv')
+    test_snippet = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    return render_template('model_pages/model_regression.html',
+                           resorts_final=resorts_final,
+                           regression_snippet=regression_snippet,
+                           train_snippet=train_snippet,
+                           test_snippet=test_snippet)
+
+
+
+
+

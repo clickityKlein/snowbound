@@ -2,5 +2,187 @@
 {% block content %}
     <div class="container">
         <h1>Modeling - Regression</h1>
+        <br>
+        
+        <h2>The Link Between Linear Regression and Logistic Regression</h2>
+        <br>
+        
+        <h5>Define and explain linear regression.</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Linear Regression is a parametric model which attempts to learn the best weights and biases to create a line to fit data, suited for quantitative data with a linear relationship. 
+            The weights and biases are the parameters. 
+            Normally, ordinary least squares is used to minimize the sum of squared errors. 
+            Ordinary least squares requires an algebraic solution between matrices of the data.
+            This is a regression problem, so it is mostly used to predict continous values which could have an infinite range of values.
+        </p>
+        <br>
+        
+        <h5>Define and explain logistic regression.</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Logistic Regression is a parametric model which attempts to learn the best weights and biases to predict a value between 0 and 1, suited for binary categorical data. 
+            The weights and biases are the parameters. 
+            Normally, the model is trained by optimizing a log likelihood function. 
+            This optimization problem can sovled via different loss functions through gradient ascent (maximization) or gradient descent (minimization).
+            The result from a Logistic Regression problem is a value between 0 and 1, and there is usually a threshold (standard of 0.5) to assign to one of the binary labels.
+        </p>
+        <br>
+        
+        <h5>How are they similar and how are they different?</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The history behind the creation of Logistic Regression is closely related to Linear Regression. 
+            A prediction of Linear Regression can roughly be represented in matrix format by the data, weights, and bias \(y=w^tx + b\). 
+            The result of the Linear Regression predictions exists in an infinite range \(y\in [-\infty, +\infty]\). 
+            Logistic Regression was created by applying a function \(H(x)\) to that linear equation to confine the results between 0 and 1, resulting in \(H(x)\in [0, 1]\).
+        
+        </p>
+        <br>
+        
+        <h5>Does logistic regression use the Sigmoid function?</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The function that is applied to the equation with the linear relationship to bound the results between 0 and 1 is known as the Sigmoid Function. 
+            Given \(z=w^tx + b\), this is set equal to a log odds formula, known as the logit function, ( \(\log{\frac{p}{1-p}}=w^tx + b\) ), and solved for p to give \(p=\frac{1}{1+e^{-z}}\). 
+            This is known as the Sigmoid function, also called the logsitc function or inverse logit function. 
+            The Sigmoid function is bounded between 0 and 1, and then used to create a likelihood equation.
+        
+        </p>
+        <br>
+        
+        <h5>Explain how maximum likelihood is connected to logistic regression.</h5>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            After the Sigmoid function is created, the goal becomes to learn the parameters (\(\theta\)), which are the weights and biases within the inital linear equation. 
+            This is accomplished by setting up a Bernoulli type equation between the probability being one of the binomial labels given the parameters.
+            This Bernoulli type equation is then multiplied across all datapoints, setting up a likelihood problem. 
+            The goal of Logistic Regression is to maximize this likelihood problem, thus resulting in maximum likelihood. 
+            In fact, the logarithm of this is optimized, due to its monotonic properties.
+        
+        </p>
+        <br>
+        
+        <h2>Code</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The script for this coding section can be found <a href='https://github.com/clickityKlein/snowbound/blob/main/snowbound/scripts/modeling/regression/regression_coding.py'>[here]</a>.
+        </p>
+        <br>
+        
+        <h3>Data Preparation</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The setup for this section uses the Ski Resort data. The goal for these models will be create a binary label problem with the attempt to predict country 
+            using characteristics of ski resorts. The countries in question are the United States and Canada (i.e. the label options). The actual data will be the following characteristics:
+            
+            <ul>
+                <li>Trails Easy: the number of easy trails at a ski resort</li>
+                <li>Trails Intermediate: the number of medium trails at a ski resort</li>
+                <li>Trails Difficult: the number of difficult trails at a ski resort</li>
+                <li>Lifts: the number of lifts at a ski resort</li>
+            </ul>
+            <br>
+            
+            The data is cleaned as is, however, some of the trails and lifts have decimals due to the ski resort statistical website reporting some trails and lifts as partial. To 
+            fix this, any partial characteristics were simply rounded to the nearest integer.
+            <br><br>
+            
+            Logistic Regression itself is able to take diverse numerical data, however, this data also needs to be prepared for multinomial regression. With this in mind, the decision to use count type 
+            data was made.
+        </p>
+        <br>
+        <h4>Initial Data</h4>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            The starting data for this analysis was the Ski Resort dataset. A snippet is below:
+        </p>
+        <br>
+        
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+        <br>
+        
+        <h4>Prepared Data</h4>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            The prepared data is count data for characteristics at different ski resorts. The label is Country. A snippet is below:
+        </p>
+        <br>
+        
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ regression_snippet | safe }}
+        </div>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Additionally, training and testing sets were created. The two sets are disjoint, and must be disjoint. 
+            Using non-disjoint data between testing and training won't give an accurate representation of the performance of the model. 
+            First, this could result in an overfit of the model, which could end up describing noise, rather than the underlying distribution. 
+            Second, the testing set being non-disjoint helps to represent real-world data (i.e. unseen data).
+        </p>
+        <br>
+        
+        <h5>Training Dataset</h5>
+        <br>
+        
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ train_snippet | safe }}
+        </div>
+        <br>
+        
+        <h5>Testing Dataset</h5>
+        <br>
+        
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ test_snippet | safe }}
+        </div>
+        <br>
+        
+        <h2>Results</h2>
+        <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/regression/cm_log.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Logistic Regression Results: Log Loss With Balance. <a href="{{ url_for('static', filename='models/regression/cm_log.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/regression/cm_nb.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Multinomial Naive Bayes Results. <a href="{{ url_for('static', filename='models/regression/cm_nb.png') }}">(expand image)</a>
+                </figcaption>
+        </figure>
+        <br>
+        
+        <h3>Discussion</h3>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The models resulted in the following accuracies:
+            
+            <ul>
+                <li>Logistic Regression: 64.91%</li>
+                <li>Multinomial Naive Bayes: 51.75%</li>
+            </ul>
+            <br>
+            
+            As explained in the introduction to this section, Logistic Regression is actually a classification technique. For this data, it performs better than Multinomial Naive Bayes.
+        </p>
+        
+        <h2>Conclusion</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            The aim of this analysis was to investigate if selected characteristics of ski resorts provided information into which country the ski resort was located in. 
+            Number of lifts and number of trails by difficulty for ski resorts were examined in comparison to their respective countries. A moderate significance was found, however there was indication that 
+            the selected characteristics tended to suggest different countries. Perhaps different characteristics or further categories, such as an investigation into the finer scale of regions would find greater 
+            significances.
+        </p>
     </div>
+    <br><br>
 {% endblock %}
