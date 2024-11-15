@@ -50,14 +50,18 @@
         <h3>Multinomial Naive Bayes</h3>
         <br>
         <p style="font-size: 20px; text-align: justify;">
-            Multinomial Naive Bayes "is suitable for classification within discrete features (e.g., word counts for text classification)."<a href='https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html'>[sklearn documentation]</a>
+            Multinomial Naive Bayes "is suitable for classification within discrete features (e.g., word counts for text classification)."<a href='https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html'>[sklearn documentation]</a>. 
+            Other discrete feature applications could be spam detection, sentiment analysis, and document categorization. 
+            Overall, this is a very efficient naive bayes method for text-based tasks.
         </p>
         <br>
         
         <h3>Gaussian Naive Bayes</h3>
         <br>
         <p style="font-size: 20px; text-align: justify;">
-            Gaussian Naive Bayes can be used when features are continuous, and are assumed to follow a normal (or Gaussian) distribution.
+            Gaussian Naive Bayes can be used when features are continuous, and are assumed to follow a normal (or Gaussian) distribution. 
+            Some of the specific applications could be medical diagnoses, real-time classification, and anomaly detection.
+            
         </p>
         <br>
         
@@ -65,7 +69,8 @@
         <br>
         <p style="font-size: 20px; text-align: justify;">
             Bernoulli Naive Bayes is applicable for discrete data, specifically when features are binary. 
-            To extend from the multinomial example, instead of word counts, the data should be either 0s or 1s for if the word was included.
+            To extend from the multinomial example, instead of word counts, the data should be either 0s or 1s for if the word was included. 
+            The other applications from the multinomial applications would be eligible as well, as long as it is used in a binary sense.
         </p>
         <br>
         
@@ -74,7 +79,8 @@
         <p style="font-size: 20px; text-align: justify;">
             Categorical Naive Bayes is "suitable for classification with discrete features that are categorically distributed" <a href='https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.CategoricalNB.html'>[sklearn documentation]</a>. 
             Note that this method requires encoding which represents the categorical variables as numerical. Ordinal encoding ensures order of the categorical variables (i.e. letter grades have an order), 
-            and non-ordinal categorical data (i.e. no implied order) can still be encoded.
+            and non-ordinal categorical data (i.e. no implied order) can still be encoded. 
+            Some specific applications could be retail and marketing customer segmentation, healthcare classification, and others. Essentially, if categorical columns are present in the classification problem, this could be a decent method.
         </p>
         <br>
         
@@ -181,7 +187,7 @@
         <p style="font-size: 20px; text-align: justify;">
             For the Bernoulli setup, the data used was to test the efficacy of the Google Places API itself. The data was encoded to account for the return category calls for the API in 0s and 1s.
             <br><br>
-            Using this binomial type data, the following labels are:
+            Using this binomial type data, the following label categories are:
             
             <ul>
                 <li>Medical</li>
@@ -248,7 +254,7 @@
         </div>
         <br>
         
-        <h5>Gaussian Naive Bayes Testing Dataset</h5>
+        <h5>Bernoulli Naive Bayes Testing Dataset</h5>
         <br>
         <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
             {{ bernoulli_test_snippet | safe }}
@@ -292,6 +298,17 @@
                     Confusion Matrix for Multinomial Naive Bayes.
                 </figcaption>
         </figure>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Although the accuracy would be acceptable in many applications, the balance of the labels were significantly skewed towards the Other type pass. 
+            Given that the model was trained on such a heavily unbalanced dataset, the accuracy is slightly misleading. Looking at the confusion matrix, 
+            Epic pass didn't get a single correct prediction, and Ikon had more total incorrect predictions than correct.
+            <br><br>
+            
+            Balancing the dataset or experimenting with hyperparameters could be beneficial for this problem.
+        </p>
+        <br>
         
         <h3>Gaussian Naive Bayes</h3>
         <br>
@@ -313,6 +330,15 @@
                     Confusion Matrix for Gaussian Naive Bayes.
                 </figcaption>
         </figure>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Balancing was attempted in this problem by combining the low occcurence labels into an Other category. 
+            However, the labels weren't perfectly balanced. This was a rather large dataset, so there should be plenty of data to train the labels of lesser proportion.
+            Weather prediction is a notoriously difficult problem, and some possible improvements to this specific data could be to include location data, at least at a regional scale. Or, 
+            perform some hyperparameter tuning.
+        </p>
+        <br>
         
         <h3>Bernoulli Naive Bayes</h3>
         <br>
@@ -335,9 +361,36 @@
                     Confusion Matrix for Bernoullie Naive Bayes.
                 </figcaption>
         </figure>
+        <br>
+        
+        <p style="font-size: 20px; text-align: justify;">
+            Given that the accuracy shows a successful model, this does corroborate a pattern between the sub-categories and the parent call category given to the API. 
+            Hyperparameter tuning could result in better performance here, however, the incorrect predictions could actually present some correlations worth investigating. 
+            For instance, the label of Bars was correctly predicted more than it was not. However, the incorrect predictions for that label was most prevalant was Restaurants. 
+            Bars and Restaurants are often correlated together, and more correlations like this do appear in this confusion matrix.
+        </p>
+        <br>
         
     </div>
     <br>
+    
+    <div class="container">
+        <h2>Conclusions</h2>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            In this analysis, several different patterns were explored.
+            <br><br>
+            Potential links between daily weather events and the types of ski resort passes was invesigated. This didn't yield great results, and could require more data or 
+            different methodology for a future analysis.
+            <br><br>
+            The relationship between real-time weather outcomes and the general weather descriptions for each day was examined. The results for this did yield more promising results, although 
+            location based data or further refinement of the methods might yield better correlations.
+            <br><br>
+            The relationships between different categories of businesses located near ski resorts was assessed. If someone were to search for a specific service on Google for businesses near 
+            ski resorts, they would likely receive the services that were requested. The findings also suggest that if the services wasn't exactly what they were requested, it would be highly correlated. 
+            For example, If a user searched for a bar, they receive results for a restaurant.
+        </p>
+    </div>
     
     <br>
     <br>
