@@ -1,6 +1,441 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="container">
-        <h1>Modeling - SVM</h1>
+        <h1>Modeling - Support Vector Machines</h1>
     </div>
+    
+    <br>
+    <div class="container">
+        <h3>Overview of SVM</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Support Vector Machines (SVMs) are supervised learning methods which transform features into a higher dimensional space to separate the labels. 
+            The usefulness of an SVM comes from when the input data in its original dimensional space isn’t linearly separable, but in a higher dimensional space there exists a hyperplane which can linearly separate the groups of the data.
+        </p>
+        <br>
+        
+        <figure>
+            <img src="{{ url_for('static', filename='models/svm/svm_1.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Dimensional Transformation <a href='https://www.pycodemates.com/2022/10/svm-kernels-polynomial-kernel.html'>[image source]</a>.
+                </figcaption>
+        </figure>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            In the example above, the groups in the data are not linearly separable in their original two-dimensional space, however, transformed into a three-dimensional space, a three-dimensional plane is able to linearly separate the data. 
+            A hyperplane which exists in 4 or more dimensions, although it cannot be visualized, can be conceptualized mathematically and theoretically.
+        </p>
+        <br>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            SVMs use a quadratic optimization algorithm, in which the final optimal dual form contains a dot product (or inner product). 
+            This allows for the use of kernels, which are functions that return an inner product in a higher dimensional space. Being able to apply kernels is essential, as just the solution to the dot product is needed and doesn’t actually need to be transformed into a higher dimensional space in practice. 
+            The example above takes a small amount of data in 2-dimensions and transforms them into 3-dimensions. 
+            However, if millions of points of data are transformed into a dimensional space in the thousands (or even into an infinite dimensional space), the problem becomes intractable. 
+            To reiterate, being able to use a dot product, and subsequently a kernel, allows for just the solution of the dot product to be used instead of actually transforming the data into a higher dimensional space. 
+            This makes SVMs highly efficient. Additionally, SVMs create a margin between the groups in the higher dimensional space. 
+            Any point on the margin is known as a support vector. 
+            Not only are they computationally efficient but they are also more resistant to outliers and noise due to this. 
+            Keep in mind that a single SVM is a binary classifier, however multiple SVMs can be ensembled together for more than a 2-class problem
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            Ommitting the initial mathematics to obtain the final optimal dual form, the main equation becomes: 
+            <br>
+            <div>
+                \[max_{\lambda \geq 0} \text{ } min_{w, b} \text{ } \frac{1}{2} ||w||^2 - \sum_{j} \lambda_j [(w \cdot x_j + b) y_j - 1] \]
+            </div>
+            <br>
+            In otherwords, solve for:
+            <div>
+                \[L =  w^T \cdot w - \sum_{j} \lambda_j [(w \cdot x_j + b) y_j - 1] \]
+            </div>
+            <br>
+            With the following constraints:
+            <div>
+                \[\text{Maximize } \lambda \geq 0 \]
+                <br>
+                \[\text{Minimize } w, b \]
+            </div>
+            <br>
+            Maximizing and Minimizing these constraints now becomes an optimization problem:
+            <div>
+                \[\frac{\partial L}{ \partial w} = w - \sum_{i} \lambda_i y_i x_i = 0 \rightarrow w = \sum_{i} \lambda_i y_i x_i \]
+                <br>
+                \[\frac{\partial L}{ \partial b} = -\sum_{i} \lambda_i y_i = 0 \rightarrow \sum_{i} \lambda_i y_i = 0 \]
+                <br>
+                \[\frac{\partial L}{ \partial \lambda} = \sum_{i} y_i w^T \cdot x_i + b - 1 = 0 \rightarrow \sum_{i} y_i w^T \cdot x_i + b - 1 = 0 \]
+            </div>
+            <br>
+            Finally, substituting these optimal results into L gives:
+            <div>
+                \[\sum_{i} \lambda_i - \frac{1}{2} \sum_{i} \sum_{j} \lambda_i \lambda_j y_i y_j x_i^T x_j \]
+                <br>
+                \[\text{With  } y_i(w^T x_i + b) - 1 = 0 \]
+            </div>
+            <br>
+            Where:
+            <ul>
+                <li>The \( y_i \)'s are the label or group of data (usually represented by \( +1 \) and \( -1 \))</li>
+                <li>The \( \lambda_i \)'s are the Lagrange Multipliers</li>
+                <li>The \( x_i \)'s are the data vectors, and \( x_i^T x_j \) is the dot product</li>
+                <li>The \( \lambda_i \)'s and \( y_i \)'s are scalars, while the \( x_i \)'s are vectors of data in their original dimensional space</li>
+            </ul>
+            <br>
+        </p>
+        <br>
+        <p style="font-size: 20px; text-align: justify;">
+            There are several common kernels used with the SVM technique. 
+            Essentially, if a potential fucntion for SVM can be written as an inner product, then it can be used as a kernel in SVM. 
+            This section will talk about the <strong>Polynomial Kernel</strong> and the <strong>Radial Basis Function (RBF) Kernel</strong>.
+            <br>
+            <ul>
+                <li>Polynomial Kernel</li>
+                <ul>
+                    <li>Function: \( (a^Tb + r)^d \)</li>
+                    <li>\( a \text{ and } b \) are vectors</li>
+                    <li>\( r \) is the coefficient of the polynomial, which helps to control the size of the margin</li>
+                    <li>\( d \) is the degree of the polynomial, which helps control the comlexity of the model</li>
+                    <li>Idea: Uses a polynomial function to map the data into a higher-dimensional space by taking the dot product of the data in the original dimensional space and mapping this to the higher dimensional space with the polynomial function</li>
+                </ul>
+                <li>RBF Kernel</li>
+                <ul>
+                    <li>Function: \( e^{-\gamma (a - b)^2} \)</li>
+                    <li>\( a \text{ and } b \) are vectors</li>
+                    <li>\( \gamma \) scales the result, and represents \( \frac{1}{2 \sigma^2} \)</li>
+                    <li>By substituting \( \gamma \) back in, the normal distribution formula is created, thus the RBF is based on the normal distribution</li>
+                    <li>Idea: Using the Gaussian function, the RBF kernel maps the data into an infinite-dimensional space</li>
+                    <li>Even a function which maps data into an infinite space can be shown to be a kernel (i.e. written as a dot product)</li>
+                </ul>
+            </ul>
+        </p>
+        <br>
+        <h5>Simple Example With the Polynomial Kernel</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            Given a Polynomial Kernel with parameters \( r = 1, d = 2 \) on data in an original 2-dimensional dataset:
+            <br>
+            <div>
+                \[K = (a^Tb + r)^d = (a^Tb + 1)^2 \]
+            </div>
+            <br>
+            This can be shown to a be a dot product which can "cast" points into the proper number of dimensions:
+            <br>
+            <div>
+                \[K = (a^Tb + 1)^2 = (a^Tb + 1)(a^Tb + 1) \]
+                <br>
+                \[= (a^Tb)^2 + 2a^Tb + 1 \]
+                <br>
+                \[\text{Given 2D Vectors: } a = [a_1, a_2], b = [b_1, b_2] \rightarrow \]
+                <br>
+                \[(a^Tb)^2 + 2a^Tb + 1 = (a_1b_1 + a_2b_2)^2 + 2(a_1b_1 + a_2b_2) + 1 \]
+                <br>
+                \[= a_1^2b_1^2 + 2a_1b_1a_2b_2 +a_2^2b_2^2 + 2a_1b_1 + 2a_2b_2 + 1 \]
+                <br>
+                \[= a_1^2b_1^2 + 2a_1b_1a_2b_2 +a_2^2b_2^2 + 2a_1b_1 + 2a_2b_2 + 1 \]
+                <br>
+            </div>
+            <br>
+            This can be written as a dot product of two transformed points, \( transform_{1} \cdot transform_{2} \):
+            <br>
+            <div>
+                <br>
+                \[transform_{1} \cdot transform_{2} = a_1^2b_1^2 + 2a_1b_1a_2b_2 +a_2^2b_2^2 + 2a_1b_1 + 2a_2b_2 + 1 \]
+                <br>
+                \[transform_{1} = [a_1^2, \sqrt{2} a_1a_2, a_2^2, \sqrt{2} a_1, \sqrt{2} a_2, 1] \]
+                <br>
+                \[transform_{2} = [b_1^2, \sqrt{2} b_1b_2, b_2^2, \sqrt{2} b_1, \sqrt{2} b_2, 1] \]
+            </div>
+            <br>
+            Thus, 2-dimensional data is "cast" or "projected" into a 6-dimensional space.
+            <br>
+            Applying this to an example,
+            <figure>
+                <img src="{{ url_for('static', filename='models/svm/simple_svm_example.png') }}" width="100%">
+                    <figcaption style="text-align: center;">
+                        2D Data.
+                    </figcaption>
+            </figure>
+            <br>
+            Finally, using a point from this data, \( a = [a_1, a_2] = [1.5, 2] \):
+            <br>
+            <div>
+                <br>
+                \[transform_{1} = [a_1^2, \sqrt{2} a_1a_2, a_2^2, \sqrt{2} a_1, \sqrt{2} a_2, 1] \]
+                <br>
+                \[ = [\frac{3}{2}^2, \sqrt{2} \frac{3}{2} 2, 2^2, \sqrt{2} \frac{3}{2}, \sqrt{2} 2, 1] \]
+                <br>
+                \[ = [\frac{9}{4}, 3 \sqrt{2}, 4, \frac{3}{2} \sqrt{2}, 2 \sqrt{2}, 1] \]
+                <br>
+                \[ \rightarrow \]
+                <br>
+                \[ = [1.5, 2] \rightarrow [\frac{9}{4}, 3 \sqrt{2}, 4, \frac{3}{2} \sqrt{2}, 2 \sqrt{2}, 1] \]
+                <br>
+            </div>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Data Preparation</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            To preface the data used in this, SVMs can only work on labeled numeric data. First, an SVM is a supervised machine learning method. 
+            This means, that it can only be used on labeled data in order to train the model. Second, due to the mathematic nature of dot products, and 
+            subsequently kernels, the data must be numeric.
+            <br>
+            
+            The data used for this model will be the weather data featured in many of the models throughout this project. The goal will be to determine the 
+            icon used by a weather system on a given day of data. Options will be: 
+            
+            <ul>
+                <li>Clear Day</li>
+                <li>Rain</li>
+                <li>Snow</li>
+                <li>Other</li>
+            </ul>
+            
+            The icon label was highly disproportionate. Wind and Fog categories were placede into the Other category. After that step, the samples were downsized to be 
+            proportionate to match the lowest category. Overall, there were still over 500,000 datapoints to train the data on.
+            <br>
+            
+            Certain numeric variables directly associated with Rain, Snow, and Wind were disregarded as these are essentially what is trying to be predicted 
+            in the categorical label of icon. The variables used in the analysis were: 
+            
+            <ul>
+                <li>Maximum Temperature</li>
+                <li>Minimum Temperature</li>
+                <li>Temperature</li>
+                <li>Fells Like Maximum (temperature)</li>
+                <li>Fells Like Minimum (temperature)</li>
+                <li>Feels Like (temperature)</li>
+                <li>Dew Point</li>
+                <li>Humidity</li>
+                <li>Pressure</li>
+                <li>Day of the Year</li>
+            <ul>
+            <br>
+            
+            Using these numeric variables, principal component analysis (PCA) was performed to reduce the dimensionality of the data while retaining 
+            as much information as possible.
+            <br>
+            
+            <figure>
+                <img src="{{ url_for('static', filename='models/svm/explained_variance.png') }}" width="100%">
+                    <figcaption style="text-align: center;">
+                        Explained Variance in PCA.
+                    </figcaption>
+            </figure>
+            <br>
+            
+            Utilizing PCA retains over 80% of information in the first two principal components, while over 90% is retained within the first 
+            three principal components. With over 80% of information retained with the first two principal components, these will be the 
+            data columns used. The upside to this is that the data will be known to begin in two-dimensions and trasnformed further.
+            <br>
+            
+            Additionally, training and testing sets were created. The two sets are disjoint, and must be disjoint. 
+            Using non-disjoint data between testing and training won't give an accurate representation of the performance of the model. 
+            First, this could result in an overfit of the model, which could end up describing noise, rather than the underlying distribution. 
+            Second, the testing set being non-disjoint helps to represent real-world data (i.e. unseen data).
+            <br>
+            
+            The explained processes above can be examined in the datasets below.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Weather Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Data Prepared for SVM</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_prepared | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Training Data for SVM</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_train | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Testing Data for SVM</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_test | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Coding SVM</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            The code for the data preparation and performing SVM can be found <a href='https://github.com/clickityKlein/snowbound/blob/main/snowbound/scripts/modeling/svm/svm_coding.py'>[here]</a>.
+            <br>
+            
+            The kernels mentioned in the overview, Polynomial and RBF will be used. Additionally, a third kernel known as the Sigmoid Kernel will be used as well. Different cost parameters will be utilized to 
+            find the best model.
+            <br>
+            
+            <stron>Please note that the data was trained and tested on a subset of 1% of the original data. This still resulting in thousands of rows to train the models on.</strong>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Polynomial Kernel</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            For the Polynomial Kernel, the kernel with the following parameters performed the best:
+            
+            <ul>
+                <li>Degree: 3</li>
+                <li>C: 2.0</li>
+            <ul>
+            
+            The confusion matrices and results are listed below.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselResortsPoly" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='models/svm/poly_2_1.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/poly_2_2.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/poly_2_5.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/poly_3_2.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/poly_5_2.png') }}" class="d-block w-75 mx-auto">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsPoly" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselResortsPoly" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>RBF Kernel</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            For the RBF, altering C only seemed to slightly change the confusion matrix while the overall accuracy remained the same. Therefore, 
+            it makes sense to leave the C value at the default of 1.
+            
+            <ul>
+                <li>C: 1.0</li>
+            <ul>
+            
+            The confusion matrices and results are listed below.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselResortsRBF" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='models/svm/rbf_1.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/rbf_2.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/rbf_3.png') }}" class="d-block w-75 mx-auto">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsRBF" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselResortsRBF" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Sigmoid Kernel</h5>
+        <p style="font-size: 20px; text-align: justify;">
+            For the Sigmoid, increasing C seemed to decrease the accuracy. Thus a final C value was tested in the opposite direction to obtain 
+            optimal results.
+            
+            <ul>
+                <li>C: 0.5</li>
+            <ul>
+            
+            The confusion matrices and results are listed below.
+        </p>
+    </div>
+    <br>
+    
+    <div id="carouselResortsSig" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='models/svm/sigmoid_1.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/sigmoid_2.png') }}" class="d-block w-75 mx-auto">
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/svm/sigmoid_05.png') }}" class="d-block w-75 mx-auto">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselResortsSig" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselResortsSig" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>SVM Results</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Although not extremely desirable results, the RBF with the default cost parameter of C = 1.0 performed the best overall. To 
+            illustrate these results, a larger subset of 5% of the data on 3 principal components was trained. This resulted in an accuracy of 60.92%.
+            <br>
+            
+            <figure>
+                <img src="{{ url_for('static', filename='models/svm/rbf_larger.png') }}" width="100%">
+                    <figcaption style="text-align: center;">
+                        Optimal Kernel.
+                    </figcaption>
+            </figure>
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>SVM Conclusions</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            An analysis was performed to examine if a better method to categorize the weather for a given day existed. The possible categories that could result were 
+            Clear, Rain, Snow, or Other. Overall, the categories of Clear, Rain, and Snow were able to be predicted with decent accuracy. However, the category of Other was more difficult to 
+            predict given the models provided. Interestingly enough, when predicting between Snow and Rain, there is a less of chance to falsely predict this. In other words, 
+            on days when it would snow or rain, if they were incorrectly predicted, out of the potential categories, it's more likely to be predicted as either Clear or Other. Other 
+            contains phenomena such as fog, wind, and overcast.
+        </p>
+    </div>
+    <br>
+
+    <br><br>
 {% endblock %}

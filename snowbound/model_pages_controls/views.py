@@ -498,7 +498,32 @@ def load_nb_page():
 # render svm model page
 @model_pages_controls.route('/model_pages/model_svm.html', methods=['GET', 'POST'])
 def load_svm_page():
-    return render_template('model_pages/model_svm.html')
+    # weather data
+    df = pd.read_csv('snowbound/data/cleaned_data/weather_snippet.csv')
+    weather_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # data prepared
+    df = pd.read_csv('snowbound/static/models/svm/data_prepared_svm.csv')
+    data_prepared = df.to_html(classes='table table-striped', index=False, justify='left')
+                                          
+    # train data
+    df = pd.read_csv('snowbound/static/models/svm/data_train_svm.csv')
+    data_train = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # test data
+    df = pd.read_csv('snowbound/static/models/svm/data_test_svm.csv')
+    data_test = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    return render_template('model_pages/model_svm.html',
+                           weather_final=weather_final,
+                           data_prepared=data_prepared,
+                           data_train=data_train,
+                           data_test=data_test)
+
+# render ensemble model page
+@model_pages_controls.route('/model_pages/model_ensemble.html', methods=['GET', 'POST'])
+def load_ensemble_page():
+    return render_template('model_pages/model_ensemble.html')
 
 # render regression model page
 @model_pages_controls.route('/model_pages/model_regression.html', methods=['GET', 'POST'])
