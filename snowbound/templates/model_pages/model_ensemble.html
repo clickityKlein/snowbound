@@ -3,4 +3,223 @@
     <div class="container">
         <h1>Modeling - Ensemble Learning</h1>
     </div>
+    <br>
+    <div class="container">
+        <h3>Overview of Ensemble Learning</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Ensemble learning is a technique that attempts to improve model performance, bias, and variance by chaining together multiple models. 
+            Bias is a metric often associated with underfitting and poor performance while variance is a metric often associated with overfitting and creating models that are overly sensitive to the training data. 
+            Some of the more common methods used in ensemble learning are Bagging, Stacking, and Boosting. 
+            Essentially, these methods train base learners, which can be the same type of machine learning models or different models and use some sort of voting approach on different samples of the data to choose the best overall model or models.
+            <br><br>
+            
+            Bagging was originally introduced as training similar machine learning base models on random samples with replacement. 
+            However, the “with replacement” rule is not a hard rule anymore.
+            <br><br>
+            
+            Stacking is a “strong” ensemble method. 
+            Strong doesn’t refer to “better” but refers to the strength of the types of base learners. 
+            “Stacking allows to use the strength of each individual estimator by using their output as input of a final estimator” <a href='https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html'>[sklearn documentation]</a>.
+            <br><br>
+            
+            Boosting is a “weak” ensemble method. 
+            The refers to the process emphasizing misclassified sample with higher weights in an iterative sampling and chaining process.
+            <br><br>
+            
+            In particular, this section will focus on the ensemble method of Random Forest Classification. 
+            Random Forests consist of multiple Decision Trees ensembled together as an extension of bagging. 
+            The process is considered an extension of bagging because they also use a method known as feature randomness which samples the columns, or features, as well. 
+            Therefore, the strength of a Random Forest lies in its ability to chain together both samples of rows and columns to create an uncorrelated forest of decision trees!
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Data Preparation</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            For a last try at predicting a weather label icon (i.e. the category of the weather for a day), Random Forest Classification will be used to try and predict between 
+            Clear Day, Rain, Snow, or Other. The final dataset will include the variables:
+            <br>
+            
+            <ul>
+                <li>Day of the Year</li>
+                <li>Temperature</li>
+                <li>Dew Point</li>
+                <li>Humidity</li>
+                <li>Pressure</li>
+                <li>Latitude</li>
+                <li>Longitude</li>
+            </ul>
+            <br>
+            
+            To accomplish this, the weather dataset and resort dataset were used. The resort dataset contains the coordinates which were merged in. 
+            Additionally, the icon label of Other contains subcategories such as Fog, Wind, and Overcast. After replacing these values with Other, 
+            the proportion of the labels had to be accounted for. Now that there were 4 categories to predict, the data was downsampled to the minimum categorical size. This still left 
+            over 500,000 datapoints to train a model on.
+            <br><br>
+            
+            After the merging and accounting for proportioning, the data was split into a training and testing set. Ensemble is a supervised machine learning method, so the data trained on must be labeled. 
+            Additionally, training and testing sets were created. The two sets are disjoint, and must be disjoint. 
+            Using non-disjoint data between testing and training won't give an accurate representation of the performance of the model. 
+            First, this could result in an overfit of the model, which could end up describing noise, rather than the underlying distribution. 
+            Second, the testing set being non-disjoint helps to represent real-world data (i.e. unseen data).
+            <br><br>
+            
+            The initial resort and weather datasets are illustrated below, along with the merged data and the training and testing datasets.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Weather Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ weather_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Resort Data</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ resorts_final | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Data Prepared for Random Forest</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_prepared | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Training Data for Random Forest</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_train | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h5>Testing Data for Random Forest</h5>
+        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+            {{ data_test | safe }}
+        </div>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Coding Ensemble (Random Forest Classification)</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            The code for the data preparation and performing ensemble random forest classification can be found <a href='https://github.com/clickityKlein/snowbound/blob/main/snowbound/scripts/modeling/ensemble/ensemble_coding.py'>[here]</a>.
+            <br>
+            
+            This code includes an ensemble for shallow trees to illustrate the process and an ensemble for deeper trees in an attempt to 
+            produce better results.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Results - The Process</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            This ensemble method is known as random forest because it contains multiple decision trees. To illustrate the process, a random forest of 
+            10 trees (estimators) with a max depth of 3 was trained. The accuracy and confusion matrix is reported and the base nodes of the first three trees are examined.
+            <br><br>
+            
+            The trees have different base nodes, which illustrates the different subsets either through sampling or feature randomness. 
+            This is difficult to achieve with singular decision trees without dropping complete features. 
+            However, note that this illustrative example has nowhere near pure leaf nodes at the end of the trees. 
+            For visualization purposes, the depth was purposefully kept very shallow for a dataset of this size. 
+            This suggests that training a random forest classifier with a greater max depth could increase the accuracy of the model. 
+            However, caution must be used to prevent overfitting.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <figure>
+            <img src="{{ url_for('static', filename='models/ensemble/shallow_tree_example.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Accuracy and Confusion Matrix for the Shallow Tree Example.
+                </figcaption>
+        </figure>
+    </div>
+    <br><br>
+    
+    <div id="carouselShallow" class="carousel carousel-dark slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='models/ensemble/shallow_tree_example_tree_1.png') }}" class="d-block w-75 mx-auto">
+                    <figcaption style="text-align: center;">
+                        First Tree in the Random Forest. <a href="{{ url_for('static', filename='models/ensemble/shallow_tree_example_tree_1.png') }}">(expand image)</a>
+                    </figcaption>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/ensemble/shallow_tree_example_tree_2.png') }}" class="d-block w-75 mx-auto">
+                <figcaption style="text-align: center;">
+                    Second Tree in the Random Forest. <a href="{{ url_for('static', filename='models/ensemble/shallow_tree_example_tree_1.png') }}">(expand image)</a>
+                </figcaption>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ url_for('static', filename='models/ensemble/shallow_tree_example_tree_3.png') }}" class="d-block w-75 mx-auto">
+                <figcaption style="text-align: center;">
+                    Third Tree in the Random Forest. <a href="{{ url_for('static', filename='models/ensemble/shallow_tree_example_tree_1.png') }}">(expand image)</a>
+                </figcaption>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselShallow" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselShallow" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Results - Optimal Model</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            In an attempt to create a better model, 100 trees (estimators) were used in the random forest classifer ensemble with a max depth of 
+            15. This did increase the accuracy of the model. To ensure the ensemble did not contain overfit, the purity of the final leaves was examined. 
+            There was a majority of final leaves that were 100% pure, however, some were not. This should be acceptable in preventing an overfit model.
+            <br><br>
+            
+            The purity of the first three trees were tested, resulting in almost identical distributions.
+        </p>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/ensemble/deep_tree_cm.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Accuracy and Confusion Matrix for the Deeper Tree.
+                </figcaption>
+        </figure>
+        <br>
+        <figure>
+            <img src="{{ url_for('static', filename='models/ensemble/deep_tree_purity.png') }}" width="100%">
+                <figcaption style="text-align: center;">
+                    Final Leaves Purity of the First Three Trees.
+                </figcaption>
+        </figure>
+    </div>
+    <br>
+    
+    <div class="container">
+        <h3>Conclusion</h3>
+        <p style="font-size: 20px; text-align: justify;">
+            Weather is a difficult phenomenon to predict when using relatively basic methods on a smaller scale of time. An analysis was performed using 
+            commonly available weather metrics that would be featured in a forecast. Using a technique which combines prediction methods to improve the 
+            accuracy was used on these features in an attempt to predict the type of weather a day will bring. The type of weather could be Clear, Rain, Snow, or 
+            Other. Other contains subcategories such as Fog, Wind, and Overcast. Predicting if a day will bring Clear, Rain, or Snow resulted in decent performance, but the Other 
+            category was misclassified the most and was the top misclassification when the other categories were not classified correctly. Overall, this model has potential, but perhaps 
+            better indicators within Other could improve the results.
+        </p>
+    </div>
+    <br>
+    
+    <br><br>
 {% endblock %}

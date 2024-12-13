@@ -523,7 +523,33 @@ def load_svm_page():
 # render ensemble model page
 @model_pages_controls.route('/model_pages/model_ensemble.html', methods=['GET', 'POST'])
 def load_ensemble_page():
-    return render_template('model_pages/model_ensemble.html')
+    # weather data
+    df = pd.read_csv('snowbound/data/cleaned_data/weather_snippet.csv')
+    weather_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # resorts data
+    df = pd.read_csv('snowbound/data/cleaned_data/resorts_snippet.csv')
+    resorts_final = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # data prepared
+    df = pd.read_csv('snowbound/static/models/ensemble/data_prepared_ensemble.csv')
+    data_prepared = df.to_html(classes='table table-striped', index=False, justify='left')
+                                          
+    # train data
+    df = pd.read_csv('snowbound/static/models/ensemble/data_train_ensemble.csv')
+    data_train = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    # test data
+    df = pd.read_csv('snowbound/static/models/ensemble/data_test_ensemble.csv')
+    data_test = df.to_html(classes='table table-striped', index=False, justify='left')
+    
+    
+    return render_template('model_pages/model_ensemble.html',
+                           weather_final=weather_final,
+                           resorts_final=resorts_final,
+                           data_prepared=data_prepared,
+                           data_train=data_train,
+                           data_test=data_test)
 
 # render regression model page
 @model_pages_controls.route('/model_pages/model_regression.html', methods=['GET', 'POST'])

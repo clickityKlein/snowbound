@@ -196,6 +196,9 @@
             proportionate to match the lowest category. Overall, there were still over 500,000 datapoints to train the data on.
             <br>
             
+            <strong>Note that SVMs are binary classifiers. When a multi-class problem is presented, ensemble learning must be used to link several SVM models together. However, libraries like Scikit-Learn automatically ensemble.</strong>
+            <br>
+            
             Certain numeric variables directly associated with Rain, Snow, and Wind were disregarded as these are essentially what is trying to be predicted 
             in the categorical label of icon. The variables used in the analysis were: 
             
