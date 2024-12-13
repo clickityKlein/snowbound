@@ -3,4 +3,152 @@
     <div class="container">
         <h1>Conclusion</h1>
     </div>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            During the cooler months of the year at higher elevations, snow accumulates enough to allow for downhill sport enthusiasts like skiers and snowboarders to enjoy some runs at their favorite ski resorts. 
+            
+            During the 2022-2023 season, ski resorts in the US saw about 11.6 million visitors. 
+            
+            The ski and snowboard industry brought in over $60 billion into the US economy in 2022. 
+            
+            The highly lucrative industry does come with a high price tag to enjoy a day on slopes. 
+            
+            However, passes like Ikon and Epic offer bulk deals to help alleviate some of this financial burden and allow for multiple days on the slopes across resorts worldwide at a flat rate. 
+
+            The rush of adrenaline and beauty are not only what draw ski and snowboard enthusiasts to the mountains. 
+            
+            They are often greeted by amenities within the ski resorts, such as restaurants and bars. 
+            
+            Additionally, these are accompanied by essential services like stores and medical centers
+            
+            This is a weather dependent activity, requiring the right conditions for snow accumulation.
+            
+            Climate change and rising temperatures does pose a threat to these conditions.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            An extensive exploration focused on ski resorts within North America was done to examine these weather phenomena, amenities, and price alleviation options.
+            
+            Weather trends, business trends and opportunities, as well as regional separational had some significant findings. 
+            
+            In exploring snow by pass resulted in that different pass types did receive different amounts of snow on average.
+            <br>
+            <figure>
+                <img src="{{ url_for('static', filename='eda/average_snow_by_pass.png') }}" width="100%">
+            </figure>
+            
+            On average, resorts under the Ikon umbrella received the most snow. 
+            
+            Epic resorts, another pass option, received the second most snow.
+            
+            While the independent or smaller pass option companies received the least amount of now.
+            
+            Exploring snow by region and country also had an interesting result.
+            <br>
+            <figure>
+                <img src="{{ url_for('static', filename='eda/average_snow_by_region.png') }}" width="100%">
+            </figure>
+            
+            The western regions in both the United States and Canada received the most snowfall on average.
+            
+            The West region in the United States sees the most snowfall on average across all regions.
+            
+            Interestly enough, the amount of snow received may permeate into the ratings of resorts.
+            
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            The regions which receive the most snowfall on average was mirrored by the average resort ratings.
+            <br>
+            <figure>
+                <img src="{{ url_for('static', filename='eda/resort_ratings_by_region.png') }}" width="100%">
+            </figure>
+            
+            Similar to the average snowfall, the western regions in the United States and Canada tended to have higher rated resorts.
+            
+            In a slight difference to the average snowfall, the West Coast region in Canada had a higher minimum and higher maximum in resort ratings.
+            
+            When extending this to the businesses ratings near ski resorts, the mirroring seemed to differ more drastically.
+            <br>
+            <figure>
+                <img src="{{ url_for('static', filename='eda/business_ratings_by_region.png') }}" width="100%">
+            </figure>
+            
+            For the most part, business ratings by category were stable across the regions.
+            
+            Notably, The North region in Canada had significantly lower or even missing ratings compared to all other regions.
+            
+            Spas, restaurants, and bars were consistently among the highest ratings for businesses near ski resorts.
+            
+            When comparing business ratings by country, the United States took the lead in almost every category.
+            <br>
+            <figure>
+                <img src="{{ url_for('static', filename='eda/business_ratings_by_country.png') }}" width="100%">
+            </figure>
+            
+            Canada only outperformed the United States in three of the categories.
+            
+            Those categories being Medical, Grocery stores, and Shopping centers.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            Looking at the amenities the businesses offer across ski resorts as a whole contribute to and confirm findings.
+            
+            This can be examined by finding assocations across the establishment types.
+            
+            By looking at the associations between main categories and subcategories of businesses surrounding ski resorts, patterns begin to emerge. 
+             
+            For instance, businesses categorized as Food and Restaurant establishments are highly prevalent within this area. 
+            
+            In general, Stores will be in the area given that other businesses are nearby. 
+            
+            Additionally, where there’s Food and Stores, there’s a general trend of Convenience Stores and Health centers associated with the ski resort location. 
+            
+            Overall, multiple businesses offering general amenities are almost certain to exist in these locations. Where there is one, there is likely many.
+            
+            Associations between businesses are one such finding that is unique at ski resorts.
+            
+            Although weather was harder to predict given the resources and methods throughout this analysis, pass types tend to have more significant patterns. 
+            
+            Weather, businesss ratings, and resort information can be used for this.
+        </p>
+    </div>
+    <br>
+    
+    <div class="container">
+        <p style="font-size: 20px; text-align: justify;">
+            One of the more significant resutls was exploring pass types through a structure which logical splits variables.
+            
+            This helps create a pathway of decisions that can ultimately aid in understanding the where and why of Epic and Ikon resorts.
+            
+            The analysis provided valuable insights into potential expansions zones for the the Ikon and Epic ski resort pass companies. 
+            
+            Provided common average monthly meteorological parameters and the region in which a potential expansion resort is located, a logical decision flowchart can be generated. 
+            
+            The applications of this analysis can provide highly accurate indication if either company, Ikon or Epic, would find the resort a suitable potential expansion resort. 
+            
+            This is currently based on weather and rough location, that being regional scale. 
+            
+            However, further analyses investigating the culture, the amenities, and transportation would be recommended. 
+            
+            Most notable features in these logical decision splits were elevation of resorts and different weather variables.
+            
+            Windspeed, Humidity, and Visibility were among these, which are crucial to skiers and snowboarders enjoyment and the product of snow. 
+            
+            Overall, this project showed great insight into the businesses and communities that surround the ski resort industry.
+        </p>
+    </div>
+    <br>
+    
+    <br><br>
 {% endblock %}
